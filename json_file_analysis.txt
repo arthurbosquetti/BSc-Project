@@ -1,0 +1,252 @@
+The JSON file (here defined as a dictionary) contains the following keys (and corresponding types of value):
+{
+    all_bugs            : [{key:value, key:value}, {key:value, key:value}]
+    applied_filters     : {key:value, key:value}
+    executive_summary   : string
+    kpi_graphs:         : [?]
+    kpi_summary_groups  : [?]
+    line_chart_results  : [{key:value, key:value}, {key:value, key:value}]
+    module_results      : [{key:value, key:value}, {key:value, key:value}]
+    release_name        : string/null
+    request_failures    : {key:value, key:value}
+    target_cycle        : string
+    tc_results          : [{key:value, key:value}, {key:value, key:value}]
+    test_execution_data : [{key:value, key:value}, {key:value, key:value}]
+}
+
+More specifically, each key contains the following values:
+
+*** *** ***
+all_bugs: [{key:value, key:value}, {key:value, key:value}] where {key:value} corresponds to:
+
+{
+"affectedProductsList"		: [ ],
+"affectsVersionsList"		: ["HERMES_II_SYS_0.2.9"],
+"assignee"			: "budaid",
+"chartStatus"			: "New",
+"componentsList"		: ["MCU","MXA901","MXA920"],
+"creationDate"			: "2020-10-27",
+"fieldIssue"			: "Unspecified",
+"fixedVersionList"		: ["MXA920_1.1.x"],
+"jiraID"			: "HERMESSW-618",
+"linkedRunIDs"			: [ ],
+"linkedTestInstanceIDs"		: [ ],
+"numLinkedRunsInGiftedReport"	: 0,
+"numLinkedTestsInGiftedReport"	: 0,
+"priority"			: "2-Minor",
+"qcBugID"			: "176",
+"severity"			: "2-Minor",
+"status"			: "New",
+"statusChanges"			: [
+				   {
+				    "change_date"	: "2020-10-27 11:32:09",
+				    "change_date_obj"	: {
+				    			   "date": "2020-10-27 11:32:09"
+						          },
+				    "new_value"		: "New",
+				    "old_value"		: "None",
+				    "qc_bug_ID"		: "176"
+				   }
+				  ],
+"summary"			: "HERMESSW: MXA901/MXA920 NETWORK_AUDIO:CONTROL_BATCH_SUB doesn't report error",
+"thirdPartyDefect"		: "Unspecified"
+}
+
+*** *** ***
+applied_filters: {key:value, key:value} where {key:value} corresponds to:
+
+{
+ "activeBugFilters": {
+	"affectedProductsList"	: "",
+	"affectsVersionsList"	: "",
+ 	"componentsList"	: "",
+	"fixedVersionList"	: "",
+ 	"jiraID"		: "",
+ 	"linked"		: [ ],
+ 	"priority"		: [ ],
+	"severity"		: [ ],
+	"status"		: [ ],
+ 	"summary"		: ""
+ },
+ "activeTCFilters": {
+	"currentState"		: [ ],
+	"currentVersion"	: "",
+	"folderPath"		: "",
+	"instanceID"		: "",
+	"jiraIDList"		: "",
+	"lastState"		: [ ],
+	"lastVersion"		: "",
+	"name"			: "",
+	"testCaseID"		: "",
+	"testSetName"		: "",
+	"testType"		: ""
+ }
+}
+
+*** *** ***
+executive_summary: string
+
+*** *** ***
+kpi_graphs: []
+
+*** *** ***
+kpi_summary_groups: []
+
+*** *** ***
+line_chart_results  : [{key:value, key:value}, {key:value, key:value}] where {key:value} corresponds to:
+
+{
+"blocked"		: 0,
+"failed"		: 30,
+"goal"			: 661,
+"notCompleted"		: 36,
+"passed"		: 573,
+"snapshotCycle"		: "5.0.11",
+"snapshotDate"		: "2022-11-11\n5.0.11",
+"snapshotDateOnly"	: {
+			   "date": "2022-11-11"
+			  },
+"total"			: 695
+}
+
+module_results: [{key:value, key:value}, {key:value, key:value}] {key:value} corresponds to:
+
+{
+"Blocked"	: 0,
+"Failed"	: 0,
+"No Run"	: 0,
+"Not Completed"	: 0,
+"Passed"	: 4,
+"module"	: "\"Simple\" Firewall"
+}
+
+*** *** ***
+release_name: string/null
+
+*** *** ***
+request_failures: {key:value, key:value} where {key:value} corresponds to:
+
+
+{
+"bugs"		: [ ],
+"tc_results"	: [ ]
+}
+
+*** *** ***
+target_cycle: string
+
+*** *** ***
+tc_results: [{key:value, key:value}, {key:value, key:value}] where {key:value} corresponds to:
+
+{
+"automationCandidate"		: "None",
+"automationExecutionTime"	: "None",
+"creationDate"			: null,
+"currentState"			: "Passed",
+"currentVersion"		: "5.0.50.0",
+"estimatedExecutionTime"	: "None",
+"folderPath"			: "/Root/Releases/5.0.X/MXA902/FFT/Manual/CUI/Presets",
+"hasDefectLinkage"		: "N",
+"instanceID"			: "85649",
+"jiraIDList"			: [
+				   "None"
+				  ],
+"lastState"			: "No Run",
+"lastVersion"			: "5.0.25.0",
+"moduleName"			: "CUI",
+"name"				: "MXA902 - Presets - Import - CWB-CUI Compatibility [1]",
+"releaseExecution"		: "5.0.X",
+"releaseExecutionRuns"		: [
+				   {
+				    "executionTime"	: "07:18:29",
+				    "hasDefectLinkage"	: "N",
+				    "runCycle"		: "5.0.50.0",
+				    "runCycleID"	: "1722",
+				    "runDate"		: {
+							   "date": "2023-01-25"
+							  },
+				    "runID"		: "248067",
+				    "runName"		: "Run_1-3_10-47-55",
+				    "runStatus"		: "Passed"
+				   }
+				  ],
+"runBugList"			: [ ],
+"runList"			: [
+				   {
+				    "executionTime"	: "10:37:22",
+				    "hasDefectLinkage"	: "N",
+				    "runCycle"		: "5.0.25.0",
+				    "runCycleID"	: "1665",
+				    "runDate"		: {
+							   "date": "2022-12-13"
+							  },
+				    "runID"		: "242388",
+				    "runName"		: "Auto_Cleanup_Run_2022-12-13 19:49:37",
+				    "runStatus"		: "No Run"
+				   },
+				   ...
+				  ],
+"runsWithLinkedDefects"		: [ ],
+"testCaseID"			: "15517",
+"testSetName"			: "Presets",
+"testType"			: "Manual",
+"testVCStatus"			: "Checked_In"
+}
+
+*** *** ***
+test_execution_data : [{key:value, key:value}, {key:value, key:value}] where {key:value} corresponds to:
+
+{
+"automatedExecutionCount"	: 0,
+"blockedCount"			: 0,
+"cycle_name"			: "5.0.67.0",
+"date"				: "2023-01-24\n5.0.67.0",
+"failedCount"			: 42,
+"manualExecutionCount"		: 0,
+"noRunCount"			: 4,
+"notCompletedCount"		: 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

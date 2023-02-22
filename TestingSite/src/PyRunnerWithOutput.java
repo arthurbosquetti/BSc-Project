@@ -6,8 +6,8 @@ public class PyRunnerWithOutput {
 	public static void main(String[] args) throws IOException {
 		
 		String[] cmd = {"python", 
-				"C:\\Users\\Bosquea\\OneDrive - shure\\Desktop\\BSc Project\\untitled0.py", 
-				"C:\\Users\\BosqueA\\OneDrive - shure\\Desktop\\BSc Project\\coursebase.json"};
+				"C:\\Users\\Bosquea\\OneDrive - shure\\Desktop\\BSc Project\\jsonReader.py", 
+				"C:\\Users\\BosqueA\\OneDrive - shure\\Desktop\\BSc Project\\big_file.json"};
 		Process process = Runtime.getRuntime().exec(cmd);
 		
 		String s;
@@ -25,7 +25,7 @@ public class PyRunnerWithOutput {
            }
            
            // read any errors from the attempted command
-           System.out.println("Here is the standard error of the command (if any):\n");
+           System.out.println("\nHere is the standard error of the command (if any):\n");
            while ((s = stdError.readLine()) != null) {
                System.out.println(s);
            }
