@@ -6,8 +6,8 @@ public class PyRunnerWithOutput {
 	public static void main(String[] args) throws IOException {
 		
 		String[] cmd = {"python", 
-				"C:\\Users\\Bosquea\\OneDrive - shure\\Desktop\\BSc Project\\jsonReader.py", 
-				"C:\\Users\\BosqueA\\OneDrive - shure\\Desktop\\BSc Project\\big_file.json"};
+				"C:\\Users\\Bosquea\\OneDrive - shure\\Desktop\\BSc Project\\Python Scripts\\jsonReader.py", 
+				"C:\\Users\\BosqueA\\OneDrive - shure\\Desktop\\BSc Project\\JSON Files\\regular file.json"};
 		Process process = Runtime.getRuntime().exec(cmd);
 		
 		String s;
