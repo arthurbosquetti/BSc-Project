@@ -60,8 +60,8 @@ json_file_blueprint = {
 
     "applied_filters": {
         "activeBugFilters": {
-            "afectedProductsList": str,
-            "afectsVersionsList": str,
+            "affectedProductsList": str,
+            "affectsVersionsList": str,
             "componentsList": str,
             "fixedVersionList": str,
             "jiraID": str,
@@ -223,8 +223,8 @@ key_addresses = {
     
     'applied_filters': ['applied_filters'],
     'applied_filters.activeBugFilters': ['applied_filters', 'activeBugFilters'],
-    'applied_filters.activeBugFilters.afectedProductsList': ['applied_filters', 'activeBugFilters', 'afectedProductsList'],
-    'applied_filters.activeBugFilters.afectsVersionsList': ['applied_filters', 'activeBugFilters', 'afectsVersionsList'],
+    'applied_filters.activeBugFilters.affectedProductsList': ['applied_filters', 'activeBugFilters', 'affectedProductsList'],
+    'applied_filters.activeBugFilters.affectsVersionsList': ['applied_filters', 'activeBugFilters', 'affectsVersionsList'],
     'applied_filters.activeBugFilters.componentsList': ['applied_filters', 'activeBugFilters', 'componentsList'],
     'applied_filters.activeBugFilters.fixedVersionList': ['applied_filters', 'activeBugFilters', 'fixedVersionList'],
     'applied_filters.activeBugFilters.jiraID': ['applied_filters', 'activeBugFilters', 'jiraID'],
