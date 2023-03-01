@@ -25,7 +25,7 @@ def get_key_addresses(d, parent_key=''):
 
 # Source: Notes/json_file_analysis
 json_file_blueprint = {
-    "all_bugs": {
+    "all_bugs": [{
         "affectedProductsList": [],
         "affectsVersionsList": [],
         "assignee": str,
@@ -56,7 +56,7 @@ json_file_blueprint = {
             ],
         "summary": str,
         "thirdPartyDefect": str
-        },
+        }],
 
     "applied_filters": {
         "activeBugFilters": {
@@ -93,7 +93,7 @@ json_file_blueprint = {
 
     "kpi_summary_groups": [],
 
-    "line_chart_results": {
+    "line_chart_results": [{
         "blocked": int,
         "failed": int,
         "goal": int,
@@ -105,16 +105,16 @@ json_file_blueprint = {
             "date": str
             },
         "total": int
-        },
+        }],
 
-    "module_results": {
+    "module_results": [{
         "Blocked": int,
         "Failed": int,
         "No Run": int,
         "Not Completed": int,
         "Passed": int,
         "module": str
-        },
+        }],
 
     "release_name": str,
 
@@ -125,7 +125,7 @@ json_file_blueprint = {
 
     "target_cycle": str,
 
-    "tc_results": {
+    "tc_results": [{
         "automationCandidate": str,
         "automationExecutionTime": str,
         "creationDate": str,
@@ -177,9 +177,9 @@ json_file_blueprint = {
         "testSetName": str,
         "testType": str,
         "testVCStatus": str
-        },
+        }],
 
-    "test_execution_data": {
+    "test_execution_data": [{
         "automatedExecutionCount": int,
         "blockedCount": int,
         "cycle_name": str,
@@ -188,7 +188,7 @@ json_file_blueprint = {
         "manualExecutionCount": int,
         "noRunCount": int,
         "notCompletedCount": int
-        }
+        }]
     }
 
 # Can be computed by calling: get_key_addresses(json_file_blueprint)
