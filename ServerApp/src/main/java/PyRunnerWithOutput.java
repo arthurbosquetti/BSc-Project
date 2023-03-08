@@ -2,12 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class PyRunnerWithOutput {
-	public static void main(String[] args) throws IOException {
+class PyRunnerWithOutput {
+	public void runner() throws IOException {
 		
 		String[] cmd = {"python", 
 				"C:\\Users\\Bosquea\\OneDrive - shure\\Desktop\\BSc Project\\Python Scripts\\json_reader.py", 
-				"C:\\Users\\BosqueA\\OneDrive - shure\\Desktop\\BSc Project\\JSON Files\\regular file.json"};
+				"C:\\Users\\BosqueA\\OneDrive - shure\\Desktop\\BSc Project - Other data\\JSON Files\\test_file.json"};
 		Process process = Runtime.getRuntime().exec(cmd);
 		
 		String s;
