@@ -57,7 +57,7 @@ def get_value_of_key(search_object: Union[dict, list], address_of_key: list):
 
     Returns
     -------
-        The value of the first occurence of the key.
+    The value of the first occurence of the key.
 
     """
 
@@ -222,9 +222,9 @@ end_time = datetime.now()
 print(end_time)
 
 # Logging
-output_file_path = get_parent_filepath(json_file_path)
+output_file_path = get_parent_filepath(json_file_path, 2)
 print(f"output_file_path = {output_file_path}")
-output_file = open(output_file_path + "Output Files\\json_reader_output.txt",'a')
+output_file = open(output_file_path + "BSc Project\\Output Files\\json_reader_output.txt",'a')
 output_file.write(f"{start_time} - {end_time} | json_file_path = {json_file_path} | args = {args}\n\n")
 output_file.close()
 
