@@ -2,3 +2,5 @@
 desktop.ini
 Python Scripts/__pycache__/
 Output Files/
+.DS_Store
+*.json
