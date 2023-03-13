@@ -1,0 +1,215 @@
+swagger: "2.0"
+info:
+  description: "This is a project data view system"
+  version: "1.0.0"
+  title: "Project Data Viewer"
+host: "localhost:8080"
+basePath: "/api/v1"
+schemes:
+- "http"
+
+paths:
+  /projects:
+    get:
+      summary: "Returns all projects"
+      responses:
+        "200":
+          description: "The list of projects"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Project"
+    post:
+      summary: "Adds a new project"
+      parameters:
+      - in: "body"
+        name: "project"
+        required: true
+        schema:
+          $ref: "#/definitions/Project"
+      responses:
+        "200":
+          description: "Project correctly added"
+  /projects/{projectName}:
+    delete:
+      summary: "Deletes a project"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project to delete"
+        required: true
+      responses:
+        "204":
+          description: "The project has been deleted"
+  /projects/{projectName}/test-data:
+    get:
+      summary: "Gets the test data entries of a project"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project"
+        required: true
+      responses:
+        "200":
+          description: "The list of test data entries"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/TestDataEntry"
+    post:
+      summary: "Adds a new test data entry to the list"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "testDataEntry"
+        required: true
+        schema:
+          $ref: "#/definitions/TestDataEntry"
+      responses:
+        "404":
+          description: "The project cannot be found"
+        "200":
+          description: "Test data entry correctly added"
+  /projects/{projectName}/test-data/{date}:
+    delete:
+      summary: "Deletes a test data entry"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project where the test data entry is"
+        required: true
+      - in: "path"
+        name: "date"
+        type: "string"
+        description: "The date of entry of the test data entry"
+        required: true
+      responses:
+        "404":
+          description: "The project or entry cannot be found"
+        "204":
+          description: "The test data entry has been deleted"
+  /projects/{projectName}/bug-data:
+    get:
+      summary: "Gets the bug data entries of a project"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project"
+        required: true
+      responses:
+        "200":
+          description: "The list of bug data entries"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BugDataEntry"
+    post:
+      summary: "Adds a new bug data entry to the list"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "bugDataEntry"
+        required: true
+        schema:
+          $ref: "#/definitions/BugDataEntry"
+      responses:
+        "404":
+          description: "The project cannot be found"
+        "200":
+          description: "Bug data entry correctly added"
+  /projects/{projectName}/bug-data/{date}:
+    delete:
+      summary: "Deletes a bug data entry"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project where the bug data entry is"
+        required: true
+      - in: "path"
+        name: "date"
+        type: "string"
+        description: "The date of entry of the bug data entry"
+        required: true
+      responses:
+        "404":
+          description: "The project or entry cannot be found"
+        "204":
+          description: "The data entry has been deleted"
+
+definitions:
+  Project:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      fftDeadline:
+        type: "string"
+      testData:
+        type: "array"
+        items:
+          $ref: "#/definitions/TestDataEntry"
+      bugData:
+        type: "array"
+        items:
+          $ref: "#/definitions/BugDataEntry"
+  TestDataEntry:
+    type: "object"
+    properties:
+      product:
+        type: "string"
+      date:
+        type: "string"
+      testPassed:
+        type: "integer"
+      testFailed:
+        type: "integer"
+      testBlocked:
+        type: "integer"
+      testNoRun:
+        type: "integer"
+      testNotCompleted:
+        type: "integer"
+      totalTests:
+        type: "integer"
+      target95:
+        type: "integer"
+      leftToTarget:
+        type: "integer"
+  BugDataEntry:
+    type: "object"
+    properties:
+      date:
+        type: "string"
+      swVersion:
+        type: "string"
+      openBockerBugs:
+        type: "integer"
+      openCriticalBugs:
+        type: "integer"
+      openMajorBugs:
+        type: "integer"
+      openMinorBugs:
+        type: "integer"
+      openTrivialBugs:
+        type: "integer"
+      fixedBockerBugs:
+        type: "integer"
+      fixedCriticalBugs:
+        type: "integer"
+      fixedMajorBugs:
+        type: "integer"
+      fixedMinorBugs:
+        type: "integer"
+      fixedTrivialBugs:
+        type: "integer"
