@@ -1,8 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	  <modelVersion>4.0.0</modelVersion>
-	  <groupId>shure</groupId>
-	  <artifactId>ServerApp</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>shure</groupId>
+  <artifactId>ServerApp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <properties>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+  </properties>	  
 	  
   <parent>
 	  <groupId>org.springframework.boot</groupId>
@@ -17,17 +22,31 @@
 	  <artifactId>commons-io</artifactId>
 	  <version>2.11.0</version>
 	</dependency>
+	
+	<dependency>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-lang3</artifactId>
+	  <version>3.12.0</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>com.opencsv</groupId>
+	  <artifactId>opencsv</artifactId>
+	  <version>5.7.1</version>
+	</dependency>
+	
 	<!--Build web applications using Spring-->
 	<dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
-	<!--Store data in an in-memory database-->
+	<!--Store data in an in-memory database -->
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-data-jpa</artifactId>
 	</dependency>
-	<!--Dependency for H2 database (an in-memory database)-->
+	
+	<!--Dependency for H2 database (an in-memory database) -->
 	<dependency>
 		<groupId>com.h2database</groupId>
 		<artifactId>h2</artifactId>
