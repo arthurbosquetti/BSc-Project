@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: "This is a project data view system"
+  description: "This is a project data management system"
   version: "1.0.0"
-  title: "Project Data Viewer"
+  title: "Project Data Manager"
 host: "localhost:8080"
 basePath: "/api/v1"
 schemes:
@@ -170,21 +170,19 @@ definitions:
   TestDataEntry:
     type: "object"
     properties:
-      projectName:
-        type: "string"
+      dataEntryId:
+        $ref: "#/definitions/DataEntryId" #
       productName:
         type: "string"
-      entryDate:
-        type: "string"
-      testPassed:
+      testsPassed:
         type: "integer"
-      testFailed:
+      testsFailed:
         type: "integer"
-      testBlocked:
+      testsBlocked:
         type: "integer"
-      testNoRun:
+      testsNoRun:
         type: "integer"
-      testNotCompleted:
+      testsNotCompleted:
         type: "integer"
       totalTests:
         type: "integer"
@@ -195,13 +193,11 @@ definitions:
   BugDataEntry:
     type: "object"
     properties:
-      projectName:
-        type: "string"
-      entryDate:
-        type: "string"
+      dataEntryId:
+        $ref: "#/definitions/DataEntryId" #
       swVersion:
         type: "string"
-      openBockerBugs:
+      openBlockerBugs:
         type: "integer"
       openCriticalBugs:
         type: "integer"
@@ -211,7 +207,7 @@ definitions:
         type: "integer"
       openTrivialBugs:
         type: "integer"
-      fixedBockerBugs:
+      fixedBlockerBugs:
         type: "integer"
       fixedCriticalBugs:
         type: "integer"
@@ -221,3 +217,10 @@ definitions:
         type: "integer"
       fixedTrivialBugs:
         type: "integer"
+  DataEntryId:
+    type: "object"
+    properties:
+      projectName:
+        type: "string"
+      entryDate:
+        type: "string"

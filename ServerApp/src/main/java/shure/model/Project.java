@@ -19,12 +19,12 @@ public class Project {
 	@Column
 	private String fftDeadline;
 	@OneToMany
-	@JsonIgnore
+//	@JsonIgnore
 	private List<TestDataEntry> testDataEntries;
 	@OneToMany
-	@JsonIgnore
+//	@JsonIgnore
 	private List<BugDataEntry> bugDataEntries;
-	
+
 	public String getName() {
 		return name;
 	}

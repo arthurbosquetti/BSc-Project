@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import shure.model.Project;
 import shure.model.BugDataEntry;
+import shure.model.DataEntryId;
 import shure.repositories.BugDataEntriesRepository;
 import shure.repositories.ProjectsRepository;
 
@@ -47,7 +48,7 @@ public class BugDataEntryControllers {
 			project.get().addDataEntry(bugDataEntry);
 			return ResponseEntity.ok(repository.save(bugDataEntry));			
 		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.badRequest().body("{\"error\": \"An entry with entryDate " + bugDataEntry.getEntryDate() + " already exists!\"}");
+			return ResponseEntity.badRequest().body("{\"error\": \"An entry with ID " + bugDataEntry.getDataEntryId() + " already exists!\"}");
 		}
 	}
 	
@@ -57,11 +58,12 @@ public class BugDataEntryControllers {
 		if (project.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		Optional<BugDataEntry> bugDataEntry = repository.findById(entryDate);
+		Optional<BugDataEntry> bugDataEntry = repository.findById(new DataEntryId(entryDate, projectName));
 		if (bugDataEntry.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		project.get().removeDataEntry(bugDataEntry.get());
+		repository.deleteById(new DataEntryId(entryDate, projectName));
 		repositoryProjects.save(project.get());
 		return ResponseEntity.noContent().build();		
 	}

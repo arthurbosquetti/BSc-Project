@@ -1,27 +1,26 @@
 package shure.model;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class DataEntry {
-	@Id
-	@Column
-	private String entryDate;
 	
-	public String getEntryDate() {
-		return entryDate;
+	@EmbeddedId
+	private DataEntryId dataEntryId;
+	
+	public DataEntryId getDataEntryId() {
+		return dataEntryId;
 	}
-	
-	public void setEntryDate(String entryDate) {
-		this.entryDate = entryDate;
+
+	public void setDataEntryId(DataEntryId dataEntryId) {
+		this.dataEntryId = dataEntryId;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof DataEntry) {
-			return ((DataEntry) obj).getEntryDate().equals(entryDate);
+			return ((DataEntry) obj).getDataEntryId().equals(dataEntryId);
 		}
 		return false;
 	}

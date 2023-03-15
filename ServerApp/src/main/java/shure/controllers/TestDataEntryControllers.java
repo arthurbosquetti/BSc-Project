@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import shure.model.DataEntryId;
 import shure.model.Project;
 import shure.model.TestDataEntry;
 import shure.repositories.ProjectsRepository;
@@ -47,7 +48,7 @@ public class TestDataEntryControllers {
 			project.get().addDataEntry(testDataEntry);
 			return ResponseEntity.ok(repository.save(testDataEntry));			
 		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.badRequest().body("{\"error\": \"An entry with entryDate " + testDataEntry.getEntryDate() + " already exists!\"}");
+			return ResponseEntity.badRequest().body("{\"error\": \"An entry with ID " + testDataEntry.getDataEntryId() + " already exists!\"}");
 		}
 	}
 	
@@ -57,12 +58,12 @@ public class TestDataEntryControllers {
 		if (project.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		Optional<TestDataEntry> testDataEntry = repository.findById(entryDate);
+		Optional<TestDataEntry> testDataEntry = repository.findById(new DataEntryId(entryDate, projectName));
 		if (testDataEntry.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		project.get().removeDataEntry((TestDataEntry) testDataEntry.get());
-		repository.deleteById(entryDate);
+		repository.deleteById(new DataEntryId(entryDate, projectName));
 		repositoryProjects.save(project.get());
 		return ResponseEntity.noContent().build();		
 	}
