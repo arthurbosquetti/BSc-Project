@@ -9,8 +9,6 @@ public abstract class DataEntry {
 	@Id
 	@Column
 	private String entryDate;
-	@Column
-	private String projectName;
 	
 	public String getEntryDate() {
 		return entryDate;
@@ -18,14 +16,6 @@ public abstract class DataEntry {
 	
 	public void setEntryDate(String entryDate) {
 		this.entryDate = entryDate;
-	}
-	
-	public String getProjectName() {
-		return projectName;
-	}
-	
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
 	}
 	
 	@Override

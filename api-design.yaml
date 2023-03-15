@@ -52,6 +52,8 @@ paths:
         description: "The name of the project"
         required: true
       responses:
+        "404":
+          description: "The project cannot be found"
         "200":
           description: "The list of test data entries"
           schema:
@@ -75,7 +77,7 @@ paths:
           description: "The project cannot be found"
         "200":
           description: "Test data entry correctly added"
-  /projects/{projectName}/test-data/{date}:
+  /projects/{projectName}/test-data/{entryDate}:
     delete:
       summary: "Deletes a test data entry"
       parameters:
@@ -85,7 +87,7 @@ paths:
         description: "The name of the project where the test data entry is"
         required: true
       - in: "path"
-        name: "date"
+        name: "entryDate"
         type: "string"
         description: "The date of entry of the test data entry"
         required: true
@@ -104,6 +106,8 @@ paths:
         description: "The name of the project"
         required: true
       responses:
+        "404":
+          description: "The project cannot be found"
         "200":
           description: "The list of bug data entries"
           schema:
@@ -127,7 +131,7 @@ paths:
           description: "The project cannot be found"
         "200":
           description: "Bug data entry correctly added"
-  /projects/{projectName}/bug-data/{date}:
+  /projects/{projectName}/bug-data/{entryDate}:
     delete:
       summary: "Deletes a bug data entry"
       parameters:
@@ -137,7 +141,7 @@ paths:
         description: "The name of the project where the bug data entry is"
         required: true
       - in: "path"
-        name: "date"
+        name: "entryDate"
         type: "string"
         description: "The date of entry of the bug data entry"
         required: true
@@ -166,9 +170,11 @@ definitions:
   TestDataEntry:
     type: "object"
     properties:
-      product:
+      projectName:
         type: "string"
-      date:
+      productName:
+        type: "string"
+      entryDate:
         type: "string"
       testPassed:
         type: "integer"
@@ -189,7 +195,9 @@ definitions:
   BugDataEntry:
     type: "object"
     properties:
-      date:
+      projectName:
+        type: "string"
+      entryDate:
         type: "string"
       swVersion:
         type: "string"

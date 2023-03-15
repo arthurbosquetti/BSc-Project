@@ -1,11 +1,11 @@
 package shure.repositories;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import shure.model.DataEntry;
 
-@Repository
+@NoRepositoryBean
 public interface DataEntriesRepository<T extends DataEntry> extends CrudRepository<T, String>{
-
+	
 }

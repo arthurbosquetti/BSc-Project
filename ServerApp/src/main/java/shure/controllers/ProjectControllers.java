@@ -3,7 +3,6 @@ package shure.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.config.RepositoryNameSpaceHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +28,10 @@ public class ProjectControllers {
 	}
 	
 	@PostMapping("/api/v1/projects")
-	public ResponseEntity<Project> create(@RequestBody Project project) {
+	public ResponseEntity<Object> create(@RequestBody Project project) {
+		if (repository.findAll().contains(project)) {
+			return ResponseEntity.badRequest().body("{\"error\": \"A project with name '" + project.getName() + "' already exists!\"}");
+		}
 		return ResponseEntity.ok(repository.save(project));
 	}
 	

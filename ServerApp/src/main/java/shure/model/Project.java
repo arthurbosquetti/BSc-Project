@@ -61,7 +61,7 @@ public class Project {
 		testDataEntries.add(testDataEntry);
 	}
 	
-	public void addDatEntry(BugDataEntry bugDataEntry) {
+	public void addDataEntry(BugDataEntry bugDataEntry) {
 		bugDataEntries.add(bugDataEntry);
 	}
 	
@@ -72,6 +72,16 @@ public class Project {
 	public void removeDataEntry(BugDataEntry bugDataEntry) {
 		bugDataEntries.remove(bugDataEntry);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Project) {
+			return name.equals(((Project) obj).getName());
+		}
+		return false;
+	}
+	// @Override Hash function
+
 }
 
 
