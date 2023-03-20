@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h2>Track new project</h2>
+        <h2>Track a new project</h2>
         <form v-on:submit.prevent="submitForm">
             <label>
-                Project name: <input type="text" v-model="form.name"/>
+                Project name: <input type="text" v-model="form.name" required/>
             </label>
             <button>Submit</button>
         </form>

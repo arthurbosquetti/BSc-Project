@@ -5,8 +5,9 @@
             <li
              v-bind:key="p.name"
              v-for="p in projects">
-             {{ p.name }}
-             <button @click="deleteProject(p.name)">Delete all data</button>
+             {{ p.name }} -
+            <router-link :to="{ name: 'ListTestDataEntries', params: { projectName: p.name }}">Test data entries</router-link> -
+            <router-link :to="{ name: 'ListBugDataEntries', params: { projectName: p.name }}">Bug data entries</router-link>
             </li>
         </ul>
     </div>
@@ -18,17 +19,13 @@
 export default {
     name: 'ListProject',
     props: ['projects'],
-
-    methods: {
-        deleteProject(name) {
-            this.axios
-              .delete(this.$backend.getUrlDeleteProject(name))
-              .then(() => {
-                this.$emit('project-deleted')
-              })
+    data() {
+        return {
+            form: {
+                name: ""
+            }
         }
     }
-
 }
 
 </script>

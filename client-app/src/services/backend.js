@@ -16,9 +16,11 @@ export default class Backend {
         return this.url + "/projects/" + name
     }
 
+    getUrlProjectTestDataList(name) {
+        return this.url + "/projects/" + name + "/test-data"
+    }
 
-
-
-
-
+    getUrlProjectBugDataList(name) {
+        return this.url + "/projects/" + name + "/bug-data"
+    }
 }

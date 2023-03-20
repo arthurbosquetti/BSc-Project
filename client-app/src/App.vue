@@ -6,6 +6,7 @@
     <ol>
       <li><router-link :to="{ name: 'ListProject' }">View list of projects currently tracked</router-link></li>
       <li><router-link :to="{ name: 'AddProject' }">Track new project</router-link></li>
+      <li><router-link :to="{ name: 'DeleteProject' }">Delete a project and all its data</router-link></li>
     </ol>
 
     <router-view 
@@ -46,6 +47,6 @@ export default {
 
 <style>
 * {
-  font-family: sans-serif;
+  font-family: monospace;
 }
 </style>
