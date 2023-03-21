@@ -47,6 +47,6 @@ export default {
 
 <style>
 * {
-  font-family: monospace;
+  font-family: 'Arial', sans-serif;
 }
 </style>

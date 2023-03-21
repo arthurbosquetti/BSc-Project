@@ -1,5 +1,7 @@
 package shure.model;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import misc.JsonReader;
+
 
 @Entity
 public class Project {
@@ -17,12 +20,13 @@ public class Project {
 	@Column
 	private String name;
 	@Column
+	private String nittanyUrl;
+	@Column
 	private String fftDeadline;
+
 	@OneToMany
-//	@JsonIgnore
 	private List<TestDataEntry> testDataEntries;
 	@OneToMany
-//	@JsonIgnore
 	private List<BugDataEntry> bugDataEntries;
 
 	public String getName() {
@@ -32,7 +36,20 @@ public class Project {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+		public void setNittanyUrl(String nittanyUrl) {
+		JsonReader reader;
+		try {
+			reader = new JsonReader(new URL(nittanyUrl));
+			if (reader.readUrl()) {			
+				this.nittanyUrl = nittanyUrl;
+			}
+		} catch (IOException e) {}
+	}
+		
+	public void addDataEntry(TestDataEntry testDataEntry) {
+		testDataEntries.add(testDataEntry);
+	}
+
 	public String getFftDeadline() {
 		return fftDeadline;
 	}
@@ -57,10 +74,10 @@ public class Project {
 		this.bugDataEntries = bugDataEntries;
 	}
 	
-	public void addDataEntry(TestDataEntry testDataEntry) {
-		testDataEntries.add(testDataEntry);
+	public String getNittanyUrl() {
+		return nittanyUrl;
 	}
-	
+		
 	public void addDataEntry(BugDataEntry bugDataEntry) {
 		bugDataEntries.add(bugDataEntry);
 	}
