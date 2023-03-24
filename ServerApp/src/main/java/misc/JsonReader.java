@@ -6,28 +6,48 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-class JSONReader {	
+public class JsonReader {	
 	
 	private URL url;
-	String json;
+	String jsonString;
 
-	public JSONReader(URL url) throws IOException {
+	public JsonReader(URL url) throws IOException {
 		this.url = url;
 	}
 	
-	public void readURL() throws IOException {
+	public boolean readUrl() throws IOException {
 		System.out.println("Reading URL...");
-		this.json = IOUtils.toString(url, Charset.forName("UTF-8"));
-		System.out.println("JSON String created!");
+		String urlOutput = IOUtils.toString(url, Charset.forName("UTF-8"));
+		if (isValid(urlOutput)) {
+			System.out.println("The URL output is a JSON String!");
+			this.jsonString = urlOutput;
+			return true;
+		}
+		System.out.println("The URL output is not a JSON String!");
+		return false;
 	}
 	
-	public void writeJSONToFile(String filePath) throws IOException {
-		FileUtils.writeStringToFile(new File(filePath), json, Charset.forName("UTF-8"));
+	private boolean isValid(String urlOutput) {
+		try {
+	        new JSONObject(urlOutput);
+	    } catch (JSONException e) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	public void writeJsonToFile(String filePath) throws IOException {
+		FileUtils.writeStringToFile(new File(filePath), jsonString, Charset.forName("UTF-8"));
 		System.out.println("Wrote JSON to file!");
 	}
 	
-	
+	public String getJsonString() {
+		return jsonString;
+	}
 	
 
 }
