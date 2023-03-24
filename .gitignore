@@ -1,6 +1,7 @@
 .metadata/
 desktop.ini
-Python Scripts/__pycache__/
-Output Files/
+Python\ Scripts/__pycache__/
+Output\ Files/
 .DS_Store
 *.json
+H2\ Database/
