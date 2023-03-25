@@ -23,19 +23,19 @@ import shure.repositories.TestDataEntriesRepository;
 @Controller
 @CrossOrigin
 public class TestDataEntryControllers {
-	
+
 	@Autowired
 	private TestDataEntriesRepository repository;
 	@Autowired
 	private ProjectsRepository repositoryProjects;
-	
+
 	@GetMapping("/api/v1/projects/{projectName}/test-data")
 	public ResponseEntity<List<TestDataEntry>> getAll(@PathVariable String projectName) {
 		Optional<Project> project = repositoryProjects.findById(projectName);
 		if (project.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(project.get().getTestDataEntries());		
+		return ResponseEntity.ok(project.get().getTestDataEntries());
 	}
 
 	@PostMapping("/api/v1/projects/{projectName}/test-data")
@@ -46,12 +46,14 @@ public class TestDataEntryControllers {
 		}
 		try {
 			project.get().addDataEntry(testDataEntry);
-			return ResponseEntity.ok(repository.save(testDataEntry));			
+			repositoryProjects.save(project.get());
+			return ResponseEntity.ok(repository.save(testDataEntry));
 		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.badRequest().body("{\"error\": \"An entry with ID " + testDataEntry.getDataEntryId() + " already exists!\"}");
+			return ResponseEntity.badRequest()
+					.body("{\"error\": \"An entry with ID " + testDataEntry.getDataEntryId() + " already exists!\"}");
 		}
 	}
-	
+
 	@DeleteMapping("/api/v1/projects/{projectName}/test-data/{entryDate}")
 	public ResponseEntity<?> delete(@PathVariable String projectName, @PathVariable String entryDate) {
 		Optional<Project> project = repositoryProjects.findById(projectName);
@@ -65,6 +67,6 @@ public class TestDataEntryControllers {
 		project.get().removeDataEntry((TestDataEntry) testDataEntry.get());
 		repository.deleteById(new DataEntryId(entryDate, projectName));
 		repositoryProjects.save(project.get());
-		return ResponseEntity.noContent().build();		
+		return ResponseEntity.noContent().build();
 	}
 }

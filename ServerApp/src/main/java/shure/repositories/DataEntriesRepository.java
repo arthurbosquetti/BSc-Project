@@ -7,6 +7,6 @@ import shure.model.DataEntry;
 import shure.model.DataEntryId;
 
 @NoRepositoryBean
-public interface DataEntriesRepository<T extends DataEntry> extends CrudRepository<T, DataEntryId>{
-	
+public interface DataEntriesRepository<T extends DataEntry> extends CrudRepository<T, DataEntryId> {
+
 }

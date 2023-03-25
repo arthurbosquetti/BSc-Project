@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import shure.model.Project;
 
 @Repository
-public interface ProjectsRepository extends CrudRepository<Project, String>{
-	
+public interface ProjectsRepository extends CrudRepository<Project, String> {
+
 	List<Project> findAll();
 }
