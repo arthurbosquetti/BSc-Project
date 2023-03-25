@@ -7,15 +7,18 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import misc.JsonReader;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
+import shure.utilities.JsonReader;
 
 @Entity
 public class Project {
-	
+
 	@Id
 	@Column
 	private String name;
@@ -25,27 +28,30 @@ public class Project {
 	private String fftDeadline;
 
 	@OneToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<TestDataEntry> testDataEntries;
 	@OneToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<BugDataEntry> bugDataEntries;
 
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-		public void setNittanyUrl(String nittanyUrl) {
-		JsonReader reader;
+
+	public void setNittanyUrl(String nittanyUrl) {
 		try {
-			reader = new JsonReader(new URL(nittanyUrl));
-			if (reader.readUrl()) {			
+			JsonReader reader = new JsonReader(new URL(nittanyUrl));
+			if (reader.readUrl()) {
 				this.nittanyUrl = nittanyUrl;
 			}
-		} catch (IOException e) {}
+		} catch (IOException e) {
+		}
 	}
-		
+
 	public void addDataEntry(TestDataEntry testDataEntry) {
 		testDataEntries.add(testDataEntry);
 	}
@@ -53,43 +59,43 @@ public class Project {
 	public String getFftDeadline() {
 		return fftDeadline;
 	}
-	
+
 	public void setFftDeadline(String fftDeadline) {
 		this.fftDeadline = fftDeadline;
 	}
-	
+
 	public List<TestDataEntry> getTestDataEntries() {
 		return testDataEntries;
 	}
-	
+
 	public void setTestDataEntries(ArrayList<TestDataEntry> testDataEntries) {
 		this.testDataEntries = testDataEntries;
 	}
-	
+
 	public List<BugDataEntry> getBugDataEntries() {
 		return bugDataEntries;
 	}
-	
+
 	public void setBugDataEntries(ArrayList<BugDataEntry> bugDataEntries) {
 		this.bugDataEntries = bugDataEntries;
 	}
-	
+
 	public String getNittanyUrl() {
 		return nittanyUrl;
 	}
-		
+
 	public void addDataEntry(BugDataEntry bugDataEntry) {
 		bugDataEntries.add(bugDataEntry);
 	}
-	
+
 	public void removeDataEntry(TestDataEntry testDataEntry) {
 		testDataEntries.remove(testDataEntry);
 	}
-	
+
 	public void removeDataEntry(BugDataEntry bugDataEntry) {
 		bugDataEntries.remove(bugDataEntry);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Project) {
@@ -97,16 +103,7 @@ public class Project {
 		}
 		return false;
 	}
+
 	// @Override Hash function
 
 }
-
-
-
-
-
-
-
-
-
-

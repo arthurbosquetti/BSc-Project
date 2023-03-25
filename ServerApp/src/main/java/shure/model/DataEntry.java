@@ -5,10 +5,17 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class DataEntry {
-	
+
 	@EmbeddedId
 	private DataEntryId dataEntryId;
-	
+
+	public DataEntry() {
+	}
+
+	public DataEntry(DataEntryId dataEntryId) {
+		this.dataEntryId = dataEntryId;
+	}
+
 	public DataEntryId getDataEntryId() {
 		return dataEntryId;
 	}
@@ -24,9 +31,8 @@ public abstract class DataEntry {
 		}
 		return false;
 	}
-	
+
 //	@Override
 //	// Hashcode function
-	
-	
+
 }
