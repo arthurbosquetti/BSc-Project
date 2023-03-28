@@ -42,16 +42,6 @@ public class ProjectDataUpdator {
 			repositoryProjects.save(project);
 		}
 
-		for (Project project : repositoryProjects.findAll()) {
-			System.out.println("Checking data for " + project.getName() + "...");
-			for (TestDataEntry testDataEntry : project.getTestDataEntries()) {
-				System.out.println("Test data entry date: " + testDataEntry.getDataEntryId().getEntryDate());
-			}
-			for (BugDataEntry bugDataEntry : project.getBugDataEntries()) {
-				System.out.println("Bug test entry date: " + bugDataEntry.getDataEntryId().getEntryDate());
-			}
-			break;
-		}
 	}
 
 	private Project updateDataEntries(Project project, JSONObject jsonObject) {

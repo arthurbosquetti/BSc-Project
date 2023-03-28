@@ -3,6 +3,8 @@ package shure.model;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -52,10 +54,6 @@ public class Project {
 		}
 	}
 
-	public void addDataEntry(TestDataEntry testDataEntry) {
-		testDataEntries.add(testDataEntry);
-	}
-
 	public String getFftDeadline() {
 		return fftDeadline;
 	}
@@ -84,8 +82,38 @@ public class Project {
 		return nittanyUrl;
 	}
 
-	public void addDataEntry(BugDataEntry bugDataEntry) {
-		bugDataEntries.add(bugDataEntry);
+	public boolean addDataEntry(TestDataEntry testDataEntry) {
+		if (!testDataEntries.contains(testDataEntry)) {			
+			testDataEntries.add(testDataEntry);
+			sortTestDataEntries();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addDataEntry(BugDataEntry bugDataEntry) {
+		if (!bugDataEntries.contains(bugDataEntry)) {
+			bugDataEntries.add(bugDataEntry);
+			sortBugDataEntries();
+			return true;
+		}
+		return false;
+	}
+	
+	private void sortTestDataEntries() {
+		Collections.sort(testDataEntries, new Comparator<TestDataEntry>() {
+		    public int compare(TestDataEntry e1, TestDataEntry e2) {
+		        return e1.getDataEntryId().getEntryDate().compareTo(e2.getDataEntryId().getEntryDate());
+		    }
+		});
+	}
+	
+	private void sortBugDataEntries() {
+		Collections.sort(bugDataEntries, new Comparator<BugDataEntry>() {
+		    public int compare(BugDataEntry e1, BugDataEntry e2) {
+		        return e1.getDataEntryId().getEntryDate().compareTo(e2.getDataEntryId().getEntryDate());
+		    }
+		});
 	}
 
 	public void removeDataEntry(TestDataEntry testDataEntry) {
