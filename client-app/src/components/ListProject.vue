@@ -4,7 +4,7 @@
         <ul>
             <li
              v-bind:key="p.name"
-             v-for="p in projects">
+             v-for="p in sortProjects">
              {{ p.name }} -
             <router-link :to="{ name: 'ListTestDataEntries', params: { projectName: p.name }}">Test data entries</router-link> -
             <router-link :to="{ name: 'ListBugDataEntries', params: { projectName: p.name }}">Bug data entries</router-link>
@@ -25,7 +25,21 @@ export default {
                 name: ""
             }
         }
+    },
+  computed: {
+    sortProjects() {
+        function compare(a,b) {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                return -1
+            }
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1
+            }
+            return 0
+        }
+      return [...this.projects].sort(compare)
     }
+  }
 }
 
 </script>
