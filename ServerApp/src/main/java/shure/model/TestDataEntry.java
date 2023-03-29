@@ -3,6 +3,8 @@ package shure.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import org.json.JSONObject;
+
 @Entity
 public class TestDataEntry extends DataEntry {
 
@@ -30,6 +32,24 @@ public class TestDataEntry extends DataEntry {
 
 	public TestDataEntry(DataEntryId dataEntryId) {
 		super(dataEntryId);
+	}
+
+	public TestDataEntry(String projectName, JSONObject lineChartResult) {
+		String entryDate = lineChartResult.getJSONObject("snapshotDateOnly").getString("date");
+		setDataEntryId(new DataEntryId(entryDate, projectName));
+
+		this.productName = "TBD";
+		this.totalTests = lineChartResult.getInt("total");
+		this.testsPassed = lineChartResult.getInt("passed");
+		this.testsFailed = lineChartResult.getInt("failed");
+		this.testsBlocked = lineChartResult.getInt("blocked");
+		this.testsNotCompleted = lineChartResult.getInt("notCompleted");
+		this.testsNoRun = totalTests - testsPassed - testsFailed - testsBlocked - testsNotCompleted;
+		this.target95 = (int) (0.95 * totalTests);
+		int leftToTarget = target95 - testsPassed;
+		if (leftToTarget > 0)
+			this.leftToTarget = leftToTarget;
+
 	}
 
 	public String getProductName() {

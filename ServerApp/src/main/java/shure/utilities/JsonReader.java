@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class JsonReader {
 
 	private URL url;
-	String jsonString;
+	JSONObject json;
 
 	public JsonReader(URL url) throws IOException {
 		this.url = url;
@@ -20,26 +20,18 @@ public class JsonReader {
 	public boolean readUrl() throws IOException {
 		System.out.println("Reading URL...");
 		String urlOutput = IOUtils.toString(url, Charset.forName("UTF-8"));
-		if (isValid(urlOutput)) {
-			System.out.println("The URL output is a JSON String!");
-			this.jsonString = urlOutput;
-			return true;
-		}
-		System.out.println("The URL output is not a JSON String!");
-		return false;
-	}
-
-	private boolean isValid(String urlOutput) {
 		try {
-			new JSONObject(urlOutput);
+			this.json = new JSONObject(urlOutput);
+			System.out.println("URL reading successfull!");
 			return true;
 		} catch (JSONException e) {
+			System.out.println("URL reading failed!");
 			return false;
 		}
 	}
 
-	public String getJsonString() {
-		return jsonString;
+	public JSONObject getJson() {
+		return json;
 	}
 
 }

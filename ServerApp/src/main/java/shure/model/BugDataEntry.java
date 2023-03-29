@@ -1,7 +1,14 @@
 package shure.model;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @Entity
 public class BugDataEntry extends DataEntry {
@@ -34,6 +41,43 @@ public class BugDataEntry extends DataEntry {
 
 	public BugDataEntry(DataEntryId dataEntryId) {
 		super(dataEntryId);
+	}
+
+	public BugDataEntry(String projectName, String swVersion, JSONArray allBugs) {
+		Date date = new Date();
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		String entryDate = localDate.getYear() + "-" + String.format("%02d", localDate.getMonthValue()) + "-"
+				+ String.format("%02d", localDate.getDayOfMonth());
+
+		setDataEntryId(new DataEntryId(entryDate, projectName));
+		this.swVersion = swVersion;
+		for (int i = 0; i < allBugs.length(); i++) {
+			JSONObject entryJsonObject = allBugs.getJSONObject(i);
+			String severity = entryJsonObject.getString("severity");
+			String status = entryJsonObject.getString("status");
+
+			if ("5-Blocker".equals(severity) && "Fixed".equals(status))
+				this.fixedBlockerBugs++;
+			else if ("5-Blocker".equals(severity) && !"Closed".equals(status))
+				this.openBlockerBugs++;
+			else if ("4-Critical".equals(severity) && "Fixed".equals(status))
+				this.fixedCriticalBugs++;
+			else if ("4-Critical".equals(severity) && !"Closed".equals(status))
+				this.openCriticalBugs++;
+			else if ("3-Major".equals(severity) && "Fixed".equals(status))
+				this.fixedMajorBugs++;
+			else if ("3-Major".equals(severity) && !"Closed".equals(status))
+				this.openMajorBugs++;
+			else if ("2-Minor".equals(severity) && "Fixed".equals(status))
+				this.fixedMinorBugs++;
+			else if ("2-Minor".equals(severity) && !"Closed".equals(status))
+				this.openMinorBugs++;
+			else if ("1-Trivial".equals(severity) && "Fixed".equals(status))
+				this.fixedTrivialBugs++;
+			else if ("1-Trivial".equals(severity) && !"Closed".equals(status))
+				this.openTrivialBugs++;
+		}
+
 	}
 
 	public String getSwVersion() {
