@@ -44,14 +44,13 @@ public class TestDataEntryControllers {
 		if (project.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		try {
-			project.get().addDataEntry(testDataEntry);
+		if (project.get().addDataEntry(testDataEntry)) {
+			repository.save(testDataEntry);
 			repositoryProjects.save(project.get());
-			return ResponseEntity.ok(repository.save(testDataEntry));
-		} catch (DataIntegrityViolationException e) {
+			return ResponseEntity.ok(testDataEntry);
+		} else
 			return ResponseEntity.badRequest()
 					.body("{\"error\": \"An entry with ID " + testDataEntry.getDataEntryId() + " already exists!\"}");
-		}
 	}
 
 	@DeleteMapping("/api/v1/projects/{projectName}/test-data/{entryDate}")

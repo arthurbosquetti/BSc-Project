@@ -44,14 +44,13 @@ public class BugDataEntryControllers {
 		if (project.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		try {
-			project.get().addDataEntry(bugDataEntry);
+		if (project.get().addDataEntry(bugDataEntry)) {
+			repository.save(bugDataEntry);
 			repositoryProjects.save(project.get());
-			return ResponseEntity.ok(repository.save(bugDataEntry));
-		} catch (DataIntegrityViolationException e) {
+			return ResponseEntity.ok(bugDataEntry);
+		} else
 			return ResponseEntity.badRequest()
 					.body("{\"error\": \"An entry with ID " + bugDataEntry.getDataEntryId() + " already exists!\"}");
-		}
 	}
 
 	@DeleteMapping("/api/v1/projects/{projectName}/bug-data/{entryDate}")
