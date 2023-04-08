@@ -47,6 +47,6 @@ export default {
 
 <style>
 * {
-  font-family: 'Arial', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 </style>

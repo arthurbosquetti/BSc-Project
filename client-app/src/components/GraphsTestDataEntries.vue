@@ -18,7 +18,8 @@ export default {
             testDataEntries: [],
             labels: [],
             datasets: [],
-            fields: ['testsPassed', 'testsFailed', 'testsBlocked', 'testsNoRun', 'testsNotCompleted'] //, 'target95'],
+            // TODO: add target95
+            // fields: ['testsPassed', 'testsFailed', 'testsBlocked', 'testsNoRun', 'testsNotCompleted'] //, 'target95'],
         } 
     },    
     async mounted() {
@@ -44,20 +45,44 @@ export default {
             return labels
         },
         generateDatasets() {
-            let datasets = []
-            for (let f = 0; f < this.fields.length; f++) {
-                let data = []
-                for (let i = 0; i < this.testDataEntries.length; i++) {
-                    data.push(this.testDataEntries[i][this.fields[f]])
-                }
-                datasets.push({
-                    "label": this.fields[f],
-                    "data": data,
-                    // "backgroundColor": "rbga(255, 19, 132, 0.2)",
-                    // "borderColor": "rgba(255, 19, 132, 1)",
-                    "borderWidth": 1
-                })
+            let testsPassedDataset = []
+            let testsFailedDataset = []
+            let testsBlockedDataset = []
+            let testsNoRunDataset = []
+            let testsNotCompletedDataset = []
+            for (let i = 0; i < this.testDataEntries.length; i++) {
+                testsPassedDataset.push(this.testDataEntries[i]["testsPassed"])
+                testsFailedDataset.push(this.testDataEntries[i]["testsFailed"])
+                testsBlockedDataset.push(this.testDataEntries[i]["testsBlocked"])
+                testsNoRunDataset.push(this.testDataEntries[i]["testsNoRun"])
+                testsNotCompletedDataset.push(this.testDataEntries[i]["testsNotCompleted"])
             }
+            let datasets = []
+            datasets.push({
+                "label": "Passed",
+                "data": testsPassedDataset,
+                "backgroundColor": "rgba(159, 207, 63, 1)",
+                })
+            datasets.push({
+                "label": "Failed",
+                "data": testsFailedDataset,
+                "backgroundColor": "rgba(207, 63, 88, 1)",
+                })
+            datasets.push({
+                "label": "Blocked",
+                "data": testsBlockedDataset,
+                "backgroundColor": "rgba(42, 213, 234, 1)"
+                })
+            datasets.push({
+                "label": "No Run",
+                "data": testsNoRunDataset,
+                "backgroundColor": "rgba(255, 255, 136, 1)"
+                })
+            datasets.push({
+                "label": "Not Completed",
+                "data": testsNotCompletedDataset,
+                "backgroundColor": "rgba(102, 16, 242, 1)"
+                })
             return datasets
         },
         renderChart(ref) {
@@ -72,13 +97,21 @@ export default {
                         title: {
                             display: true,
                             text: "SV FFT Daily Trends for " + this.projectName
+                        },
+                        legend: {
+                            display: true,
+                            position: "bottom"
+                        },
+                        labels: {
+                            display: true,
+                            position: "bottom"
                         }
                     },
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
                         x: {
-                            stacked: true
+                            stacked: true,
                         },
                         y: {
                             stacked: true
