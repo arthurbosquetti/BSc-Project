@@ -5,6 +5,7 @@ import AddProject from './components/AddProject.vue'
 import DeleteProject from './components/DeleteProject.vue'
 import ListTestDataEntries from './components/ListTestDataEntries.vue'
 import ListBugDataEntries from './components/ListBugDataEntries.vue'
+import GraphsTestDataEntries from './components/GraphsTestDataEntries.vue'
 
 const routes = [
     {
@@ -31,6 +32,11 @@ const routes = [
         path: '/project/:projectName/bug-data',
         component: ListBugDataEntries,
         name: 'ListBugDataEntries'
+    },
+    {
+        path: '/project/:projectName/test-data',
+        component: GraphsTestDataEntries,
+        name: 'GraphsTestDataEntries'
     }
 ]
 

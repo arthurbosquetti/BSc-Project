@@ -6,8 +6,9 @@
              v-bind:key="p.name"
              v-for="p in sortProjects">
              {{ p.name }} -
-            <router-link :to="{ name: 'ListTestDataEntries', params: { projectName: p.name }}">Test data entries</router-link> -
-            <router-link :to="{ name: 'ListBugDataEntries', params: { projectName: p.name }}">Bug data entries</router-link>
+            <router-link :to="{ name: 'ListTestDataEntries', params: { projectName: p.name }}">Test data entries (Raw)</router-link> -
+            <router-link :to="{ name: 'GraphsTestDataEntries', params: { projectName: p.name }}">Test data entries (Graphs)</router-link> -
+            <router-link :to="{ name: 'ListBugDataEntries', params: { projectName: p.name }}">Bug data entries (Raw)</router-link>
             </li>
         </ul>
     </div>
