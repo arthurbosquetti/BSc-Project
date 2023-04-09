@@ -48,40 +48,61 @@ export default {
             let testsPassedDataset = []
             let testsFailedDataset = []
             let testsBlockedDataset = []
-            let testsNoRunDataset = []
             let testsNotCompletedDataset = []
+            let testsNoRunDataset = []
+            let target95Dataset = []
+            
             for (let i = 0; i < this.testDataEntries.length; i++) {
                 testsPassedDataset.push(this.testDataEntries[i]["testsPassed"])
                 testsFailedDataset.push(this.testDataEntries[i]["testsFailed"])
                 testsBlockedDataset.push(this.testDataEntries[i]["testsBlocked"])
-                testsNoRunDataset.push(this.testDataEntries[i]["testsNoRun"])
                 testsNotCompletedDataset.push(this.testDataEntries[i]["testsNotCompleted"])
+                testsNoRunDataset.push(this.testDataEntries[i]["testsNoRun"])
+                target95Dataset.push(this.testDataEntries[i]["target95"])
             }
-            let datasets = []
+            
+            let datasets = [] 
             datasets.push({
                 "label": "Passed",
                 "data": testsPassedDataset,
                 "backgroundColor": "rgba(159, 207, 63, 1)",
+                "order": 1
                 })
             datasets.push({
                 "label": "Failed",
                 "data": testsFailedDataset,
                 "backgroundColor": "rgba(207, 63, 88, 1)",
+                "order": 2
                 })
             datasets.push({
                 "label": "Blocked",
                 "data": testsBlockedDataset,
-                "backgroundColor": "rgba(42, 213, 234, 1)"
-                })
-            datasets.push({
-                "label": "No Run",
-                "data": testsNoRunDataset,
-                "backgroundColor": "rgba(255, 255, 136, 1)"
+                "backgroundColor": "rgba(42, 213, 234, 1)",
+                "order": 3
                 })
             datasets.push({
                 "label": "Not Completed",
                 "data": testsNotCompletedDataset,
-                "backgroundColor": "rgba(102, 16, 242, 1)"
+                "backgroundColor": "rgba(102, 16, 242, 1)",
+                "order": 4
+                })
+            datasets.push({
+                "label": "No Run",
+                "data": testsNoRunDataset,
+                "backgroundColor": "rgba(255, 255, 136, 1)",
+                "order": 5
+                })
+            datasets.push({
+                "label": "95% Pass Goal",
+                "data": target95Dataset,
+                "type": "line",
+                "pointBorderColor": "rgba(0,0,0, 1)",
+                "pointBackgroundColor": "rgba(159, 207, 63, 1)",
+                "backgroundColor": "rgba(159, 207, 63, 1)",
+                "borderColor": "rgba(159, 207, 63, 1)",
+                "borderDash": [10,10],
+                "pointRadius": 6,
+                "order": 0
                 })
             return datasets
         },
