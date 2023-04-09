@@ -26,8 +26,12 @@ public class ProjectDataUpdator {
 	@Autowired
 	private BugDataEntriesRepository repositoryBugDataEntries;
 
-	@Scheduled(fixedDelay = 1000 * 60)
-	public void run() throws MalformedURLException, IOException {
+	@Scheduled(fixedDelay = 1000 * 60 * 60, initialDelay = 1000 * 60 * 5)
+	public void onSchedule() throws MalformedURLException, IOException {
+		updateProjects();
+	}
+	
+	private void updateProjects() throws MalformedURLException, IOException {
 		System.out.println("Running project data updates:");
 		for (Project project : repositoryProjects.findAll()) {
 			System.out.println("Fetching data for " + project.getName() + "...");
@@ -37,9 +41,9 @@ public class ProjectDataUpdator {
 				updateBugDataEntries(project, reader.getJson());
 				repositoryProjects.save(project);
 			}
-
+			
 		}
-
+	
 	}
 
 	private void updateTestDataEntries(Project project, JSONObject nittanyData) {

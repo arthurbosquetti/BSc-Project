@@ -22,7 +22,7 @@ public class JsonReader {
 		String urlOutput = IOUtils.toString(url, Charset.forName("UTF-8"));
 		try {
 			this.json = new JSONObject(urlOutput);
-			System.out.println("URL reading successfull!");
+			System.out.println("URL reading successful!");
 			return true;
 		} catch (JSONException e) {
 			System.out.println("URL reading failed!");
