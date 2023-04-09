@@ -47,6 +47,7 @@ export default {
 
 <style>
 * {
+  margin:0.25%;
   font-family: "Segoe UI", sans-serif;
 }
 </style>
