@@ -13,13 +13,15 @@
                 <th>Total Tests</th>
                 <th>95% Target</th>
                 <th>Left to 95% Target</th>
+                <th>Delete Entry</th>
             </tr>
             </thead>
             <tbody>
                 <tr v-bind:key="entry.name"
                     v-for="entry in testDataEntries">
                     <td>{{ entry['dataEntryId']['entryDate']}}</td>
-                    <td v-for="field in fields" :key='field'>{{ entry[field] }}</td>               
+                    <td v-for="field in fields" :key='field'>{{ entry[field] }}</td>   
+                    <td><button @click="deleteButton(entry['dataEntryId']['entryDate'])">Delete Entry</button></td>                       
                 </tr>
             </tbody>
         </table>
@@ -27,6 +29,8 @@
 </template>
 
 <script>
+import router from '@/router'
+
 export default {
     name: 'ListTestDataEntries',
     data() {
@@ -42,6 +46,19 @@ export default {
               .get(this.$backend.getUrlProjectTestDataList(projectName))
               .then(res => {
                 this.testDataEntries = res.data
+              })
+        },
+        deleteButton(entryDate) {
+            this.axios
+              .delete(this.$backend.getUrlDeleteTestDataEntry(this.projectName, entryDate))
+              .catch(function (error) {
+                if (error.response) {
+                    window.alert(error.response.data);
+                }
+              })
+              .then(() => {
+                this.fetch(this.projectName)
+                router.push({ name: 'ListTestDataEntries' })
               })
         }
     },

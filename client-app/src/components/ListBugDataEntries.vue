@@ -22,13 +22,15 @@
                 <th>Major Bugs</th>
                 <th>Minor Bugs</th>
                 <th>Trivial Bugs</th>
+                <th>Delete Entry</th>
             </tr>
             </thead>
             <tbody>
                 <tr v-bind:key="entry.name"
                     v-for="entry in bugDataEntries">
                     <td>{{ entry['dataEntryId']['entryDate']}}</td>
-                    <td v-for="field in fields" :key='field'>{{ entry[field] }}</td>               
+                    <td v-for="field in fields" :key='field'>{{ entry[field] }}</td>    
+                    <td><button @click="deleteButton(entry['dataEntryId']['entryDate'])">Delete Entry</button></td>           
                 </tr>
             </tbody>
         </table>
@@ -36,6 +38,9 @@
 </template>
 
 <script>
+import router from '@/router'
+
+
 export default {
     name: 'ListBugDataEntries',
     data() {
@@ -52,6 +57,19 @@ export default {
               .then(res => {
                 this.bugDataEntries = res.data
               })
+        },
+        deleteButton(entryDate) {
+            this.axios
+              .delete(this.$backend.getUrlDeleteBugDataEntry(this.projectName, entryDate))
+              .catch(function (error) {
+                if (error.response) {
+                    window.alert(error.response.data);
+                }
+              })
+              .then(() => {
+                this.fetch(this.projectName)
+                router.push({ name: 'ListBugDataEntries' })
+              })            
         }
     },
     mounted() {

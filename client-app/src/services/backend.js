@@ -23,4 +23,12 @@ export default class Backend {
     getUrlProjectBugDataList(name) {
         return this.url + "/projects/" + name + "/bug-data"
     }
+
+    getUrlDeleteTestDataEntry(projectName, entryDate) {
+        return this.url + "/projects/" + projectName + "/test-data/" + entryDate
+    }
+
+    getUrlDeleteBugDataEntry(projectName, entryDate) {
+        return this.url + "/projects/" + projectName + "/bug-data/" + entryDate
+    }
 }
