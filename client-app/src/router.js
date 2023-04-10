@@ -10,7 +10,7 @@ import GraphsBugDataEntries from './components/GraphsBugDataEntries.vue'
 
 const routes = [
     {
-        path: '/',
+        path: '/list-projects',
         component: ListProject,
         name: 'ListProject'
     },
@@ -44,11 +44,13 @@ const routes = [
         component: GraphsBugDataEntries,
         name: 'GraphsBugDataEntries'
     }
+    
 ]
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes: routes,
+    linkActiveClass: 'active'
 })
 
 export default router
