@@ -38,9 +38,6 @@
 </template>
 
 <script>
-import router from '@/router'
-
-
 export default {
     name: 'ListBugDataEntries',
     data() {
@@ -67,8 +64,9 @@ export default {
                 }
               })
               .then(() => {
-                this.fetch(this.projectName)
-                router.push({ name: 'ListBugDataEntries' })
+                const entryIndex = this.bugDataEntries.findIndex(bugDataEntries => bugDataEntries.dataEntryId.entryDate === entryDate)
+                if (~entryIndex)
+                    this.bugDataEntries.splice(entryIndex, 1)
               })            
         }
     },

@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import router from '@/router'
-
 export default {
     name: 'ListTestDataEntries',
     data() {
@@ -57,9 +55,10 @@ export default {
                 }
               })
               .then(() => {
-                this.fetch(this.projectName)
-                router.push({ name: 'ListTestDataEntries' })
-              })
+                const entryIndex = this.testDataEntries.findIndex(testDataEntries => testDataEntries.dataEntryId.entryDate === entryDate)
+                if (~entryIndex)
+                    this.testDataEntries.splice(entryIndex, 1)
+              }) 
         }
     },
     mounted() {
