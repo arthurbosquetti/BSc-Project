@@ -11,7 +11,6 @@ import Chart from "chart.js/auto"
 
 export default {
     name: 'GraphsTestDataEntries',
-    components: {},
     data() {
         return {
             projectName: null,
@@ -25,8 +24,8 @@ export default {
         await this.fetch(this.projectName)
         this.dailyTrendData = this.generateGraphData(1)
         this.weeklyTrendData = this.generateGraphData(7)
-        this.renderChart("dailyTrend", this.dailyTrendData, "SV FFT Daily Trends for " + this.projectName)
-        this.renderChart("weeklyTrend", this.weeklyTrendData, "SV FFT Weekly Trends for " + this.projectName)
+        this.renderChart("dailyTrend", this.dailyTrendData, "SV FFT Daily Trend for " + this.projectName)
+        this.renderChart("weeklyTrend", this.weeklyTrendData, "SV FFT Weekly Trend for " + this.projectName)
     },
     methods: {
         async fetch(projectName) {
@@ -46,15 +45,16 @@ export default {
             let target95Dataset = []
 
             for (let i = 0; i < this.testDataEntries.length; i += dayInterval) {
-                let entryDate = this.testDataEntries[i]["dataEntryId"]["entryDate"]
+                let testDataEntry = this.testDataEntries[i]
+                let entryDate = testDataEntry["dataEntryId"]["entryDate"]
                 labels.push(entryDate)
 
-                testsPassedDataset.push(this.testDataEntries[i]["testsPassed"])
-                testsFailedDataset.push(this.testDataEntries[i]["testsFailed"])
-                testsBlockedDataset.push(this.testDataEntries[i]["testsBlocked"])
-                testsNotCompletedDataset.push(this.testDataEntries[i]["testsNotCompleted"])
-                testsNoRunDataset.push(this.testDataEntries[i]["testsNoRun"])
-                target95Dataset.push(this.testDataEntries[i]["target95"])
+                testsPassedDataset.push(testDataEntry["testsPassed"])
+                testsFailedDataset.push(testDataEntry["testsFailed"])
+                testsBlockedDataset.push(testDataEntry["testsBlocked"])
+                testsNotCompletedDataset.push(testDataEntry["testsNotCompleted"])
+                testsNoRunDataset.push(testDataEntry["testsNoRun"])
+                target95Dataset.push(testDataEntry["target95"])
             }
             
             let datasets = [] 
