@@ -6,23 +6,23 @@
             <tr>
                 <th></th>
                 <th></th>
-                <th colspan="5">Open Bugs</th>
-                <th colspan="5">Fixed Bugs (not verified)</th>
-                <th rowspan="2" style="vertical-align : middle;text-align:center;">Delete Entry</th>
+                <th colspan="5"><h5>Open Bugs</h5></th>
+                <th colspan="5"><h5>Fixed Bugs (not verified)</h5></th>
+                <th rowspan="2" style="vertical-align : middle;text-align:center;"><h5>Delete Entry</h5></th>
             </tr>
             <tr>
-                <th>Date</th>
-                <th>SW Version</th>
-                <th>Blocker Bugs</th>
-                <th>Critical Bugs</th>
-                <th>Major Bugs</th>
-                <th>Minor Bugs</th>
-                <th>Trivial Bugs</th>
-                <th>Blocker Bugs</th>
-                <th>Critical Bugs</th>
-                <th>Major Bugs</th>
-                <th>Minor Bugs</th>
-                <th>Trivial Bugs</th>
+                <th><h5>Date</h5></th>
+                <th><h5>SW Version</h5></th>
+                <th><h5>Blocker Bugs</h5></th>
+                <th><h5>Critical Bugs</h5></th>
+                <th><h5>Major Bugs</h5></th>
+                <th><h5>Minor Bugs</h5></th>
+                <th><h5>Trivial Bugs</h5></th>
+                <th><h5>Blocker Bugs</h5></th>
+                <th><h5>Critical Bugs</h5></th>
+                <th><h5>Major Bugs</h5></th>
+                <th><h5>Minor Bugs</h5></th>
+                <th><h5>Trivial Bugs</h5></th>
             </tr>
             </thead>
             <tbody>

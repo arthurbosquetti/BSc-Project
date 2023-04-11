@@ -81,7 +81,7 @@ export default {
                     "backgroundColor": "rgba(207, 63, 88, 1)"
                 },
                 {
-                    "label": "Fixed (Not Closed) " + graphAcronym,
+                    "label": "Fixed (not verified) " + graphAcronym,
                     "data": fixedBugTrend,
                     "backgroundColor": "rgba(159, 207, 63, 1)",
                 })                

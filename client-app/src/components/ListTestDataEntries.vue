@@ -4,17 +4,17 @@
         <table class="table table-bordered table-striped">
             <thead class="table-secondary header">
             <tr>
-                <th>Date</th>
-                <th>Tests Passed</th>
-                <th>Tests Failed</th>
-                <th>Tests Blocked</th>
-                <th>Tests No Run</th>
-                <th>Tests Not Completed</th>
-                <th>Total Tests</th>
-                <th>95% Target</th>
-                <th>Left to 95% Target</th>
-                <th>Pass Rate</th>
-                <th>Delete Entry</th>
+                <th><h5>Date</h5></th>
+                <th><h5>Tests Passed</h5></th>
+                <th><h5>Tests Failed</h5></th>
+                <th><h5>Tests Blocked</h5></th>
+                <th><h5>Tests No Run</h5></th>
+                <th><h5>Tests Not Completed</h5></th>
+                <th><h5>Total Tests</h5></th>
+                <th><h5>95% Target</h5></th>
+                <th><h5>Left to 95% Target</h5></th>
+                <th><h5>Pass Rate</h5></th>
+                <th><h5>Delete Entry</h5></th>
             </tr>
             </thead>
             <tbody>
