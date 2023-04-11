@@ -52,7 +52,7 @@ public class DataEntryId implements Serializable {
 
 	@Override
 	public String toString() {
-		return "{" + projectName + ", " + entryDate + "}";
+		return "{" + entryDate + ", " + projectName + "}";
 	}
 
 }

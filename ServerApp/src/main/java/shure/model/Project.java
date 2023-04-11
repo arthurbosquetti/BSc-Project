@@ -1,13 +1,13 @@
 package shure.model;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -28,6 +28,9 @@ public class Project {
 	@Column
 	private String fftDeadline;
 
+	@ElementCollection
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<String> componentsList;
 	@OneToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<TestDataEntry> testDataEntries;
@@ -43,6 +46,10 @@ public class Project {
 		this.name = name;
 	}
 
+	public String getNittanyUrl() {
+		return nittanyUrl;
+	}
+	
 	public void setNittanyUrl(String nittanyUrl) {
 		try {
 			NittanyUrlReader reader = new NittanyUrlReader(nittanyUrl);
@@ -61,6 +68,16 @@ public class Project {
 		this.fftDeadline = fftDeadline;
 	}
 
+	public List<String> getComponentsList() {
+		return componentsList;
+	}
+	
+	public void setComponentsList(List<String> componentsList) {
+		for (String component : componentsList) {
+			this.componentsList.add(component.toLowerCase());
+		}
+	}
+		
 	public List<TestDataEntry> getTestDataEntries() {
 		return testDataEntries;
 	}
@@ -75,10 +92,6 @@ public class Project {
 
 	public void setBugDataEntries(ArrayList<BugDataEntry> bugDataEntries) {
 		this.bugDataEntries = bugDataEntries;
-	}
-
-	public String getNittanyUrl() {
-		return nittanyUrl;
 	}
 
 	public boolean addDataEntry(TestDataEntry testDataEntry) {

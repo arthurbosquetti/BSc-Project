@@ -3,6 +3,7 @@ package shure.model;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +44,7 @@ public class BugDataEntry extends DataEntry {
 		super(dataEntryId);
 	}
 
-	public BugDataEntry(String projectName, String swVersion, JSONArray allBugs) {
+	public BugDataEntry(String projectName, String swVersion, JSONArray allBugs, List<String> projectComponentsList) {
 		Date date = new Date();
 		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		String entryDate = localDate.getYear() + "-" + String.format("%02d", localDate.getMonthValue()) + "-"
@@ -51,8 +52,20 @@ public class BugDataEntry extends DataEntry {
 
 		setDataEntryId(new DataEntryId(entryDate, projectName));
 		this.swVersion = swVersion;
+		
 		for (int i = 0; i < allBugs.length(); i++) {
 			JSONObject entryJsonObject = allBugs.getJSONObject(i);
+			
+			JSONArray entryComponentsList = entryJsonObject.getJSONArray("componentsList");
+			boolean entryHasRelevantComponent = false;
+			for (int j = 0; j < entryComponentsList.length(); j++) {
+				if (projectComponentsList.contains(entryComponentsList.getString(j).toLowerCase())) {
+					entryHasRelevantComponent = true;
+					break;
+				}
+			}
+			if (!entryHasRelevantComponent) continue;
+			
 			String severity = entryJsonObject.getString("severity");
 			String status = entryJsonObject.getString("status");
 
