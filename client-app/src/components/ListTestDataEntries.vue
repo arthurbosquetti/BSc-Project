@@ -1,8 +1,8 @@
 <template>
     <div>
         <h2>Test data for {{ projectName }}</h2>
-        <table id="testDataEntryTable" class="table table-bordered table-striped">
-            <thead>
+        <table class="table table-bordered table-striped">
+            <thead class="table-secondary header">
             <tr>
                 <th>Date</th>
                 <th>Tests Passed</th>
@@ -13,6 +13,7 @@
                 <th>Total Tests</th>
                 <th>95% Target</th>
                 <th>Left to 95% Target</th>
+                <th>Pass Rate</th>
                 <th>Delete Entry</th>
             </tr>
             </thead>
@@ -20,7 +21,8 @@
                 <tr v-bind:key="entry.name"
                     v-for="entry in testDataEntries">
                     <td>{{ entry['dataEntryId']['entryDate']}}</td>
-                    <td v-for="field in fields" :key='field'>{{ entry[field] }}</td>   
+                    <td v-for="field in fields" :key='field'>{{ entry[field] }}</td>
+                    <td>{{ (Number(entry['testsPassed'])/Number(entry['totalTests'])*100).toFixed(2) }} %</td>   
                     <td><button @click="deleteButton(entry['dataEntryId']['entryDate'])">Delete Entry</button></td>                       
                 </tr>
             </tbody>
@@ -69,3 +71,12 @@ export default {
 }
 
 </script>
+
+<style>
+
+.header{
+        position:sticky;
+        top: 0 ;
+    }
+
+</style>

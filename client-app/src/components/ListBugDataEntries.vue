@@ -1,13 +1,14 @@
 <template>
     <div>
         <h2>Bug data for {{ projectName }}</h2>
-        <table id="bugDataEntryTable" class="table table-bordered table-striped">
-            <thead>
+        <table class="table table-bordered table-striped">
+            <thead class="table-secondary header">
             <tr>
                 <th></th>
                 <th></th>
                 <th colspan="5">Open Bugs</th>
                 <th colspan="5">Fixed Bugs (not verified)</th>
+                <th rowspan="2" style="vertical-align : middle;text-align:center;">Delete Entry</th>
             </tr>
             <tr>
                 <th>Date</th>
@@ -22,7 +23,6 @@
                 <th>Major Bugs</th>
                 <th>Minor Bugs</th>
                 <th>Trivial Bugs</th>
-                <th>Delete Entry</th>
             </tr>
             </thead>
             <tbody>
@@ -78,3 +78,12 @@ export default {
 }
 
 </script>
+
+<style>
+
+.header{
+        position:sticky;
+        top: 0 ;
+    }
+
+</style>
