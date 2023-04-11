@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import shure.utilities.JsonReader;
+import shure.utilities.NittanyUrlReader;
 
 @Entity
 public class Project {
@@ -45,7 +45,7 @@ public class Project {
 
 	public void setNittanyUrl(String nittanyUrl) {
 		try {
-			JsonReader reader = new JsonReader(new URL(nittanyUrl));
+			NittanyUrlReader reader = new NittanyUrlReader(nittanyUrl);
 			if (reader.readUrl()) {
 				this.nittanyUrl = nittanyUrl;
 			}

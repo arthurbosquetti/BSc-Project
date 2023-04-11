@@ -40,6 +40,10 @@ public class MissingProjectDataFiller {
 	}
 
 	private void fillMissingTestDataEntries(Project project) {
+		if (project.getTestDataEntries().isEmpty()) {
+			return;
+		}
+		
 		String startDateString = project.getTestDataEntries().get(0).getDataEntryId().getEntryDate();
 		String endDateString = project.getTestDataEntries().get(project.getTestDataEntries().size() - 1)
 				.getDataEntryId().getEntryDate();
@@ -62,6 +66,10 @@ public class MissingProjectDataFiller {
 	}
 
 	private void fillMissingBugDataEntries(Project project) {
+		if (project.getBugDataEntries().isEmpty()) {
+			return;
+		}
+		
 		String startDateString = project.getBugDataEntries().get(0).getDataEntryId().getEntryDate();
 		String endDateString = project.getBugDataEntries().get(project.getBugDataEntries().size() - 1).getDataEntryId()
 				.getEntryDate();
