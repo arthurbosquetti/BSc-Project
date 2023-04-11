@@ -3,7 +3,6 @@ package shure.utilities;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +24,8 @@ public class MissingProjectDataFiller {
 	@Autowired
 	private BugDataEntriesRepository repositoryBugDataEntries;
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void onStartup() {
+	@EventListener(FillMissingProjectDataEvent.class)
+	public void onEvent() {
 		fillMissingProjectData();
 	}
 

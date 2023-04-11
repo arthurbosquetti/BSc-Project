@@ -2,11 +2,11 @@ package shure.utilities;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,23 +25,30 @@ public class ProjectDataUpdator {
 	private TestDataEntriesRepository repositoryTestDataEntries;
 	@Autowired
 	private BugDataEntriesRepository repositoryBugDataEntries;
-
-	@Scheduled(fixedDelay = 1000 * 60 * 60, initialDelay = 1000 * 60 * 5)
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
+	private boolean eventPublished;
+	
+	@Scheduled(fixedDelay = 1000 * 60 * 60 * 2, initialDelay = 1000 * 30)
 	public void onSchedule() throws MalformedURLException, IOException {
 		updateProjects();
+		if (!eventPublished) {
+			eventPublisher.publishEvent(new FillMissingProjectDataEvent());
+			eventPublished = true;
+		}
 	}
 	
 	private void updateProjects() throws MalformedURLException, IOException {
 		System.out.println("Running project data updates:");
 		for (Project project : repositoryProjects.findAll()) {
 			System.out.println("Fetching data for " + project.getName() + "...");
-			JsonReader reader = new JsonReader(new URL(project.getNittanyUrl()));
+			NittanyUrlReader reader = new NittanyUrlReader(project.getNittanyUrl());
 			if (reader.readUrl()) {
 				updateTestDataEntries(project, reader.getJson());
 				updateBugDataEntries(project, reader.getJson());
 				repositoryProjects.save(project);
 			}
-			
+
 		}
 	
 	}
@@ -61,8 +68,8 @@ public class ProjectDataUpdator {
 
 	private void updateBugDataEntries(Project project, JSONObject nittanyData) {
 		JSONArray allBugs = nittanyData.getJSONArray("all_bugs");
-		String swVersion = nittanyData.getString("release_name");
 		if (!allBugs.isEmpty()) {
+			String swVersion = nittanyData.getString("release_name");
 			BugDataEntry newBugDataEntry = new BugDataEntry(project.getName(), swVersion, allBugs);
 			if (project.addDataEntry(newBugDataEntry)) {
 				repositoryBugDataEntries.save(newBugDataEntry);

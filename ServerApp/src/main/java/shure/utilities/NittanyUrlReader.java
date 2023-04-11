@@ -36,15 +36,3 @@ public class NittanyUrlReader {
 	}
 
 }
-
-/*
-NITTANY URL: http://nittany.shure.com/  report/  			Hermes/%25$Releases%25$5.0.X%25$MXA902%25$FFT	;cached=false
-API 	URL: http://nittany.shure.com/  api/giftedReport/	Hermes/%25$Releases%25$5.0.X%25$MXA902%25$FFT	/live/noFilter
-
-NITTANY URL: http://nittany.shure.com/	report/				Hermes/%25$Releases%25$5.0.X%25$MXA902%25$FFT	;cached=true
-API     URL: http://nittany.shure.com/	api/giftedReport/	Hermes/%25$Releases%25$5.0.X%25$MXA902%25$FFT	/cached/noFilter
-
-
-
-
-*/
