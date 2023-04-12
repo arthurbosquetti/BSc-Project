@@ -157,8 +157,14 @@ definitions:
     properties:
       name:
         type: "string"
+      nittanyUrl:
+        type: "string"
       fftDeadline:
         type: "string"
+      componentsList:
+        type: "array"
+        items: 
+          type: "string"
       testData:
         type: "array"
         items:
