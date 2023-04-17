@@ -29,7 +29,7 @@ public class ProjectDataUpdator {
 	private ApplicationEventPublisher eventPublisher;
 	private boolean eventPublished;
 	
-	@Scheduled(fixedDelay = 1000 * 60 * 60 * 2, initialDelay = 1000 * 30)
+	@Scheduled(fixedDelay = 1000 * 60 * 60 * 2, initialDelay = 1000 * 60)
 	public void onSchedule() throws MalformedURLException, IOException {
 		updateProjects();
 		if (!eventPublished) {
@@ -70,7 +70,7 @@ public class ProjectDataUpdator {
 		JSONArray allBugs = nittanyData.getJSONArray("all_bugs");
 		if (!allBugs.isEmpty()) {
 			String swVersion = nittanyData.getString("release_name");
-			BugDataEntry newBugDataEntry = new BugDataEntry(project.getName(), swVersion, allBugs);
+			BugDataEntry newBugDataEntry = new BugDataEntry(project.getName(), swVersion, allBugs, project.getComponentsList());
 			if (project.addDataEntry(newBugDataEntry)) {
 				repositoryBugDataEntries.save(newBugDataEntry);
 			}
