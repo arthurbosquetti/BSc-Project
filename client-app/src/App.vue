@@ -57,11 +57,11 @@ export default {
   },
   methods: {
     refresh() {
-      this.axios
+      this.$axios
         .get(this.$backend.getUrlProjectList())
         .then(res => {
           this.projects = res.data
-          router.push({ name: 'ListProject' })
+          router.push({ name: 'ListProject' }).catch(() => {})
       })
     },
   },

@@ -26,7 +26,7 @@ export default {
     methods: {
         submitForm() {
             this.displayLoadingMessage()
-            this.axios.post(this.$backend.getUrlPostProject(), this.form)
+            this.$axios.post(this.$backend.getUrlPostProject(), this.form)
               .catch(function (error) {
                 if (error.response) {
                     window.alert(error.response.data);

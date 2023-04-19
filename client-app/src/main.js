@@ -1,14 +1,18 @@
 import axios from 'axios'
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import Backend from './services/backend'
 import router from './router'
 import "bootstrap/dist/css/bootstrap.min.css";
+import VueRouter from 'vue-router'
 
-const app = createApp(App)
+Vue.use(VueRouter)
 
-app.use(router)
-app.config.globalProperties.axios = axios
-app.config.globalProperties.$backend = new Backend()
+Vue.prototype.$axios = axios
+Vue.prototype.$backend = new Backend()
 
-app.mount('#app')
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app')
+

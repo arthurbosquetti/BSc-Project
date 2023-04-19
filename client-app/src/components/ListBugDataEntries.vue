@@ -49,14 +49,14 @@ export default {
     },
     methods: {
         fetch(projectName) {
-            this.axios
+            this.$axios
               .get(this.$backend.getUrlProjectBugDataList(projectName))
               .then(res => {
                 this.bugDataEntries = res.data
               })
         },
         deleteButton(entryDate) {
-            this.axios
+            this.$axios
               .delete(this.$backend.getUrlDeleteBugDataEntry(this.projectName, entryDate))
               .catch(function (error) {
                 if (error.response) {

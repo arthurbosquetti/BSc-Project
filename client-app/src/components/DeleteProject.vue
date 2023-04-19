@@ -22,7 +22,7 @@ export default {
     },
     methods: {
         deleteForm() {
-            this.axios
+            this.$axios
               .delete(this.$backend.getUrlDeleteProject(this.form.name))
               .catch(function (error) {
                 if (error.response) {

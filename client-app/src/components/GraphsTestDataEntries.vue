@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         async fetch(projectName) {
-            await this.axios.get(this.$backend.getUrlProjectTestDataList(projectName))
+            await this.$axios.get(this.$backend.getUrlProjectTestDataList(projectName))
             .then(res => {
                 this.testDataEntries = res.data
               })

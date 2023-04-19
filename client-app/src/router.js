@@ -1,5 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
-
+import VueRouter from 'vue-router'
 import ListProject from './components/ListProject.vue'
 import AddProject from './components/AddProject.vue'
 import DeleteProject from './components/DeleteProject.vue'
@@ -47,8 +46,8 @@ const routes = [
     
 ]
 
-const router = createRouter({
-    history: createWebHistory(),
+const router = new VueRouter({
+    mode: "history",
     routes: routes,
     linkActiveClass: 'active'
 })
