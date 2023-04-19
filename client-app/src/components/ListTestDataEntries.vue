@@ -23,9 +23,10 @@ export default {
                 'testsBlocked',
                 'testsNoRun',
                 'testsNotCompleted',
-                'totalTests',
+                'passRate',
                 { key: 'target95', label: "95% Goal"},
-                { key: 'leftToTarget', label: "Left to 95% Goal"}
+                { key: 'leftToTarget', label: "Left to 95% Goal"},
+                'totalTests'
         ]
         }
     },
@@ -61,9 +62,10 @@ export default {
                     'testsBlocked': this.testDataEntries[i]['testsBlocked'],
                     'testsNoRun': this.testDataEntries[i]['testsNoRun'],
                     'testsNotCompleted': this.testDataEntries[i]['testsNotCompleted'],
-                    'totalTests': this.testDataEntries[i]['totalTests'],
+                    'passRate': parseFloat(this.testDataEntries[i]['testsPassed']/this.testDataEntries[i]['totalTests'] * 100).toFixed(2) + "%",
                     'target95': this.testDataEntries[i]['target95'],
-                    'leftToTarget': this.testDataEntries[i]['leftToTarget']
+                    'leftToTarget': this.testDataEntries[i]['leftToTarget'],
+                    'totalTests': this.testDataEntries[i]['totalTests']
                 })
             }
 

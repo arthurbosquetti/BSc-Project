@@ -8,6 +8,17 @@
             <button>Submit</button><br>
         </form>
         <p id="form-submitted"></p>
+        <p>It could be a good idea to add something like this to make the loading process more realistic</p>
+        <b-button variant="primary" disabled>
+            <b-spinner small></b-spinner>
+            <span class="sr-only">Loading...</span>
+        </b-button>
+
+        <b-button variant="primary" disabled>
+            <b-spinner small type="grow"></b-spinner>
+            Loading...
+        </b-button>
+        <p>I should also change the components here to use bootstrap-vue</p>
     </div>
 </template>
 
