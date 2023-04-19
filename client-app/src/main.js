@@ -3,10 +3,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import Backend from './services/backend'
 import router from './router'
-import "bootstrap/dist/css/bootstrap.min.css";
 import VueRouter from 'vue-router'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(VueRouter)
+Vue.use(BootstrapVue)
 
 Vue.prototype.$axios = axios
 Vue.prototype.$backend = new Backend()

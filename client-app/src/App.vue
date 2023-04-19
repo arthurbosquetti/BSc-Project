@@ -1,11 +1,14 @@
 <template>
   <div>
-    <img src="./assets/shure_logo.png" style="max-width:400px;max-height:100px;">
-    <h1>Project Management</h1>
-
+    <!-- <img src="./assets/shure_logo.png" style="max-width:400px;max-height:100px;"> -->
+    <h1 class="display-3">A management tool for planning and tracking project status</h1>
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <!-- <b-navbar-brand href=https://shure.sharepoint.com/sites/frequency>
+          <img src="./assets/logo.png" class="d-inline-block align-top" alt="Shure" style="max-width:30px;max-height:30px;">
+          Shure
+      </b-navbar-brand> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -20,12 +23,7 @@
               <router-link :to="{ name: 'DeleteProject' }" class="nav-link">Delete Project</router-link>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-3" type="search" placeholder="Search Projects" aria-label="Search">
-            <button class="btn btn-outline-light me-3" type="submit">Search</button>
-          </form>
         </div>
-      </div>
     </nav>
 
     <!-- <h2>Options</h2>
@@ -77,13 +75,18 @@ export default {
   font-family: "Segoe UI", sans-serif;
 }
 
-nav div ul li .nav-link {
+nav ul li .nav-link {
   color: #FFF;
   padding: 10px;
   white-space: nowrap;
   border-bottom: 5px solid transparent;
   display: flex;
   transition: 0.4s;
+}
+
+nav .navbar-brand {
+  white-space: nowrap;
+  border-bottom: 5px solid transparent;
 }
 
 nav .nav-link.active,
