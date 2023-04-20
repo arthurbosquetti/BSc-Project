@@ -9,7 +9,9 @@
              <router-link :to="{ name: 'GraphsTestDataEntries', params: { projectName: p.name }}">Test data entries (Graphs)</router-link> -
              <router-link :to="{ name: 'GraphsBugDataEntries', params: { projectName: p.name }}">Bug data entries (Graphs)</router-link> -
              <router-link :to="{ name: 'ListTestDataEntries', params: { projectName: p.name }}">Test data entries (Raw)</router-link> -
-             <router-link :to="{ name: 'ListBugDataEntries', params: { projectName: p.name }}">Bug data entries (Raw)</router-link>
+             <router-link :to="{ name: 'ListBugDataEntries', params: { projectName: p.name }}">Bug data entries (Raw)</router-link> -
+             {{ p.status }} -
+            {{ p.nittanyUrl }}
             </li>
         </ul>
         <p>One easy way of displaying project status:</p>
