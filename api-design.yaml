@@ -161,6 +161,14 @@ definitions:
         type: "string"
       fftDeadline:
         type: "string"
+      status:
+        type: "string"
+        enum:
+          - UNDEFINED
+          - CRITICAL
+          - BEHIND
+          - ON_TRACK
+          - AHEAD
       componentsList:
         type: "array"
         items: 
