@@ -4,10 +4,9 @@
     <h1 class="display-3">A management tool for planning and tracking project status</h1>
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <!-- <b-navbar-brand href=https://shure.sharepoint.com/sites/frequency>
-          <img src="./assets/logo.png" class="d-inline-block align-top" alt="Shure" style="max-width:30px;max-height:30px;">
+      <b-navbar-brand href=https://shure.sharepoint.com/sites/frequency>
           Shure
-      </b-navbar-brand> -->
+      </b-navbar-brand>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -25,13 +24,6 @@
           </ul>
         </div>
     </nav>
-
-    <!-- <h2>Options</h2>
-    <ol>
-      <li><router-link :to="{ name: 'ListProject' }" >View list of projects currently tracked</router-link></li>
-      <li><router-link :to="{ name: 'AddProject' }">Track new project</router-link></li>
-      <li><router-link :to="{ name: 'DeleteProject' }">Delete a project and all its data</router-link></li>
-    </ol> -->
 
     <router-view
       :projects="this.projects"

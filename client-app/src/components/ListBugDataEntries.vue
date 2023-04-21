@@ -3,7 +3,7 @@
         <h2>Bug data for {{ projectName }}</h2>
         <p><b>Number of entries: </b> {{ bugDataEntries.length }}</p>
         <div class="w-75">
-            <b-table striped small bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
+            <b-table striped bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
         </div>
     </div>
 </template>
@@ -40,20 +40,6 @@ export default {
                 this.bugDataEntries = res.data
               })
         },
-        // deleteButton(entryDate) {
-        //     this.$axios
-        //       .delete(this.$backend.getUrlDeleteBugDataEntry(this.projectName, entryDate))
-        //       .catch(function (error) {
-        //         if (error.response) {
-        //             window.alert(error.response.data);
-        //         }
-        //       })
-        //       .then(() => {
-        //         const entryIndex = this.bugDataEntries.findIndex(bugDataEntries => bugDataEntries.dataEntryId.entryDate === entryDate)
-        //         if (~entryIndex)
-        //             this.bugDataEntries.splice(entryIndex, 1)
-        //       })            
-        // },
         generateTableItems() {
             let items = []
             for (let i = 0; i < this.bugDataEntries.length; i++) {
@@ -72,7 +58,6 @@ export default {
                     'fixedTrivialBugs': this.bugDataEntries[i]['fixedTrivialBugs'],
                 })
             }
-
             return items
         }
     },

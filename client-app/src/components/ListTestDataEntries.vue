@@ -3,7 +3,7 @@
         <h2>Test data for {{ projectName }}</h2>
         <p><b>Number of entries: </b> {{ testDataEntries.length }}</p>
         <div class="w-75">
-            <b-table striped small bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
+            <b-table striped bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
         </div>
     </div>
 </template>
@@ -38,20 +38,6 @@ export default {
                 this.testDataEntries = res.data
               })
         },
-        // deleteButton(entryDate) {
-        //     this.$axios
-        //       .delete(this.$backend.getUrlDeleteTestDataEntry(this.projectName, entryDate))
-        //       .catch(function (error) {
-        //         if (error.response) {
-        //             window.alert(error.response.data);
-        //         }
-        //       })
-        //       .then(() => {
-        //         const entryIndex = this.testDataEntries.findIndex(testDataEntries => testDataEntries.dataEntryId.entryDate === entryDate)
-        //         if (~entryIndex)
-        //             this.testDataEntries.splice(entryIndex, 1)
-        //       }) 
-        // }
         generateTableItems() {
             let items = []
             for (let i = 0; i < this.testDataEntries.length; i++) {
