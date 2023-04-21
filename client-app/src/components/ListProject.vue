@@ -1,113 +1,198 @@
 <template>
     <div>
-        <h2>List of projects currently tracked</h2>
-        <ul>
-            <li
-             v-bind:key="p.name"
-             v-for="p in sortProjects">
-             {{ p.name }} -
-             <router-link :to="{ name: 'GraphsTestDataEntries', params: { projectName: p.name }}">Test data entries (Graphs)</router-link> -
-             <router-link :to="{ name: 'GraphsBugDataEntries', params: { projectName: p.name }}">Bug data entries (Graphs)</router-link> -
-             <router-link :to="{ name: 'ListTestDataEntries', params: { projectName: p.name }}">Test data entries (Raw)</router-link> -
-             <router-link :to="{ name: 'ListBugDataEntries', params: { projectName: p.name }}">Bug data entries (Raw)</router-link> -
-             {{ p.status }} -
-            {{ p.nittanyUrl }}
-            </li>
-        </ul>
-        <p>One easy way of displaying project status:</p>
-        <b-badge variant="primary">Primary</b-badge>
-        <b-badge variant="secondary">Secondary</b-badge>
-        <b-badge variant="success">Success</b-badge>
-        <b-badge variant="danger">Danger</b-badge>
-        <b-badge variant="warning">Warning</b-badge>
-        <b-badge variant="info">Info</b-badge>
-        <b-badge variant="light">Light</b-badge>
-        <b-badge variant="dark">Dark</b-badge>
-        <p>This could be larger if I use buttons (should disable them):</p>
-        <b-button-group>
-        <b-button variant="primary">Primary</b-button>
-        <b-button variant="secondary">Secondary</b-button>
-        <b-button variant="success">Success</b-button>
-        <b-button variant="danger">Danger</b-button>
-        <b-button variant="warning">Warning</b-button>
-        <b-button variant="info">Info</b-button>
-        <b-button variant="light">Light</b-button>
-        <b-button variant="dark">Dark</b-button>
-        </b-button-group>
-        
-        <p>I could also use Modals to display relevant page information:</p>
-        <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+        <p class="vspace"></p>
+        <b-container fluid>
+            <b-row>
 
-        <b-modal id="modal-1" title="BootstrapVue">
-            <p class="my-4">Hello from modal!</p>
-        </b-modal>
-        <p>Yet another interesting component to showcase project progress</p>
-        <b-progress height="2rem" class="mt-2 w-50" :value="50" :max=100 show-progress animated></b-progress>
-        <b-progress height="2rem" class="mt-2 w-50" :max=100 show-value>
-            <b-progress-bar :value="50" variant="success"></b-progress-bar>
-            <b-progress-bar :value="35" variant="warning"></b-progress-bar>
-            <b-progress-bar :value="15" variant="danger"></b-progress-bar>
-        </b-progress>
-        <p>I would also like to create tabs to move around a project... something like this:</p>
-        <div>
-        <b-tabs content-class="mt-3">
-            <b-tab title="First" active><p>I'm the first tab</p></b-tab>
-            <b-tab title="Second"><p>I'm the second tab</p></b-tab>
-            <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
-        </b-tabs>
-        </div>
+                <!-- Filter -->
+                <b-col>
+                    <b-input-group size="md" class="mb-2">
+                        <b-input-group-prepend is-text>
+                            <b-icon icon="search" variant="dark"></b-icon>
+                        </b-input-group-prepend>
+                        <b-form-input
+                        id="filter-input"
+                        v-model="filter"
+                        type="search"
+                        placeholder="Type to Search"
+                        ></b-form-input>
+                    </b-input-group>
+                    
+                </b-col>
 
-        <b-tabs>
-            <b-tab active>
-            <template #title>
-                <b-spinner type="grow" small></b-spinner> I'm <i>custom</i> <strong>title</strong>
-            </template>
-            <p class="p-3">Tab contents 1</p>
-        </b-tab>
+                <!-- Filter on -->
+                <b-col class="text-center">
+                    <b-form-group
+                    class="mb-0"
+                    description="Leave all unchecked to filter on all data"
+                    >
+                    <b-form-checkbox-group
+                        v-model="filterOn"
+                        class="mt-1"
+                    >
+                        <b-form-checkbox value="name">Project Name</b-form-checkbox>
+                        <b-form-checkbox value="fftDeadline">FFT Deadline</b-form-checkbox>
+                        <b-form-checkbox value="status">Status</b-form-checkbox>
+                    </b-form-checkbox-group>
+                    </b-form-group>
+                </b-col>
+                                
+                <!-- Items per page -->
+                <b-col>
+                    <b-form-group
+                    label="Entries per page"
+                    label-for="per-page-select"
+                    label-cols-sm="6"
+                    label-cols-md="4"
+                    label-align-sm="right"
+                    label-size="md"
+                    class="mb-0 nowrap"
+                    >
+                        <b-form-select
+                            id="per-page-select"
+                            v-model="perPage"
+                            :options="pageOptions"
+                            size="md"
+                        ></b-form-select>
+                    </b-form-group>
+                </b-col>
 
-        <b-tab>
-            <template #title>
-                <b-spinner type="border" small></b-spinner> Tab 2
-            </template>
-            <p class="p-3">Tab contents 2</p>
-            </b-tab>
-        </b-tabs>
-        Lazy loading of tabs could be an efficient way of doing this..
-        <b-tabs content-class="mt-3" lazy>
-            <b-tab title="Tab 1"><b-alert show>I'm lazy mounted!</b-alert></b-tab>
-            <b-tab title="Tab 2"><b-alert show>I'm lazy mounted too!</b-alert></b-tab>
-        </b-tabs>
+                <!-- Pagination -->
+                <b-col>
+                    <b-pagination
+                    v-model="currentPage"
+                    :total-rows="totalRows"
+                    :per-page="perPage"
+                    align="fill"
+                    size="md"
+                    class="my-0"
+                    >
+                        <template #first-text><b-icon icon="chevron-double-left"></b-icon></template>
+                        <template #prev-text><b-icon icon="chevron-left"></b-icon></template>
+                        <template #next-text><b-icon icon="chevron-right"></b-icon></template>
+                        <template #last-text><b-icon icon="chevron-double-right"></b-icon></template>
+                    </b-pagination>
+                </b-col>
 
+
+            </b-row>
+            
+            <p class="vspace"></p>
+
+            <b-table
+            :items="items"
+            :fields="fields"
+            :current-page="currentPage"
+            :per-page="perPage"
+            :filter="filter"
+            :filter-included-fields="filterOn"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            striped
+            bordered
+            sticky-header="600px" 
+            show-empty
+            @filtered="onFiltered"
+            hover
+            selectable
+            @row-selected="onRowSelected"
+            class="w-75">
+            </b-table>
+        </b-container>        
     </div>
 
 </template>
 
 
 <script>
+import router from '@/router'
+
 export default {
     name: 'ListProject',
-    props: ['projects'],
+    // props: ['projects'],
     data() {
         return {
-            form: {
-                name: ""
-            }
+            projects: [],
+            items: [],
+            fields: [
+                { key: 'name', label: 'Project Name', sortable: true, sortDirection: 'desc' },
+                { key: 'fftDeadline', label: 'FFT Deadline', sortable: true},
+                { key: 'status', sortable: true}
+            ],
+            totalRows: 1,
+            currentPage: 1,
+            perPage: 10,
+            pageOptions: [10, 25, 50, 100],
+            sortBy: '',
+            sortDesc: false,
+            sortDirection: 'asc',
+            filter: null,
+            filterOn: []
         }
     },
-  computed: {
-    sortProjects() {
-        function compare(a,b) {
-            if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                return -1
-            }
-            if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                return 1
-            }
-            return 0
+    computed: {
+        sortOptions() {
+            return this.fields
+            .filter(f => f.sortable)
+            .map(f => {
+                return { text: f.label, value: f.key }
+            })
         }
-      return [...this.projects].sort(compare)
+    },
+    async mounted() {
+        await this.fetch()
+        this.items = this.generateTableItems()
+        this.totalRows = this.items.length
+    },
+    methods: {
+        async fetch() {
+            await this.$axios
+                .get(this.$backend.getUrlProjectList())
+                .then(res => {
+                this.projects = res.data
+            })
+        },
+        generateTableItems() {
+            let items = []
+            for (let i = 0; i < this.projects.length; i++) {
+                items.push({
+                    'name': this.projects[i]['name'],
+                    'fftDeadline': this.projects[i]['fftDeadline'],
+                    'status': this.projects[i]['status']
+                })
+            }
+
+            return items
+        },
+        onFiltered(filteredItems) {
+            this.totalRows = filteredItems.length
+            this.currentPage = 1
+        },
+        onRowSelected(items) {
+            router.push({
+                name: 'ListBugDataEntries',
+                params: {projectName: items[0].name}
+            })
+        }
     }
-  }
 }
 
 </script>
+
+<style>
+
+.nowrap {
+  white-space: nowrap;
+}
+
+div .container-fluid {
+    padding: 0px;
+}
+
+.vspace {
+     margin-bottom: 15px;
+  }
+
+
+</style>

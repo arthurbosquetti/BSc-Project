@@ -55,24 +55,28 @@ export default {
   },
   methods: {
     refresh() {
-      this.$axios
-        .get(this.$backend.getUrlProjectList())
-        .then(res => {
-          this.projects = res.data
-          router.push({ name: 'ListProject' }).catch(() => {})
-      })
+      // this.$axios
+      //   .get(this.$backend.getUrlProjectList())
+      //   .then(res => {
+      //     this.projects = res.data
+      //     router.push({ name: 'ListProject' }).catch(() => {})
+      // })
+      router.push({ name: 'ListProject' }).catch(() => {})
     },
   },
   mounted() {
-    this.refresh()
+    // this.refresh()
   }
 }
 </script>
 
 <style>
 * {
-  margin:0.15%;
   font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  padding:15px;
 }
 
 nav ul li .nav-link {
