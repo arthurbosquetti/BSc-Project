@@ -4,14 +4,21 @@
     <h1 class="display-3">A management tool for planning and tracking project status</h1>
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <b-navbar-brand href=https://shure.sharepoint.com/sites/frequency>
+      <!-- <b-navbar-brand href=https://shure.sharepoint.com/sites/frequency>
+          <img src="./assets/logo.png" class="d-inline-block align-top" alt="Shure" style="max-width:30px;max-height:30px;">
           Shure
-      </b-navbar-brand>
+      </b-navbar-brand> -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <router-link :to="{ name: 'HomePage' }" class="nav-link">Home</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'ReleaseNotes' }" class="nav-link">Release Notes</router-link>
+            </li>
             <li class="nav-item">
               <router-link :to="{ name: 'ListProject' }" class="nav-link">All Projects</router-link>
             </li>
@@ -27,8 +34,8 @@
 
     <router-view
       :projects="this.projects"
-      @new-project="refresh"
-      @project-deleted="refresh"/>
+      @new-project="render"
+      @project-deleted="render"/>
 
   </div>
 </template>
@@ -46,18 +53,12 @@ export default {
     }
   },
   methods: {
-    refresh() {
-      // this.$axios
-      //   .get(this.$backend.getUrlProjectList())
-      //   .then(res => {
-      //     this.projects = res.data
-      //     router.push({ name: 'ListProject' }).catch(() => {})
-      // })
-      router.push({ name: 'ListProject' }).catch(() => {})
-    },
+    render() {
+      router.push({ name: 'HomePage' }).catch(() => {})
+    }
   },
   mounted() {
-    // this.refresh()
+    this.render()
   }
 }
 </script>
@@ -82,7 +83,7 @@ nav ul li .nav-link {
 
 nav .navbar-brand {
   white-space: nowrap;
-  border-bottom: 5px solid transparent;
+  border-bottom: 9px solid transparent;
 }
 
 nav .nav-link.active,

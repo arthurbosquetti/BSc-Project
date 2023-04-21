@@ -6,8 +6,20 @@ import ListTestDataEntries from './components/ListTestDataEntries.vue'
 import ListBugDataEntries from './components/ListBugDataEntries.vue'
 import GraphsTestDataEntries from './components/GraphsTestDataEntries.vue'
 import GraphsBugDataEntries from './components/GraphsBugDataEntries.vue'
+import HomePage from './components/HomePage.vue'
+import ReleaseNotes from './components/ReleaseNotes.vue'
 
 const routes = [
+    {
+        path: '/home',
+        component: HomePage,
+        name: 'HomePage',
+    },
+    {
+        path: '/release-notes',
+        component: ReleaseNotes,
+        name: 'ReleaseNotes'
+    },
     {
         path: '/list-projects',
         component: ListProject,
