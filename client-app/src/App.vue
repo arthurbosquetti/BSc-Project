@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- <img src="./assets/shure_logo.png" style="max-width:400px;max-height:100px;"> -->
-    <h1 class="display-3">A management tool for planning and tracking project status</h1>
+    <!-- <img src="./assets/shure_logo.png" style="max-width:400px;max-height:100px;">
+    <h1 class="display-3">A management tool for planning and tracking project status</h1> -->
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <!-- <b-navbar-brand href=https://shure.sharepoint.com/sites/frequency>
@@ -31,11 +31,11 @@
           </ul>
         </div>
     </nav>
+    <p></p>
 
     <router-view
-      :projects="this.projects"
-      @new-project="render"
-      @project-deleted="render"/>
+      @new-project="refreshProjects"
+      @project-deleted="refreshProjects"/>
 
   </div>
 </template>
@@ -45,20 +45,11 @@
 import router from './router'
 
 export default {
-  name: 'App',
-  components: { },
-  data() {
-    return {
-      projects: []
-    }
-  },
+  name: 'App',  
   methods: {
-    render() {
-      router.push({ name: 'HomePage' }).catch(() => {})
+    refreshProjects() {
+      router.push({ name: 'ListProject' }).catch(() => {})
     }
-  },
-  mounted() {
-    this.render()
   }
 }
 </script>
@@ -68,8 +59,10 @@ export default {
   font-family: "Segoe UI", sans-serif;
 }
 
-body {
-  padding:15px;
+.marginated {
+  margin-left:15px;
+  margin-bottom: 40px;
+  margin-right: 15px;
 }
 
 nav ul li .nav-link {
