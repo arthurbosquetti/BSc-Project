@@ -70,7 +70,7 @@
             id="input-group-components-list"
             label="Components"
             label-for="input-components-list"
-            description="Use tag 'all' to include all components. Case insensitive. Can be changed later."
+            description="Use the tag 'all' to include all components. Case insensitive. Can be changed later."
             >
                 <b-input-group class="mb-2">
                     <b-input-group-prepend is-text variant="secondary">
@@ -112,7 +112,7 @@ export default {
                 name: '',
                 nittanyUrl: '',
                 fftDeadline: '',
-                componentsList: []
+                componentsList: ['all']
             },
             show: true,
             buttonAccessible: {
@@ -147,7 +147,7 @@ export default {
             this.form.name = ''
             this.form.nittanyUrl = ''
             this.form.fftDeadline = ''
-            this.form.componentsList = []
+            this.form.componentsList = ['all']
             // Trick to reset/clear native browser form validation state
             this.show = false
             this.$nextTick(() => {

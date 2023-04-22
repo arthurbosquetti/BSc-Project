@@ -8,6 +8,7 @@ import GraphsTestDataEntries from './components/GraphsTestDataEntries.vue'
 import GraphsBugDataEntries from './components/GraphsBugDataEntries.vue'
 import HomePage from './components/HomePage.vue'
 import ReleaseNotes from './components/ReleaseNotes.vue'
+import ProjectPage from './components/ProjectPage.vue'
 
 const routes = [
     {
@@ -29,6 +30,11 @@ const routes = [
         path: '/add-project',
         component: AddProject,
         name: 'AddProject'
+    },
+    {
+        path: '/project/:projectName/',
+        component: ProjectPage,
+        name: 'ProjectPage'
     },
     {
         path: '/delete-project',

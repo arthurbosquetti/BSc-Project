@@ -174,7 +174,7 @@ export default {
         },
         onRowSelected(items) {
             router.push({
-                name: 'ListBugDataEntries',
+                name: 'ProjectPage',
                 params: {projectName: items[0].name}
             })
         }
