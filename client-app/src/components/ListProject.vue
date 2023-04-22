@@ -1,11 +1,10 @@
 <template>
-    <div>
-        <p class="vspace"></p>
+    <div class="marginated">
         <b-container fluid>
             <b-row>
 
                 <!-- Filter -->
-                <b-col>
+                <b-col cols="4">
                     <b-input-group size="md" class="mb-2">
                         <b-input-group-prepend is-text>
                             <b-icon icon="search" variant="dark"></b-icon>
@@ -21,7 +20,7 @@
                 </b-col>
 
                 <!-- Filter on -->
-                <b-col class="text-center">
+                <b-col class="text-center" cols="4">
                     <b-form-group
                     class="mb-0"
                     description="Leave all unchecked to filter on all data"
@@ -40,7 +39,7 @@
                 <!-- Items per page -->
                 <b-col>
                     <b-form-group
-                    label="Entries per page"
+                    label="Per Page"
                     label-for="per-page-select"
                     label-cols-sm="6"
                     label-cols-md="4"
@@ -77,7 +76,7 @@
 
             </b-row>
             
-            <p class="vspace"></p>
+            <p><b>Total number of projects: </b> {{ totalRows }}</p>
 
             <b-table
             :items="items"
@@ -97,7 +96,7 @@
             hover
             selectable
             @row-selected="onRowSelected"
-            class="w-75">
+            >
             </b-table>
         </b-container>        
     </div>
@@ -110,25 +109,26 @@ import router from '@/router'
 
 export default {
     name: 'ListProject',
-    // props: ['projects'],
     data() {
         return {
             projects: [],
             items: [],
             fields: [
-                { key: 'name', label: 'Project Name', sortable: true, sortDirection: 'desc' },
+                { key: 'name', label: 'Project Name', sortable: true},
                 { key: 'fftDeadline', label: 'FFT Deadline', sortable: true},
-                { key: 'status', sortable: true}
+                { key: 'status', sortable: true},
+                { key: 'daysRecording', label: 'Days Recording', sortable: true},
+                { key: 'entryCount', label: 'Number of Entries', sortable: true}
             ],
             totalRows: 1,
             currentPage: 1,
             perPage: 10,
             pageOptions: [10, 25, 50, 100],
-            sortBy: '',
+            sortBy: 'name',
             sortDesc: false,
             sortDirection: 'asc',
             filter: null,
-            filterOn: []
+            filterOn: [],
         }
     },
     computed: {
@@ -156,10 +156,13 @@ export default {
         generateTableItems() {
             let items = []
             for (let i = 0; i < this.projects.length; i++) {
+                let project = this.projects[i]
                 items.push({
-                    'name': this.projects[i]['name'],
-                    'fftDeadline': this.projects[i]['fftDeadline'],
-                    'status': this.projects[i]['status']
+                    'name': project['name'],
+                    'fftDeadline': project['fftDeadline'],
+                    'status': project['status'],
+                    'daysRecording': project['testDataEntries'].length > project['bugDataEntries'].length ? project['testDataEntries'].length : project['bugDataEntries'].length,
+                    'entryCount': project['testDataEntries'].length + project['bugDataEntries'].length
                 })
             }
 
@@ -189,10 +192,5 @@ export default {
 div .container-fluid {
     padding: 0px;
 }
-
-.vspace {
-     margin-bottom: 15px;
-  }
-
 
 </style>
