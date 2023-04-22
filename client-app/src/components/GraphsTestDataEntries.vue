@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="marginated">
         <h2>SV FFT (Full Functional Testing) Trends for {{ projectName }}</h2>
         <canvas ref="dailyTrend" style="max-width: 1200px; max-height: 600px;"/>
         <canvas ref="weeklyTrend" style="max-width: 1200px; max-height: 600px;"/>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="marginated">
         Notes about Releases should go here....
     </div>
 </template>

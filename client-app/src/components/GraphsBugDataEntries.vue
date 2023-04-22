@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="marginated">
         <canvas ref="dailyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
         <canvas ref="weeklyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
         <canvas ref="dailyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>

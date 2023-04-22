@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="marginated">
         <h2>Bug data for {{ projectName }}</h2>
         <p><b>Number of entries: </b> {{ bugDataEntries.length }}</p>
         <div class="w-75">

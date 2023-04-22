@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="marginated">
         A welcome page. Some help or explanation of features. Maybe refer to the bachelor project.
     </div>
 </template>
