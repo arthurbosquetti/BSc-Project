@@ -80,8 +80,8 @@ public class Project {
 		return status;
 	}
 
-	private void updateStatus() {
-		if (fftDeadline == null) {
+	public void updateStatus() {
+		if (fftDeadline == null || testDataEntries.isEmpty()) {
 			status = ProjectStatus.UNDEFINED;
 			return;
 		}
@@ -117,6 +117,7 @@ public class Project {
 	}
 
 	public void setComponentsList(List<String> componentsList) {
+		this.componentsList.clear();
 		for (String component : componentsList) {
 			this.componentsList.add(component.toLowerCase());
 		}

@@ -59,7 +59,8 @@ public class BugDataEntry extends DataEntry {
 			JSONArray entryComponentsList = entryJsonObject.getJSONArray("componentsList");
 			boolean entryHasRelevantComponent = false;
 			for (int j = 0; j < entryComponentsList.length(); j++) {
-				if (projectComponentsList.contains(entryComponentsList.getString(j).toLowerCase())) {
+				if (projectComponentsList.contains(entryComponentsList.getString(j).toLowerCase()) ||
+						projectComponentsList.contains("all")) {
 					entryHasRelevantComponent = true;
 					break;
 				}
