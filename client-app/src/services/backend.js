@@ -12,6 +12,14 @@ export default class Backend {
         return this.url + "/projects"
     }
 
+    getUrlGetProject(name) {
+        return this.url + "/projects/" + name
+    }
+
+    getUrlPatchProject() {
+        return this.url + "/projects/"
+    }
+
     getUrlDeleteProject(name) {
         return this.url + "/projects/" + name
     }

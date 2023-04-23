@@ -32,15 +32,9 @@ paths:
           description: "Project correctly added"
         "404":
           description: "A project with this name already exists"
-  /projects/{projectName}:
-    put:
+    patch:
       summary: "Updates a project"
       parameters:
-      - in: "path"
-        name: "projectName"
-        type: "string"
-        description: "The name of the project to update"
-        required: true
       - in: "body"
         name: "project"
         required: true
@@ -50,6 +44,22 @@ paths:
         "200":
           description: "Project updated successfully"
         "404":
+          description: "Invalid name"
+  /projects/{projectName}:
+    get:
+      summary: "Returns a specific project"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project to get"
+        required: true
+      responses:
+        "200":
+          description: "The desired project"
+          schema:
+            $ref: "#/definitions/Project"
+        "400":
           description: "Invalid name"
     delete:
       summary: "Deletes a project"
@@ -205,7 +215,7 @@ definitions:
     type: "object"
     properties:
       dataEntryId:
-        $ref: "#/definitions/DataEntryId" #
+        $ref: "#/definitions/DataEntryId"
       productName:
         type: "string"
       testsPassed:

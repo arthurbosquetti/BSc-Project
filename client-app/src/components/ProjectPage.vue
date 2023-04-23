@@ -6,7 +6,7 @@
                 <template #title>
                     Overview<b-icon icon="info-circle" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <p>Nothing to show here yet.</p>
+                <ProjectOverview />
             </b-tab>
 
             <b-tab>
@@ -41,7 +41,7 @@
                 <template #title>
                     Settings <b-icon icon="gear" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <p>Nothing to show here yet.</p>
+                <ProjectSettings @patch-project="reloadPage"/>
             </b-tab>
 
         </b-tabs>
@@ -54,13 +54,20 @@ import GraphsBugDataEntries from './GraphsBugDataEntries.vue';
 import GraphsTestDataEntries from './GraphsTestDataEntries.vue';
 import ListTestDataEntries from './ListTestDataEntries.vue';
 import ListBugDataEntries from './ListBugDataEntries.vue';
+import ProjectOverview from './ProjectOverview.vue';
+import ProjectSettings from './ProjectSettings.vue';
 
 export default {
     name: "ProjectPage",
-    components: { GraphsTestDataEntries, GraphsBugDataEntries, ListTestDataEntries, ListBugDataEntries },
+    components: { GraphsTestDataEntries, GraphsBugDataEntries, ListTestDataEntries, ListBugDataEntries, ProjectOverview, ProjectSettings },
     data() {
         return {
             projectName: "",
+        }
+    },
+    methods: {
+        reloadPage() {
+            window.location.reload()
         }
     },
     async mounted() {
