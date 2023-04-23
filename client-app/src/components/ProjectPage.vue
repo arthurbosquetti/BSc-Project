@@ -41,7 +41,7 @@
                 <template #title>
                     Settings <b-icon icon="gear" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <ProjectSettings @patch-project="reloadPage"/>
+                <ProjectSettings @patch-project="reloadPage" @delete-project="deleteProject"/>
             </b-tab>
 
         </b-tabs>
@@ -56,6 +56,7 @@ import ListTestDataEntries from './ListTestDataEntries.vue';
 import ListBugDataEntries from './ListBugDataEntries.vue';
 import ProjectOverview from './ProjectOverview.vue';
 import ProjectSettings from './ProjectSettings.vue';
+import router from '@/router';
 
 export default {
     name: "ProjectPage",
@@ -68,6 +69,9 @@ export default {
     methods: {
         reloadPage() {
             window.location.reload()
+        },
+        deleteProject() {
+            router.push
         }
     },
     async mounted() {

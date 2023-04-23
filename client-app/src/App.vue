@@ -25,17 +25,12 @@
             <li class="nav-item">
               <router-link :to="{ name: 'AddProject' }" class="nav-link">Add Project</router-link>
             </li>
-            <li class="nav-item">
-              <router-link :to="{ name: 'DeleteProject' }" class="nav-link">Delete Project</router-link>
-            </li>
           </ul>
         </div>
     </nav>
     <p></p>
 
-    <router-view
-      @new-project="refreshProjects"
-      @project-deleted="refreshProjects"/>
+    <router-view @new-project="refreshProjects"/>
 
   </div>
 </template>

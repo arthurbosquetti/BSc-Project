@@ -1,11 +1,10 @@
 <template>
-    <div class="marginated">
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <div>
+        <b-form @submit="onSubmit">
             <b-form-group
                 id="input-group-project-name"
                 label="Project Name"
                 label-for="input-project-name"
-                description="A unique and descriptive project name, e.g. MXA902 5.0.X FFT. Cannot be changed later."
             >
                 <b-input-group size="md" class="mb-2">
                     <b-input-group-prepend is-text>
@@ -15,8 +14,7 @@
                     id="input-project-name"
                     v-model="form.name"
                     type="text"
-                    placeholder="Enter project name"
-                    required
+                    disabled
                     ></b-form-input>
                 </b-input-group>
                 
@@ -26,7 +24,7 @@
                 id="input-group-nittany-url"
                 label="Nittany Report URL"
                 label-for="input-nittany-url"
-                description="The URL to this project's Nittany Report page. Cannot be changed later."
+                description="The URL to this project's Nittany Report page."
             >
                 <b-input-group class="mb-2">
                     <b-input-group-prepend is-text variant="secondary">
@@ -36,8 +34,7 @@
                     id="input-nittany-url"
                     v-model="form.nittanyUrl"
                     type="url"
-                    placeholder="Enter URL"
-                    required
+                    disabled
                     ></b-form-input>
                 </b-input-group>    
             </b-form-group>
@@ -46,13 +43,12 @@
             id="input-group-fft-deadline"
             label="FFT Deadline"
             label-for="input-fft-deadline"
-            description="Optional. Can be changed later."
+            description="You can change the FFT deadline."
             >
                 <b-form-datepicker
                     button-variant="secondary"
                     dark
                     nav-button-variant="light"
-                    :min="minDate"
                     close-button
                     close-button-variant="warning"
                     reset-button
@@ -71,7 +67,7 @@
             id="input-group-components-list"
             label="Components"
             label-for="input-components-list"
-            description="Use the tag 'all' to include all components. Case insensitive. Can be changed later."
+            description="Changing your components list will only affect future bug counts. Use the tag 'all' to include all components. Case insensitive."
             >
                 <b-input-group class="mb-2">
                     <b-input-group-prepend is-text variant="secondary">
@@ -93,76 +89,110 @@
                 <b-card-text><pre class="m-0">{{ form }}</pre></b-card-text>
             </b-card>
 
-            <b-button type="submit"  variant="primary" class="mr-2 mt-2" v-if="buttonAccessible.submitButton">Submit<b-icon icon="check2" class="ml-2"></b-icon></b-button>
-            <b-button type="reset"  variant="warning" class="mr-2 mt-2" v-if="buttonAccessible.resetButton">Reset<b-icon icon="arrow-clockwise" class="ml-2"></b-icon></b-button>
-            <b-button variant="info" disabled class="mt-2" v-if="buttonAccessible.loadingButton">
-                <b-spinner small></b-spinner>
-                Verifying the project name and the Nittany Report URL...
-            </b-button>
+            <b-button type="submit" variant="primary" class="mr-2 mt-2">Submit<b-icon icon="check2" class="ml-2"></b-icon></b-button>
         </b-form>
+
+        <b-button v-b-toggle="'collapse-2'" class="mt-2" variant="danger" block>Danger Zone<b-icon icon="exclamation-triangle-fill" class="ml-2"></b-icon></b-button>
+        <b-collapse id="collapse-2">
+            <b-card>
+                <b-card-text style="font-weight: bold;">Are you sure you want to delete all data for {{ projectName }}? This action cannot be undone!</b-card-text>
+                <b-form>
+                <b-input-group>
+                    <b-form-input
+                    v-model="deleteString"
+                    type="text"
+                    :state="validation"
+                    required>
+                    </b-form-input>
+                    <b-input-group-append>
+                        <b-button v-b-modal.modal-1 variant="danger" @click="deleteProject">Delete project<b-icon icon="trash" class="ml-2"></b-icon></b-button>
+                    </b-input-group-append>
+                    <b-form-invalid-feedback :state="validation">
+                        Input must match the project name.
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="validation">
+                        Ready to delete.
+                    </b-form-valid-feedback>
+                </b-input-group>
+            </b-form>
+            </b-card>
+        </b-collapse>
+
         <p class="bottom"></p>
     </div>
 </template>
 
 <script>
+import router from '@/router'
+
 export default {
-    name: 'AddProject',
     data() {
         return {
+            projectName: '',
             form: {
                 name: '',
                 nittanyUrl: '',
                 fftDeadline: null,
-                componentsList: ['all']
+                componentsList: [],
             },
-            show: true,
-            buttonAccessible: {
-                submitButton: true,
-                resetButton: true,
-                loadingButton: false
-            },
-            minDate: new Date()
+            deleteString: ''
         }
     },
     methods: {
+        async fetch(projectName) {
+            await this.$axios
+              .get(this.$backend.getUrlGetProject(projectName))
+              .then(res => {
+                this.form.name = res.data.name
+                this.form.nittanyUrl = res.data.nittanyUrl
+                this.form.fftDeadline = res.data.fftDeadline
+                this.form.componentsList = res.data.componentsList
+              })
+        },
         onSubmit(event) {
             event.preventDefault()
-            this.buttonAccessible.submitButton = false
-            this.buttonAccessible.resetButton = false
-            this.buttonAccessible.loadingButton = true
-            this.$axios.post(this.$backend.getUrlPostProject(), this.form)
+
+            // This is necessary to avoid verifying the URL of the updated project
+            let submissionForm = Object.assign({}, this.form)
+            delete submissionForm.nittanyUrl
+
+            this.$axios.patch(this.$backend.getUrlPatchProject(), submissionForm)
             .then(() => {
-                this.$emit('new-project')
+                this.$emit('patch-project')
             })
             .catch(error => {
                 if (error.response) {
-                    this.buttonAccessible.submitButton = true
-                    this.buttonAccessible.resetButton = true
-                    this.buttonAccessible.loadingButton = false
                     window.alert(error.response.data);
                 } 
               })
         },
-        onReset(event) {
-            event.preventDefault()
-            this.form.name = ''
-            this.form.nittanyUrl = ''
-            this.form.fftDeadline = null
-            this.form.componentsList = ['all']
-            // Trick to reset/clear native browser form validation state
-            this.show = false
-            this.$nextTick(() => {
-                this.show = true
-            })
+        deleteProject() {
+            if (!this.validation) {
+                this.deleteString = ''
+                return
+            }
+            this.$axios
+              .delete(this.$backend.getUrlDeleteProject(this.projectName))
+              .catch(function (error) {
+                if (error.response) {
+                    window.alert(error.response.data);
+                }
+              })
+              .then(() => {
+                router.push({ name: 'ListProject' }).catch(() => {})
+              })
         }
+    },
+    computed: {
+      validation() {
+        return this.deleteString == this.projectName
       }
+    },
+    async mounted() {
+        this.projectName = this.$route.params.projectName
+        await this.fetch(this.projectName)
+
+    }
+
 }
 </script>
-
-<style>
-
-label {
-    font-weight: bold;
-}
-
-</style>
