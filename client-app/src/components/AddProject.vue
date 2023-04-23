@@ -17,6 +17,7 @@
                     type="text"
                     placeholder="Enter project name"
                     required
+                    :disabled="submitted"
                     ></b-form-input>
                 </b-input-group>
                 
@@ -38,6 +39,7 @@
                     type="url"
                     placeholder="Enter URL"
                     required
+                    :disabled="submitted"
                     ></b-form-input>
                 </b-input-group>    
             </b-form-group>
@@ -64,6 +66,7 @@
                     id="input-fft-deadline"
                     :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
                     locale="en"
+                    :disabled="submitted"
                 ></b-form-datepicker>
             </b-form-group>
 
@@ -82,6 +85,7 @@
                     input-id="components-list"
                     v-model="form.componentsList"
                     placeholder="Add a component"
+                    :disabled="submitted"
                     ></b-form-tags>
                 </b-input-group>
             </b-form-group>
@@ -93,9 +97,9 @@
                 <b-card-text><pre class="m-0">{{ form }}</pre></b-card-text>
             </b-card>
 
-            <b-button type="submit"  variant="primary" class="mr-2 mt-2" v-if="buttonAccessible.submitButton">Submit<b-icon icon="check2" class="ml-2"></b-icon></b-button>
-            <b-button type="reset"  variant="warning" class="mr-2 mt-2" v-if="buttonAccessible.resetButton">Reset<b-icon icon="arrow-clockwise" class="ml-2"></b-icon></b-button>
-            <b-button variant="info" disabled class="mt-2" v-if="buttonAccessible.loadingButton">
+            <b-button type="submit"  variant="primary" class="mr-2 mt-2" v-if="!submitted">Submit<b-icon icon="check2" class="ml-2"></b-icon></b-button>
+            <b-button type="reset"  variant="warning" class="mr-2 mt-2" v-if="!submitted">Reset<b-icon icon="arrow-clockwise" class="ml-2"></b-icon></b-button>
+            <b-button variant="info" disabled class="mt-2" v-if="submitted">
                 <b-spinner small></b-spinner>
                 Verifying the project name and the Nittany Report URL...
             </b-button>
@@ -116,29 +120,21 @@ export default {
                 componentsList: ['all']
             },
             show: true,
-            buttonAccessible: {
-                submitButton: true,
-                resetButton: true,
-                loadingButton: false
-            },
+            submitted: false,
             minDate: new Date()
         }
     },
     methods: {
         onSubmit(event) {
             event.preventDefault()
-            this.buttonAccessible.submitButton = false
-            this.buttonAccessible.resetButton = false
-            this.buttonAccessible.loadingButton = true
+            this.submitted = true
             this.$axios.post(this.$backend.getUrlPostProject(), this.form)
             .then(() => {
                 this.$emit('new-project')
             })
             .catch(error => {
                 if (error.response) {
-                    this.buttonAccessible.submitButton = true
-                    this.buttonAccessible.resetButton = true
-                    this.buttonAccessible.loadingButton = false
+                    this.submitted = false;
                     window.alert(error.response.data);
                 } 
               })

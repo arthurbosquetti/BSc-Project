@@ -14,16 +14,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link :to="{ name: 'HomePage' }" class="nav-link">Home</router-link>
+              <router-link :to="{ name: 'HomePage' }" class="nav-link">Home<b-icon icon="house" class="ml-2"></b-icon></router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'ReleaseNotes' }" class="nav-link">Release Notes</router-link>
+              <router-link :to="{ name: 'ReleaseNotes' }" class="nav-link">Release Notes<b-icon icon="file-earmark" class="ml-2"></b-icon></router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'ListProject' }" class="nav-link">All Projects</router-link>
+              <router-link :to="{ name: 'ListProject' }" class="nav-link">All Projects<b-icon icon="clipboard-data" class="ml-2"></b-icon></router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'AddProject' }" class="nav-link">Add Project</router-link>
+              <router-link :to="{ name: 'AddProject' }" class="nav-link">Add Project<b-icon icon="plus-square" class="ml-2"></b-icon></router-link>
             </li>
           </ul>
         </div>
