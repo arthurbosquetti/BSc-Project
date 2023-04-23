@@ -97,6 +97,15 @@
             selectable
             @row-selected="onRowSelected"
             >
+            <template #cell(status)="row">
+                <h5 class="mb-0">
+                    <b-badge pill variant="success" v-if="row.value == 'AHEAD'">Ahead</b-badge>
+                    <b-badge pill variant="info" v-else-if="row.value == 'ON_TRACK'">On Track</b-badge>
+                    <b-badge pill variant="warning" v-else-if="row.value == 'BEHIND'">Behind</b-badge>
+                    <b-badge pill variant="danger" v-else-if="row.value == 'CRITICAL'">Critical</b-badge>
+                    <b-badge pill variant="secondary" v-else-if="row.value == 'UNDEFINED'">Undefined</b-badge>
+                </h5>
+            </template>
             </b-table>
         </b-container>        
     </div>
