@@ -1,7 +1,7 @@
 <template>
     <div>
         <p><b>Number of entries: </b> {{ items.length }}</p>
-        <b-table striped bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
+        <b-table striped bordered sticky-header="600px" :items="items" :fields="fields" show-empty></b-table>
     </div>
 </template>
 

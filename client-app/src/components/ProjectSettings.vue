@@ -2,44 +2,6 @@
     <div>
         <b-form @submit="onSubmit">
             <b-form-group
-                id="input-group-project-name"
-                label="Project Name"
-                label-for="input-project-name"
-            >
-                <b-input-group size="md" class="mb-2">
-                    <b-input-group-prepend is-text>
-                        <b-icon icon="bookmark" variant="dark"></b-icon>
-                    </b-input-group-prepend>
-                    <b-form-input
-                    id="input-project-name"
-                    v-model="form.name"
-                    type="text"
-                    disabled
-                    ></b-form-input>
-                </b-input-group>
-                
-            </b-form-group>
-
-            <b-form-group
-                id="input-group-nittany-url"
-                label="Nittany Report URL"
-                label-for="input-nittany-url"
-                description="The URL to this project's Nittany Report page."
-            >
-                <b-input-group class="mb-2">
-                    <b-input-group-prepend is-text variant="secondary">
-                        <b-icon icon="link45deg" variant="dark"></b-icon>
-                    </b-input-group-prepend>
-                    <b-form-input
-                    id="input-nittany-url"
-                    v-model="form.nittanyUrl"
-                    type="url"
-                    disabled
-                    ></b-form-input>
-                </b-input-group>    
-            </b-form-group>
-
-            <b-form-group
             id="input-group-fft-deadline"
             label="FFT Deadline"
             label-for="input-fft-deadline"
