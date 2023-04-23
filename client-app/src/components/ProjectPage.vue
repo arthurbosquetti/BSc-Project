@@ -5,10 +5,12 @@
             <b-tab title="Project Overview"><p>Nothing to show here yet.</p></b-tab>
 
             <b-tab title="SV FFT Trends">
+                Add something to download the figures?
                 <GraphsTestDataEntries />
             </b-tab>
             
             <b-tab title="Bug Trends">
+                Add something to download the figures?
                 <GraphsBugDataEntries />
             </b-tab>
 

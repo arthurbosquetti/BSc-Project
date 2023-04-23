@@ -1,10 +1,7 @@
 <template>
-    <div class="marginated">
-        <h2>Bug data for {{ projectName }}</h2>
-        <p><b>Number of entries: </b> {{ bugDataEntries.length }}</p>
-        <div class="w-75">
+    <div>
+        <p><b>Number of entries: </b> {{ items.length }}</p>
             <b-table striped bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
-        </div>
     </div>
 </template>
 
@@ -13,7 +10,7 @@ export default {
     name: 'ListBugDataEntries',
     data() {
         return {
-            projectName: null,
+            projectName: '',
             bugDataEntries: [],
             items: [],            
             fields: [
@@ -43,19 +40,20 @@ export default {
         generateTableItems() {
             let items = []
             for (let i = 0; i < this.bugDataEntries.length; i++) {
+                let bugDataEntry = this.bugDataEntries[i]
                 items.push({
-                    'entryDate': this.bugDataEntries[i]['dataEntryId']['entryDate'],
-                    'swVersion': this.bugDataEntries[i]['swVersion'],
-                    'openBlockerBugs': this.bugDataEntries[i]['openBlockerBugs'],
-                    'openCriticalBugs': this.bugDataEntries[i]['openCriticalBugs'],
-                    'openMajorBugs': this.bugDataEntries[i]['openMajorBugs'],
-                    'openMinorBugs': this.bugDataEntries[i]['openMinorBugs'],
-                    'openTrivialBugs': this.bugDataEntries[i]['openTrivialBugs'],
-                    'fixedBlockerBugs': this.bugDataEntries[i]['fixedBlockerBugs'],
-                    'fixedCriticalBugs': this.bugDataEntries[i]['fixedCriticalBugs'],
-                    'fixedMajorBugs': this.bugDataEntries[i]['fixedMajorBugs'],
-                    'fixedMinorBugs': this.bugDataEntries[i]['fixedMinorBugs'],
-                    'fixedTrivialBugs': this.bugDataEntries[i]['fixedTrivialBugs'],
+                    'entryDate': bugDataEntry['dataEntryId']['entryDate'],
+                    'swVersion': bugDataEntry['swVersion'],
+                    'openBlockerBugs': bugDataEntry['openBlockerBugs'],
+                    'openCriticalBugs': bugDataEntry['openCriticalBugs'],
+                    'openMajorBugs': bugDataEntry['openMajorBugs'],
+                    'openMinorBugs': bugDataEntry['openMinorBugs'],
+                    'openTrivialBugs': bugDataEntry['openTrivialBugs'],
+                    'fixedBlockerBugs': bugDataEntry['fixedBlockerBugs'],
+                    'fixedCriticalBugs': bugDataEntry['fixedCriticalBugs'],
+                    'fixedMajorBugs': bugDataEntry['fixedMajorBugs'],
+                    'fixedMinorBugs': bugDataEntry['fixedMinorBugs'],
+                    'fixedTrivialBugs': bugDataEntry['fixedTrivialBugs'],
                 })
             }
             return items
@@ -65,6 +63,7 @@ export default {
         this.projectName = this.$route.params.projectName
         await this.fetch(this.projectName)
         this.items = this.generateTableItems()
+        this.bugDataEntries = []
     }
 }
 

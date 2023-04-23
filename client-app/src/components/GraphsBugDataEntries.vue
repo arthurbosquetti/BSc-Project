@@ -1,5 +1,5 @@
 <template>
-    <div class="marginated">
+    <div>
         <canvas ref="dailyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
         <canvas ref="weeklyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
         <canvas ref="dailyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>
@@ -14,7 +14,7 @@ export default {
     name: 'GraphsBugDataEntries',
     data() {
         return {
-            projectName: null,
+            projectName: '',
             bugDataEntries: [],
             dailyBCMMTrendData: {},
             weeklyBCMMTrendData: {},

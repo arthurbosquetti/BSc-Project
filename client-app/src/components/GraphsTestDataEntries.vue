@@ -1,6 +1,5 @@
 <template>
-    <div class="marginated">
-        <h2>SV FFT (Full Functional Testing) Trends for {{ projectName }}</h2>
+    <div>
         <canvas ref="dailyTrend" style="max-width: 1200px; max-height: 600px;"/>
         <canvas ref="weeklyTrend" style="max-width: 1200px; max-height: 600px;"/>
     </div>
@@ -13,7 +12,7 @@ export default {
     name: 'GraphsTestDataEntries',
     data() {
         return {
-            projectName: null,
+            projectName: '',
             testDataEntries: [],
             dailyTrendData: {},
             weeklyTrendData: {}

@@ -1,10 +1,7 @@
 <template>
-    <div class="marginated">
-        <h2>Test data for {{ projectName }}</h2>
-        <p><b>Number of entries: </b> {{ testDataEntries.length }}</p>
-        <div class="w-75">
-            <b-table striped bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
-        </div>
+    <div>
+        <p><b>Number of entries: </b> {{ items.length }}</p>
+        <b-table striped bordered sticky-header="600px" :items="items" :fields="fields"></b-table>
     </div>
 </template>
 
@@ -13,7 +10,7 @@ export default {
     name: 'ListTestDataEntries',
     data() {
         return {
-            projectName: null,
+            projectName: '',
             testDataEntries: [],
             items: [],
             fields: [
@@ -41,17 +38,18 @@ export default {
         generateTableItems() {
             let items = []
             for (let i = 0; i < this.testDataEntries.length; i++) {
+                let testDataEntry = this.testDataEntries[i]
                 items.push({
-                    'entryDate': this.testDataEntries[i]['dataEntryId']['entryDate'],
-                    'testsPassed': this.testDataEntries[i]['testsPassed'],
-                    'testsFailed': this.testDataEntries[i]['testsFailed'],
-                    'testsBlocked': this.testDataEntries[i]['testsBlocked'],
-                    'testsNoRun': this.testDataEntries[i]['testsNoRun'],
-                    'testsNotCompleted': this.testDataEntries[i]['testsNotCompleted'],
-                    'passRate': parseFloat(this.testDataEntries[i]['testsPassed']/this.testDataEntries[i]['totalTests'] * 100).toFixed(2) + "%",
-                    'target95': this.testDataEntries[i]['target95'],
-                    'leftToTarget': this.testDataEntries[i]['leftToTarget'],
-                    'totalTests': this.testDataEntries[i]['totalTests']
+                    'entryDate': testDataEntry['dataEntryId']['entryDate'],
+                    'testsPassed': testDataEntry['testsPassed'],
+                    'testsFailed': testDataEntry['testsFailed'],
+                    'testsBlocked': testDataEntry['testsBlocked'],
+                    'testsNoRun': testDataEntry['testsNoRun'],
+                    'testsNotCompleted': testDataEntry['testsNotCompleted'],
+                    'passRate': parseFloat(testDataEntry['testsPassed']/testDataEntry['totalTests'] * 100).toFixed(2) + "%",
+                    'target95': testDataEntry['target95'],
+                    'leftToTarget': testDataEntry['leftToTarget'],
+                    'totalTests': testDataEntry['totalTests']
                 })
             }
 
@@ -63,6 +61,7 @@ export default {
         this.projectName = this.$route.params.projectName
         await this.fetch(this.projectName)
         this.items = this.generateTableItems()
+        this.testDataEntries = []
     }
 }
 
