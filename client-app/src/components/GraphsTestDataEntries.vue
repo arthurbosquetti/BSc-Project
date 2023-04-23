@@ -1,7 +1,16 @@
 <template>
     <div>
         <canvas ref="dailyTrend" style="max-width: 1200px; max-height: 600px;"/>
+        <b-button variant="outline-primary" @click="downloadFigure('dailyTrend')">
+            <b-icon icon="download"></b-icon> Download Figure
+        </b-button>
+        
         <canvas ref="weeklyTrend" style="max-width: 1200px; max-height: 600px;"/>
+        <b-button variant="outline-primary" @click="downloadFigure('weeklyTrend')">
+            <b-icon icon="download"></b-icon> Download Figure
+        </b-button>
+
+        
     </div>
   </template> 
 
@@ -15,7 +24,8 @@ export default {
             projectName: '',
             testDataEntries: [],
             dailyTrendData: {},
-            weeklyTrendData: {}
+            weeklyTrendData: {},
+            charts: {}
         } 
     },    
     async mounted() {
@@ -103,7 +113,7 @@ export default {
             return {"labels": labels, "datasets": datasets}
         },
         renderChart(ref, data, titleText) {
-            new Chart(this.$refs[ref].getContext("2d"), {
+            this.charts[ref] = new Chart(this.$refs[ref].getContext("2d"), {
                 type: 'bar',
                 data: {
                     labels: data.labels,
@@ -136,6 +146,13 @@ export default {
                     }
                 }
             })
+        },
+        downloadFigure(ref) {
+            var chart = this.charts[ref] 
+            var a = document.createElement('a');
+            a.href = chart.toBase64Image();
+            a.download = (this.projectName + "_" + chart.options.plugins.title.text.replace(" for " + this.projectName, "")).replaceAll(" ", "_") +'.png';
+            a.click()
         }
     }
 }

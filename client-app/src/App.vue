@@ -66,7 +66,7 @@ export default {
 }
 
 nav ul li .nav-link {
-  color: #FFF;
+  color: #FFF !important;
   padding: 10px;
   white-space: nowrap;
   border-bottom: 5px solid transparent;
@@ -79,8 +79,8 @@ nav .navbar-brand {
   border-bottom: 9px solid transparent;
 }
 
-nav .nav-link.active,
-nav .nav-link:hover {
+nav ul li .nav-link.active,
+nav ul li .nav-link:hover {
   border-bottom: 5px solid #b2ff33;
 }
 

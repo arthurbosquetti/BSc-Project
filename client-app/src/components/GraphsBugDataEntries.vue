@@ -1,9 +1,25 @@
 <template>
     <div>
         <canvas ref="dailyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
+        <b-button variant="outline-primary" @click="downloadFigure('dailyBCMMTrend')">
+            <b-icon icon="download"></b-icon> Download Figure
+        </b-button>
+
         <canvas ref="weeklyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
+        <b-button variant="outline-primary" @click="downloadFigure('weeklyBCMMTrend')">
+            <b-icon icon="download"></b-icon> Download Figure
+        </b-button>
+
         <canvas ref="dailyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>
+        <b-button variant="outline-primary" @click="downloadFigure('dailyBCMTrend')">
+            <b-icon icon="download"></b-icon> Download Figure
+        </b-button>
+
         <canvas ref="weeklyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>
+        <b-button variant="outline-primary" @click="downloadFigure('weeklyBCMTrend')">
+            <b-icon icon="download"></b-icon> Download Figure
+        </b-button>
+
     </div>
 </template>
 
@@ -19,7 +35,8 @@ export default {
             dailyBCMMTrendData: {},
             weeklyBCMMTrendData: {},
             dailyBCMTrendData: {},
-            weeklyBCMTrendData: {}
+            weeklyBCMTrendData: {},
+            charts: {}
         }
     },
     async mounted() {
@@ -30,12 +47,12 @@ export default {
         this.weeklyBCMMTrendData = this.generateGraphData(7, ["Blocker", "Critical", "Major", "Minor"])
         this.dailyBCMTrendData = this.generateGraphData(1, ["Blocker", "Critical", "Major"])
         this.weeklyBCMTrendData = this.generateGraphData(7, ["Blocker", "Critical", "Major", "Minor"])
-        
+        this.bugDataEntries = []
+
         this.renderChart("dailyBCMMTrend", this.dailyBCMMTrendData, "BCMM Bugs Daily Trend for " + this.projectName)
         this.renderChart("weeklyBCMMTrend", this.weeklyBCMMTrendData, "BCMM Bugs Weekly Trend for " + this.projectName)
         this.renderChart("dailyBCMTrend", this.dailyBCMTrendData, "BCM Bugs Daily Trend for " + this.projectName)
         this.renderChart("weeklyBCMTrend", this.weeklyBCMTrendData, "BCM Bugs Weekly Trend for " + this.projectName)
-
     },
     methods: {
         async fetch(projectName) {
@@ -88,7 +105,7 @@ export default {
             return {"labels": labels, "datasets": datasets}
         },
         renderChart(ref, data, titleText) {
-            new Chart(this.$refs[ref].getContext("2d"), {
+            this.charts[ref] = new Chart(this.$refs[ref].getContext("2d"), {
                 type: 'bar',
                 data: {
                     labels: data.labels,
@@ -121,6 +138,13 @@ export default {
                     }
                 }
             })
+        },
+        downloadFigure(ref) {
+            var chart = this.charts[ref] 
+            var a = document.createElement('a');
+            a.href = chart.toBase64Image();
+            a.download = (this.projectName + "_" + chart.options.plugins.title.text.replace(" for " + this.projectName, "")).replaceAll(" ", "_") +'.png';
+            a.click()
         }
     }
 }
