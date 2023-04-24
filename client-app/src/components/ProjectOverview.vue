@@ -11,7 +11,7 @@
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-project-name"
-                v-model="projectName"
+                :value="project['name']"
                 type="text"
                 disabled
                 ></b-form-input>
@@ -36,29 +36,30 @@
                 ></b-form-input>
             </b-input-group>    
         </b-form-group>
-        And more to come...
+        <GraphFFTComplete
+        :testDataEntries="project['testDataEntries']"
+        :fftDeadline="project['fftDeadline']"/>
     </div>
 </template>
 
 <script>
+import GraphFFTComplete from './GraphFFTComplete.vue';
 
 export default {
     name: 'ProjectOverview',
+    components: { GraphFFTComplete },
     props: {
         project: Object
     },
     data() {
         return {
-            projectName: '',
             projectInfo: {}
         }
     },
     methods: {
     },
-    async mounted() {
-        this.projectName = this.$route.params.projectName
+    mounted() {
         this.projectInfo = this.project
     }
-
 }
 </script>
