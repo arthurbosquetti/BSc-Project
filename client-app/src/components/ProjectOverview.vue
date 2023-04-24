@@ -22,7 +22,6 @@
             id="input-group-nittany-url"
             label="Nittany Report URL"
             label-for="input-nittany-url"
-            description="The URL to this project's Nittany Report page."
         >
             <b-input-group class="mb-2">
                 <b-input-group-prepend is-text variant="secondary">

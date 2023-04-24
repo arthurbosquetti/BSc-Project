@@ -1,15 +1,23 @@
 <template>
     <div>
-        <b-button v-b-toggle="'collapse-2'" class="mt-2" variant="light" style="max-width: 1200px;">FFT Complete Graph<b-icon icon="eye" class="ml-2"></b-icon></b-button>
-        <b-collapse id="collapse-2" style="max-width: 1200px;" visible>
+        <b-button
+        v-b-toggle="'collapse-2'"
+        class="mt-2" variant="light"
+        :pressed="true"
+        block
+        style="text-align: left"
+        @click="toggleCollapse">
+            <b>FFT Complete Graph</b><b-icon :icon="collapseOn ? 'eye-slash' : 'eye'" class="ml-2" variant="dark"></b-icon>
+        </b-button>
+        <b-collapse id="collapse-2" visible text-align="center">
             <b-card v-show="validData" >
-                <canvas ref="FFTComplete" style="max-width: 1200px; max-height: 600px;"/>
+                <canvas ref="FFTComplete" style="max-width: 800px; max-height: 400px;"/>
                 <b-button variant="outline-primary" @click="downloadFigure">
                     <b-icon icon="download"></b-icon> Download Figure
                 </b-button>
             </b-card>
             <b-card v-if="!validData">
-                <p>Data is not valid!</p>
+                <p>There are no records to show. Please come back later.</p>
             </b-card>
             
         </b-collapse>
@@ -32,15 +40,12 @@ export default {
             projectName: '',
             chart: {},
             chartData: {},
-            validData: false
+            validData: false,
+            collapseOn: true
         }
     },
     mounted() {
         this.projectName = this.$route.params.projectName
-        // console.log(this.testDataEntries.length > 0)
-        // console.log(this.testDataEntries.length != null)
-        // console.log(this.fftDeadline !='')
-        // console.log(this.testDataEntries.length > 0 && this.fftDeadline != null && this.fftDeadline !='')
         if (!(this.testDataEntries.length > 0 && this.fftDeadline != null && this.fftDeadline !='')) {
             return
         }
@@ -49,6 +54,9 @@ export default {
         this.renderChart()
     },
     methods: {
+        toggleCollapse() {
+            this.collapseOn = !this.collapseOn
+        },
         generateGraphData() {
             let labels = []
             let actualLeft = []
@@ -60,7 +68,7 @@ export default {
             let idealRate = totalTests/projectDuration
             let idealLeft = []
 
-            for (let i = 0; i < projectDuration; i++) {
+            for (let i = 0; i <= projectDuration; i++) {
                 if (i < this.testDataEntries.length) {
                     let testDataEntry = this.testDataEntries[i]
                     totalTests = testDataEntry['totalTests']
