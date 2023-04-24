@@ -114,6 +114,11 @@ export default {
             let submissionForm = Object.assign({}, this.form)
             delete submissionForm.nittanyUrl
 
+            // Correct empty fftDeadline to null
+            if (submissionForm.fftDeadline === '') {
+                submissionForm.fftDeadline = null
+            }
+
             this.$axios.patch(this.$backend.getUrlPatchProject(), submissionForm)
             .then(() => {
                 this.$emit('patch-project')
@@ -146,7 +151,7 @@ export default {
         return this.deleteString == this.name
       }
     },
-    async mounted() {
+    mounted() {
         this.form.name = this.name
         this.form.nittanyUrl = this.nittanyUrl
         this.form.fftDeadline = this.fftDeadline

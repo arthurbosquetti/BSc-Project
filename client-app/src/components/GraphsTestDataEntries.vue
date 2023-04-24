@@ -33,7 +33,7 @@ export default {
             charts: {}
         } 
     },    
-    async mounted() {
+    mounted() {
         this.projectName = this.$route.params.projectName
         this.dailyTrendData = this.generateGraphData(1)
         this.weeklyTrendData = this.generateGraphData(7)

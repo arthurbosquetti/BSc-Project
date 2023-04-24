@@ -56,7 +56,7 @@ export default {
 
         }
     },
-    async mounted() {
+    mounted() {
         this.projectName = this.$route.params.projectName
         this.items = this.generateTableItems()
     }

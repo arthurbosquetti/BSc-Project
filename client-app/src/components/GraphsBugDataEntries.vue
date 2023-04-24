@@ -44,7 +44,7 @@ export default {
             charts: {}
         }
     },
-    async mounted() {
+    mounted() {
         this.projectName = this.$route.params.projectName
 
         this.dailyBCMMTrendData = this.generateGraphData(1, ["Blocker", "Critical", "Major", "Minor"])
