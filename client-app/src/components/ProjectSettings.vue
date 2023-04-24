@@ -57,7 +57,7 @@
         <b-button v-b-toggle="'collapse-2'" class="mt-2" variant="danger" block>Danger Zone<b-icon icon="exclamation-triangle-fill" class="ml-2"></b-icon></b-button>
         <b-collapse id="collapse-2">
             <b-card>
-                <b-card-text style="font-weight: bold;">Are you sure you want to delete all data for {{ projectName }}? This action cannot be undone!</b-card-text>
+                <b-card-text style="font-weight: bold;">Are you sure you want to delete all data for {{ name }}? This action cannot be undone!</b-card-text>
                 <b-form>
                 <b-input-group>
                     <b-form-input
@@ -88,9 +88,15 @@
 import router from '@/router'
 
 export default {
+    name: 'ProjectSettings',
+    props: {
+        name: String,
+        nittanyUrl: String,
+        fftDeadline: String,
+        componentsList: Array
+    },
     data() {
         return {
-            projectName: '',
             form: {
                 name: '',
                 nittanyUrl: '',
@@ -101,16 +107,6 @@ export default {
         }
     },
     methods: {
-        async fetch(projectName) {
-            await this.$axios
-              .get(this.$backend.getUrlGetProject(projectName))
-              .then(res => {
-                this.form.name = res.data.name
-                this.form.nittanyUrl = res.data.nittanyUrl
-                this.form.fftDeadline = res.data.fftDeadline
-                this.form.componentsList = res.data.componentsList
-              })
-        },
         onSubmit(event) {
             event.preventDefault()
 
@@ -134,7 +130,7 @@ export default {
                 return
             }
             this.$axios
-              .delete(this.$backend.getUrlDeleteProject(this.projectName))
+              .delete(this.$backend.getUrlDeleteProject(this.name))
               .catch(function (error) {
                 if (error.response) {
                     window.alert(error.response.data);
@@ -147,12 +143,14 @@ export default {
     },
     computed: {
       validation() {
-        return this.deleteString == this.projectName
+        return this.deleteString == this.name
       }
     },
     async mounted() {
-        this.projectName = this.$route.params.projectName
-        await this.fetch(this.projectName)
+        this.form.name = this.name
+        this.form.nittanyUrl = this.nittanyUrl
+        this.form.fftDeadline = this.fftDeadline
+        this.form.componentsList = this.componentsList
 
     }
 

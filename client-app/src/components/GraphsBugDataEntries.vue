@@ -28,10 +28,15 @@ import Chart from "chart.js/auto"
 
 export default {
     name: 'GraphsBugDataEntries',
+    props: {
+        bugDataEntries: {
+            type: Array,
+            default: () => []
+        }
+    },
     data() {
         return {
             projectName: '',
-            bugDataEntries: [],
             dailyBCMMTrendData: {},
             weeklyBCMMTrendData: {},
             dailyBCMTrendData: {},
@@ -41,13 +46,11 @@ export default {
     },
     async mounted() {
         this.projectName = this.$route.params.projectName
-        await this.fetch(this.projectName)
 
         this.dailyBCMMTrendData = this.generateGraphData(1, ["Blocker", "Critical", "Major", "Minor"])
         this.weeklyBCMMTrendData = this.generateGraphData(7, ["Blocker", "Critical", "Major", "Minor"])
         this.dailyBCMTrendData = this.generateGraphData(1, ["Blocker", "Critical", "Major"])
         this.weeklyBCMTrendData = this.generateGraphData(7, ["Blocker", "Critical", "Major", "Minor"])
-        this.bugDataEntries = []
 
         this.renderChart("dailyBCMMTrend", this.dailyBCMMTrendData, "BCMM Bugs Daily Trend for " + this.projectName)
         this.renderChart("weeklyBCMMTrend", this.weeklyBCMMTrendData, "BCMM Bugs Weekly Trend for " + this.projectName)
@@ -55,12 +58,6 @@ export default {
         this.renderChart("weeklyBCMTrend", this.weeklyBCMTrendData, "BCM Bugs Weekly Trend for " + this.projectName)
     },
     methods: {
-        async fetch(projectName) {
-            await this.$axios.get(this.$backend.getUrlProjectBugDataList(projectName))
-            .then(res => {
-                this.bugDataEntries = res.data
-              })
-        },
         generateGraphData(dayInterval, bugLevels) {
             let labels = []
 

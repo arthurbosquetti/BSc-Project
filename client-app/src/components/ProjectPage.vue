@@ -6,42 +6,49 @@
                 <template #title>
                     Overview<b-icon icon="info-circle" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <ProjectOverview />
+                <ProjectOverview v-if="loaded" :project="project"/>
             </b-tab>
 
             <b-tab>
                 <template #title>
                     SV FFT Trends <b-icon icon="graph-up" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <GraphsTestDataEntries />
+                <GraphsTestDataEntries v-if="loaded" :testDataEntries="project.testDataEntries"/>
             </b-tab>
             
             <b-tab>
                 <template #title>
                     Bug Trends <b-icon icon="graph-down" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <GraphsBugDataEntries />
+                <GraphsBugDataEntries  v-if="loaded" :bugDataEntries="project.bugDataEntries"/>
             </b-tab>
 
             <b-tab>
                 <template #title>
                     SV FFT Data <b-icon icon="clipboard-data" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <ListTestDataEntries />
+                <ListTestDataEntries v-if="loaded" :testDataEntries="project.testDataEntries"/>
             </b-tab>
 
             <b-tab>
                 <template #title>
                     Bug Data <b-icon icon="clipboard-data" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <ListBugDataEntries />
+                <ListBugDataEntries v-if="loaded" :bugDataEntries="project.bugDataEntries"/>
             </b-tab>
 
             <b-tab>
                 <template #title>
                     Settings <b-icon icon="gear" variant="primary" class="ml-2"></b-icon>
                 </template>
-                <ProjectSettings @patch-project="reloadPage" @delete-project="deleteProject"/>
+                <ProjectSettings
+                @patch-project="reloadPage"
+                @delete-project="deleteProject"
+                v-if="loaded"
+                :name="project.name"
+                :nittanUrl="project.nittanyUrl"
+                :fftDeadline="project.fftDeadline"
+                :componentsList="project.componentsList"/>
             </b-tab>
 
         </b-tabs>
@@ -64,6 +71,16 @@ export default {
     data() {
         return {
             projectName: "",
+            project: {
+                name: '',
+                nittanyUrl: '',
+                fftDeadline: null,
+                status: '',
+                componentsList: null,
+                testDataEntries: null,
+                bugDataEntries: null
+            },
+            loaded: false
         }
     },
     methods: {
@@ -72,10 +89,19 @@ export default {
         },
         deleteProject() {
             router.push
+        },
+        async fetch(projectName) {
+            await this.$axios
+              .get(this.$backend.getUrlGetProject(projectName))
+              .then(res => {
+                this.project = res.data
+              })
         }
     },
     async mounted() {
         this.projectName = this.$route.params.projectName;
+        await this.fetch(this.projectName)
+        this.loaded = true
     }
 }
 </script>

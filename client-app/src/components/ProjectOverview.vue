@@ -30,7 +30,7 @@
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-nittany-url"
-                v-model="project['nittanyUrl']"
+                v-model="projectInfo['nittanyUrl']"
                 type="url"
                 disabled
                 ></b-form-input>
@@ -41,25 +41,23 @@
 </template>
 
 <script>
+
 export default {
+    name: 'ProjectOverview',
+    props: {
+        project: Object
+    },
     data() {
         return {
             projectName: '',
-            project: {}
+            projectInfo: {}
         }
     },
     methods: {
-        async fetch(projectName) {
-            await this.$axios
-              .get(this.$backend.getUrlGetProject(projectName))
-              .then(res => {
-                this.project = res.data
-              })
-        }
     },
     async mounted() {
         this.projectName = this.$route.params.projectName
-        await this.fetch(this.projectName)
+        this.projectInfo = this.project
     }
 
 }

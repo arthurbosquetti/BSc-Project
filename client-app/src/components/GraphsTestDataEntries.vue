@@ -19,10 +19,15 @@ import Chart from "chart.js/auto"
 
 export default {
     name: 'GraphsTestDataEntries',
+    props: {
+        testDataEntries: {
+            type: Array,
+            default: () => []
+        }
+    },
     data() {
         return {
             projectName: '',
-            testDataEntries: [],
             dailyTrendData: {},
             weeklyTrendData: {},
             charts: {}
@@ -30,19 +35,12 @@ export default {
     },    
     async mounted() {
         this.projectName = this.$route.params.projectName
-        await this.fetch(this.projectName)
         this.dailyTrendData = this.generateGraphData(1)
         this.weeklyTrendData = this.generateGraphData(7)
         this.renderChart("dailyTrend", this.dailyTrendData, "SV FFT Daily Trend for " + this.projectName)
         this.renderChart("weeklyTrend", this.weeklyTrendData, "SV FFT Weekly Trend for " + this.projectName)
     },
     methods: {
-        async fetch(projectName) {
-            await this.$axios.get(this.$backend.getUrlProjectTestDataList(projectName))
-            .then(res => {
-                this.testDataEntries = res.data
-              })
-        },
         generateGraphData(dayInterval) {
             let labels = []
 

@@ -8,10 +8,16 @@
 <script>
 export default {
     name: 'ListTestDataEntries',
+    props: {
+        testDataEntries: {
+            type: Array,
+            default: () => []
+        }
+    },
     data() {
         return {
             projectName: '',
-            testDataEntries: [],
+            // testDataEntries: [],
             items: [],
             fields: [
                 { key: 'entryDate', label: 'Date'},
@@ -28,13 +34,6 @@ export default {
         }
     },
     methods: {
-        async fetch(projectName) {
-            await this.$axios
-              .get(this.$backend.getUrlProjectTestDataList(projectName))
-              .then(res => {
-                this.testDataEntries = res.data
-              })
-        },
         generateTableItems() {
             let items = []
             for (let i = 0; i < this.testDataEntries.length; i++) {
@@ -59,9 +58,7 @@ export default {
     },
     async mounted() {
         this.projectName = this.$route.params.projectName
-        await this.fetch(this.projectName)
         this.items = this.generateTableItems()
-        this.testDataEntries = []
     }
 }
 

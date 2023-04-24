@@ -8,10 +8,15 @@
 <script>
 export default {
     name: 'ListBugDataEntries',
+    props: {
+        bugDataEntries: {
+            type: Array,
+            default: () => []
+        }
+    },
     data() {
         return {
             projectName: '',
-            bugDataEntries: [],
             items: [],            
             fields: [
                 { key: 'entryDate', label: 'Date'},
@@ -30,13 +35,6 @@ export default {
         }
     },
     methods: {
-        async fetch(projectName) {
-            await this.$axios
-              .get(this.$backend.getUrlProjectBugDataList(projectName))
-              .then(res => {
-                this.bugDataEntries = res.data
-              })
-        },
         generateTableItems() {
             let items = []
             for (let i = 0; i < this.bugDataEntries.length; i++) {
@@ -61,9 +59,7 @@ export default {
     },
     async mounted() {
         this.projectName = this.$route.params.projectName
-        await this.fetch(this.projectName)
         this.items = this.generateTableItems()
-        this.bugDataEntries = []
     }
 }
 
