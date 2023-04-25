@@ -74,7 +74,7 @@ export default {
             project: {
                 name: '',
                 nittanyUrl: '',
-                fftDeadline: null,
+                fftDeadline: '',
                 status: '',
                 componentsList: null,
                 testDataEntries: null,

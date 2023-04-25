@@ -69,7 +69,11 @@ public class Project {
 	}
 
 	public void setFftDeadline(String fftDeadline) {
-		this.fftDeadline = fftDeadline;
+		if (!(fftDeadline == null) && fftDeadline.isBlank()) {
+			this.fftDeadline = null;
+		} else {
+			this.fftDeadline = fftDeadline;			
+		}
 	}
 
 	public void setStatus(ProjectStatus status) {

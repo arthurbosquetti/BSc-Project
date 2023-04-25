@@ -116,7 +116,7 @@ export default {
             form: {
                 name: '',
                 nittanyUrl: '',
-                fftDeadline: null,
+                fftDeadline: '',
                 componentsList: ['all']
             },
             show: true,
@@ -143,7 +143,7 @@ export default {
             event.preventDefault()
             this.form.name = ''
             this.form.nittanyUrl = ''
-            this.form.fftDeadline = null
+            this.form.fftDeadline = ''
             this.form.componentsList = ['all']
             // Trick to reset/clear native browser form validation state
             this.show = false
