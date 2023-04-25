@@ -195,10 +195,12 @@ definitions:
         type: "string"
         enum:
           - UNDEFINED
+          - INCOMPLETE
           - CRITICAL
           - BEHIND
           - ON_TRACK
           - AHEAD
+          - COMPLETED
       componentsList:
         type: "array"
         items: 

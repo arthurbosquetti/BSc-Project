@@ -92,24 +92,34 @@ public class Project {
 
 		TestDataEntry latestEntry = testDataEntries.get(testDataEntries.size() - 1);
 		int totalTests = latestEntry.getTotalTests();
-
 		if (totalTests == 0) {
 			return;
 		}
 
-		LocalDate startDate = LocalDate.parse(testDataEntries.get(0).getDataEntryId().getEntryDate());
+		int testsPassed = latestEntry.getTestsPassed();
+		if (testsPassed == totalTests) {
+			status = ProjectStatus.COMPLETED;
+			return;
+		}
+
+		LocalDate currentDate = LocalDate.parse(latestEntry.getDataEntryId().getEntryDate());
 		LocalDate endDate = LocalDate.parse(fftDeadline);
-		float projectDuration = ChronoUnit.DAYS.between(startDate, endDate);
+		if (!currentDate.isBefore(endDate)) {
+			status = ProjectStatus.INCOMPLETE;
+			return;
+		}
+		
+		LocalDate startDate = LocalDate.parse(testDataEntries.get(0).getDataEntryId().getEntryDate());
+		float projectDuration = ChronoUnit.DAYS.between(startDate, endDate) + 1;
 		float idealRate = totalTests / projectDuration;
 
-		int expectedTestsPassed = Math.round(idealRate * testDataEntries.size());
-		int actualTestsPassed = latestEntry.getTestsPassed();
+		double expectedTestsPassed = Math.ceil(idealRate*testDataEntries.size());
 
-		if (actualTestsPassed < expectedTestsPassed - totalTests * 0.25) {
+		if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*1.50) {
 			status = ProjectStatus.CRITICAL;
-		} else if (actualTestsPassed <= expectedTestsPassed - totalTests * 0.05) {
+		} else if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*1.05) {
 			status = ProjectStatus.BEHIND;
-		} else if (actualTestsPassed <= expectedTestsPassed + totalTests * 0.05) {
+		} else if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*0.90) {
 			status = ProjectStatus.ON_TRACK;
 		} else {
 			status = ProjectStatus.AHEAD;

@@ -54,10 +54,12 @@ export default {
         return {
             projectInfo: {},
             variants: {
+                'COMPLETED': 'success',
                 'AHEAD': 'success',
                 'ON_TRACK': 'info',
                 'BEHIND': 'warning',
                 'CRITICAL': 'danger',
+                'INCOMPLETE': 'danger',
                 'UNDEFINED': 'secondary'
             },
             variant: '',
