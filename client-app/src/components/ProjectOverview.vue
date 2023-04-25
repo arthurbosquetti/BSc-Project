@@ -7,7 +7,7 @@
         >
             <b-input-group size="md" class="mb-2">
                 <b-input-group-prepend is-text>
-                    <b-icon icon="bookmark" variant="dark"></b-icon>
+                    <b-icon icon="bookmark-fill" :variant="variant"></b-icon>
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-project-name"
@@ -24,8 +24,8 @@
             label-for="input-nittany-url"
         >
             <b-input-group class="mb-2">
-                <b-input-group-prepend is-text variant="secondary">
-                    <b-icon icon="link45deg" variant="dark"></b-icon>
+                <b-input-group-prepend is-text>
+                    <b-icon icon="link45deg" :variant="variant"></b-icon>
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-nittany-url"
@@ -37,7 +37,7 @@
         </b-form-group>
         <GraphFFTComplete
         :testDataEntries="project['testDataEntries']"
-        :fftDeadline="project['fftDeadline']"/>
+        :fftDeadline="project['fftDeadline']" v-if="variant" :variant="variant"/>
     </div>
 </template>
 
@@ -52,13 +52,20 @@ export default {
     },
     data() {
         return {
-            projectInfo: {}
+            projectInfo: {},
+            variants: {
+                'AHEAD': 'success',
+                'ON_TRACK': 'info',
+                'BEHIND': 'warning',
+                'CRITICAL': 'danger',
+                'UNDEFINED': 'secondary'
+            },
+            variant: '',
         }
-    },
-    methods: {
     },
     mounted() {
         this.projectInfo = this.project
+        this.variant = this.variants[this.project['status']]
     }
 }
 </script>

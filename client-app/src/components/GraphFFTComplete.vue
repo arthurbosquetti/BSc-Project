@@ -33,7 +33,8 @@ export default {
     name: 'GraphFFTComplete',
     props: {
         testDataEntries: Array,
-        fftDeadline: String
+        fftDeadline: String,
+        variant: String
     },
     data() {
         return {
@@ -41,7 +42,13 @@ export default {
             chart: {},
             chartData: {},
             validData: false,
-            collapseOn: true
+            collapseOn: true,
+            variantToRBG: {
+                "success": "#28a745",
+                "info": "#17a2b8",
+                "warning": "#ffc107",
+                "danger": "#dc3545" 
+            }
         }
     },
     mounted() {
@@ -83,11 +90,15 @@ export default {
             datasets.push(
                 {
                     "label": "Actual Left",
-                    "data": actualLeft
+                    "data": actualLeft,
+                    "backgroundColor": this.variantToRBG[this.variant],
+                    "borderColor": this.variantToRBG[this.variant]
                 },
                 {
                     "label": "Ideal Left",
-                    "data": idealLeft
+                    "data": idealLeft,
+                    "backgroundColor": "rgba(159, 207, 63, 1)",
+                    "borderColor": "rgba(159, 207, 63, 1)"
                 }
             )
 
