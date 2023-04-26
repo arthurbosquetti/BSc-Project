@@ -12,9 +12,9 @@
                     dark
                     nav-button-variant="light"
                     close-button
-                    close-button-variant="warning"
+                    close-button-variant="light"
                     reset-button
-                    reset-button-variant="danger"
+                    reset-button-variant="warning"
                     offset="-2"
                     no-highlight-today
                     placeholder="Select a date"

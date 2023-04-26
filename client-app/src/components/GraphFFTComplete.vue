@@ -9,17 +9,16 @@
         @click="toggleCollapse">
             <b>FFT Complete Graph</b><b-icon :icon="collapseOn ? 'eye-slash' : 'eye'" class="ml-2" variant="light"></b-icon>
         </b-button>
-        <b-collapse id="collapse-2" visible text-align="center">
+        <b-collapse id="collapse-2" visible>
             <b-card v-show="validData" >
                 <canvas ref="FFTComplete" style="max-width: 1200px; max-height: 600px;"/>
                 <b-button variant="outline-primary" @click="downloadFigure">
                     <b-icon icon="download"></b-icon> Download Figure
                 </b-button>
             </b-card>
-            <b-card v-if="!validData">
+            <b-card v-show="!validData">
                 <p>There are no records to show. Please come back later.</p>
             </b-card>
-            
         </b-collapse>
         
     </div>
@@ -71,7 +70,6 @@ export default {
             let startDate = new Date(this.testDataEntries[0]["dataEntryId"]["entryDate"])
             let endDate = new Date(this.fftDeadline)
             let projectDuration = (endDate - startDate)/(24*60*60*1000) + 1
-            console.log(projectDuration)
             let totalTests = 0
             let idealRate = 0
             let idealLeft = []
@@ -81,7 +79,6 @@ export default {
                     let testDataEntry = this.testDataEntries[i]
                     totalTests = testDataEntry["totalTests"]
                     idealRate = totalTests/projectDuration
-                    console.log(idealRate)
                     actualLeft.push(testDataEntry["testsPassed"])
                 }
                 idealLeft.push(Math.ceil((i+1)*idealRate))
@@ -131,13 +128,12 @@ export default {
                         }
                     },
                     responsive: true,
-                    maintainAspectRatio: false,
+                    maintainAspectRatio: false
                 }
             })
 
         },
         downloadFigure() {
-            console.log(this.chart)
             var a = document.createElement('a');
             a.href = this.chart.toBase64Image();
             a.download = (this.projectName + "_" + this.chart.options.plugins.title.text.replace(" for " + this.projectName, "")).replaceAll(" ", "_") +'.png';
