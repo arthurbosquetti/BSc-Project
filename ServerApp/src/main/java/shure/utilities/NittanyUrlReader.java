@@ -22,7 +22,11 @@ public class NittanyUrlReader {
 		System.out.println("Reading URL...");
 		String urlOutput = IOUtils.toString(url, Charset.forName("UTF-8"));
 		try {
-			this.json = new JSONObject(urlOutput);
+			JSONObject json = new JSONObject(urlOutput);
+			json.getJSONArray("line_chart_results");
+			json.getJSONArray("all_bugs");
+			json.getString("release_name");
+			this.json = json;
 			System.out.println("URL reading successful!");
 			return true;
 		} catch (JSONException e) {
