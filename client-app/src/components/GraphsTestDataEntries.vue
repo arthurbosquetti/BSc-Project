@@ -1,16 +1,60 @@
 <template>
     <div>
-        <canvas ref="dailyTrend" style="max-width: 1200px; max-height: 600px;"/>
-        <b-button variant="outline-primary" @click="downloadFigure('dailyTrend')">
-            <b-icon icon="download"></b-icon> Download Figure
-        </b-button>
-        
-        <canvas ref="weeklyTrend" style="max-width: 1200px; max-height: 600px;"/>
-        <b-button variant="outline-primary" @click="downloadFigure('weeklyTrend')">
-            <b-icon icon="download"></b-icon> Download Figure
-        </b-button>
-
-        
+        <div v-show="validData">
+            <b-container fluid>
+                <b-row style="max-width: 1200px" align-v="end">
+                    <b-col>
+                        <label label-for="start-date-picker">Select a start date</label>
+                        <b-form-datepicker
+                        button-variant="secondary"
+                        dark
+                        nav-button-variant="light"
+                        close-button
+                        close-button-variant="light"
+                        reset-button
+                        reset-button-variant="warning"
+                        :reset-value="minDate"
+                        :min="minDate"
+                        :max="endDate"
+                        no-highlight-today
+                        v-model="startDate"
+                        id="start-date-picker"
+                        ></b-form-datepicker>
+                    </b-col>
+                    <b-col>
+                        <label label-for="end-date-picker">Select an end date</label>
+                        <b-form-datepicker
+                        button-variant="secondary"
+                        dark
+                        nav-button-variant="light"
+                        close-button
+                        close-button-variant="light"
+                        reset-button
+                        reset-button-variant="warning"
+                        :reset-value="maxDate"
+                        :min="startDate"
+                        :max="maxDate"
+                        no-highlight-today
+                        v-model="endDate"
+                        id="end-date-picker"
+                        ></b-form-datepicker>
+                    </b-col>
+                        <b-button variant="outline-primary" style="max-height: 50px;" @click="updateCharts">
+                            <b-icon icon="arrow-clockwise"></b-icon> Update graphs 
+                        </b-button>
+                </b-row>
+            </b-container>
+            <canvas ref="dailyTrend" style="max-width: 1200px; max-height: 600px;"/>
+            <b-button variant="outline-primary" @click="downloadFigure('dailyTrend')">
+                <b-icon icon="download"></b-icon> Download Figure
+            </b-button>
+            
+            <canvas ref="weeklyTrend" style="max-width: 1200px; max-height: 600px;"/>
+            <b-button variant="outline-primary" @click="downloadFigure('weeklyTrend')">
+                <b-icon icon="download"></b-icon> Download Figure
+            </b-button>
+        </div>
+        <p v-show="!validData">Nothing to show. Please come back later.</p>
     </div>
   </template> 
 
@@ -20,28 +64,40 @@ import Chart from "chart.js/auto"
 export default {
     name: 'GraphsTestDataEntries',
     props: {
-        testDataEntries: {
-            type: Array,
-            default: () => []
-        }
+        testDataEntries: Array
     },
     data() {
         return {
             projectName: '',
             dailyTrendData: {},
             weeklyTrendData: {},
-            charts: {}
+            charts: {},
+            validData: false,
+            startDate: '',
+            endDate: '',
+            minDate: '',
+            maxDate: '',
         } 
     },    
     mounted() {
+        if (!this.testDataEntries.length > 0) {
+            return
+        }
+        
+        this.validData = true
+        this.startDate = this.testDataEntries[0].dataEntryId.entryDate
+        this.minDate = this.startDate
+        this.endDate = this.testDataEntries[this.testDataEntries.length - 1].dataEntryId.entryDate
+        this.maxDate = this.endDate
         this.projectName = this.$route.params.projectName
-        this.dailyTrendData = this.generateGraphData(1)
-        this.weeklyTrendData = this.generateGraphData(7)
+
+        this.dailyTrendData = this.generateGraphData(this.minDate, this.maxDate, 1)
+        this.weeklyTrendData = this.generateGraphData(this.minDate, this.maxDate, 7)
         this.renderChart("dailyTrend", this.dailyTrendData, "SV FFT Daily Trend for " + this.projectName)
         this.renderChart("weeklyTrend", this.weeklyTrendData, "SV FFT Weekly Trend for " + this.projectName)
     },
     methods: {
-        generateGraphData(dayInterval) {
+        generateGraphData(startDate, endDate, interval) {
             let labels = []
 
             let testsPassedDataset = []
@@ -51,9 +107,25 @@ export default {
             let testsNoRunDataset = []
             let target95Dataset = []
 
-            for (let i = 0; i < this.testDataEntries.length; i += dayInterval) {
+            let startIndex = 0
+
+            for (let i = 0; i < this.testDataEntries.length; i++) {
                 let testDataEntry = this.testDataEntries[i]
                 let entryDate = testDataEntry["dataEntryId"]["entryDate"]
+                if (entryDate < startDate) {
+                    continue
+                }
+                if (entryDate == startDate) {
+                    startIndex = i
+                }
+
+                if (entryDate > endDate) {
+                    break
+                }
+                if ((i-startIndex)%interval != 0) {
+                    continue
+                }
+
                 labels.push(entryDate)
 
                 testsPassedDataset.push(testDataEntry["testsPassed"])
@@ -151,6 +223,14 @@ export default {
             a.href = chart.toBase64Image();
             a.download = (this.projectName + "_" + chart.options.plugins.title.text.replace(" for " + this.projectName, "")).replaceAll(" ", "_") +'.png';
             a.click()
+        },
+        updateCharts() {
+            this.charts["dailyTrend"].data = this.generateGraphData(this.startDate, this.endDate, 1)
+            this.charts["weeklyTrend"].data= this.generateGraphData(this.startDate, this.endDate, 7)
+
+            for (const [, value] of Object.entries(this.charts)) {
+                value.update()
+            }
         }
     }
 }

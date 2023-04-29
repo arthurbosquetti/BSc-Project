@@ -1,25 +1,70 @@
 <template>
     <div>
-        <canvas ref="dailyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
-        <b-button variant="outline-primary" @click="downloadFigure('dailyBCMMTrend')">
-            <b-icon icon="download"></b-icon> Download Figure
-        </b-button>
+        <div v-show="validData">
+            <b-container fluid>
+                <b-row style="max-width: 1200px" align-v="end">
+                    <b-col>
+                        <label label-for="start-date-picker">Select a start date</label>
+                        <b-form-datepicker
+                        button-variant="secondary"
+                        dark
+                        nav-button-variant="light"
+                        close-button
+                        close-button-variant="light"
+                        reset-button
+                        reset-button-variant="warning"
+                        :reset-value="minDate"
+                        :min="minDate"
+                        :max="endDate"
+                        no-highlight-today
+                        v-model="startDate"
+                        id="start-date-picker"
+                        ></b-form-datepicker>
+                    </b-col>
+                    <b-col>
+                        <label label-for="end-date-picker">Select an end date</label>
+                        <b-form-datepicker
+                        button-variant="secondary"
+                        dark
+                        nav-button-variant="light"
+                        close-button
+                        close-button-variant="light"
+                        reset-button
+                        reset-button-variant="warning"
+                        :reset-value="maxDate"
+                        :min="startDate"
+                        :max="maxDate"
+                        no-highlight-today
+                        v-model="endDate"
+                        id="end-date-picker"
+                        ></b-form-datepicker>
+                    </b-col>
+                        <b-button variant="outline-primary" style="max-height: 50px;" @click="updateCharts">
+                            <b-icon icon="arrow-clockwise"></b-icon> Update graphs 
+                        </b-button>
+                </b-row>
+            </b-container>
+            <canvas ref="dailyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
+            <b-button variant="outline-primary" @click="downloadFigure('dailyBCMMTrend')">
+                <b-icon icon="download"></b-icon> Download Figure
+            </b-button>
 
-        <canvas ref="weeklyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
-        <b-button variant="outline-primary" @click="downloadFigure('weeklyBCMMTrend')">
-            <b-icon icon="download"></b-icon> Download Figure
-        </b-button>
+            <canvas ref="weeklyBCMMTrend" style="max-width: 1200px; max-height: 600px;"/>
+            <b-button variant="outline-primary" @click="downloadFigure('weeklyBCMMTrend')">
+                <b-icon icon="download"></b-icon> Download Figure
+            </b-button>
 
-        <canvas ref="dailyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>
-        <b-button variant="outline-primary" @click="downloadFigure('dailyBCMTrend')">
-            <b-icon icon="download"></b-icon> Download Figure
-        </b-button>
+            <canvas ref="dailyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>
+            <b-button variant="outline-primary" @click="downloadFigure('dailyBCMTrend')">
+                <b-icon icon="download"></b-icon> Download Figure
+            </b-button>
 
-        <canvas ref="weeklyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>
-        <b-button variant="outline-primary" @click="downloadFigure('weeklyBCMTrend')">
-            <b-icon icon="download"></b-icon> Download Figure
-        </b-button>
-
+            <canvas ref="weeklyBCMTrend" style="max-width: 1200px; max-height: 600px;"/>
+            <b-button variant="outline-primary" @click="downloadFigure('weeklyBCMTrend')">
+                <b-icon icon="download"></b-icon> Download Figure
+            </b-button>
+        </div>
+        <p v-show="!validData">Nothing to show. Please come back later.</p>
     </div>
 </template>
 
@@ -29,10 +74,7 @@ import Chart from "chart.js/auto"
 export default {
     name: 'GraphsBugDataEntries',
     props: {
-        bugDataEntries: {
-            type: Array,
-            default: () => []
-        }
+        bugDataEntries: Array
     },
     data() {
         return {
@@ -41,16 +83,30 @@ export default {
             weeklyBCMMTrendData: {},
             dailyBCMTrendData: {},
             weeklyBCMTrendData: {},
-            charts: {}
+            charts: {},
+            validData: false,
+            startDate: '',
+            endDate: '',
+            minDate: '',
+            maxDate: '',
         }
     },
     mounted() {
+        if (!this.bugDataEntries.length > 0) {
+            return
+        }
+        
+        this.validData = true
+        this.startDate = this.bugDataEntries[0].dataEntryId.entryDate
+        this.minDate = this.startDate
+        this.endDate = this.bugDataEntries[this.bugDataEntries.length - 1].dataEntryId.entryDate
+        this.maxDate = this.endDate
         this.projectName = this.$route.params.projectName
 
-        this.dailyBCMMTrendData = this.generateGraphData(1, ["Blocker", "Critical", "Major", "Minor"])
-        this.weeklyBCMMTrendData = this.generateGraphData(7, ["Blocker", "Critical", "Major", "Minor"])
-        this.dailyBCMTrendData = this.generateGraphData(1, ["Blocker", "Critical", "Major"])
-        this.weeklyBCMTrendData = this.generateGraphData(7, ["Blocker", "Critical", "Major", "Minor"])
+        this.dailyBCMMTrendData = this.generateGraphData(this.startDate, this.endDate, 1, ["Blocker", "Critical", "Major", "Minor"])
+        this.weeklyBCMMTrendData = this.generateGraphData(this.startDate, this.endDate, 7, ["Blocker", "Critical", "Major", "Minor"])
+        this.dailyBCMTrendData = this.generateGraphData(this.startDate, this.endDate, 1, ["Blocker", "Critical", "Major"])
+        this.weeklyBCMTrendData = this.generateGraphData(this.startDate, this.endDate, 7, ["Blocker", "Critical", "Major"])
 
         this.renderChart("dailyBCMMTrend", this.dailyBCMMTrendData, "BCMM Bugs Daily Trend for " + this.projectName)
         this.renderChart("weeklyBCMMTrend", this.weeklyBCMMTrendData, "BCMM Bugs Weekly Trend for " + this.projectName)
@@ -58,15 +114,31 @@ export default {
         this.renderChart("weeklyBCMTrend", this.weeklyBCMTrendData, "BCM Bugs Weekly Trend for " + this.projectName)
     },
     methods: {
-        generateGraphData(dayInterval, bugLevels) {
+        generateGraphData(startDate, endDate, interval, bugLevels) {
             let labels = []
 
             let openBugTrend = []
             let fixedBugTrend = []
 
-            for (let i = 0; i < this.bugDataEntries.length; i += dayInterval) {
+            let startIndex = 0
+
+            for (let i = 0; i < this.bugDataEntries.length; i++) {
                 let bugDataEntry = this.bugDataEntries[i]
                 let entryDate = bugDataEntry["dataEntryId"]["entryDate"]
+                if (entryDate < startDate) {
+                    continue
+                }
+                if (entryDate == startDate) {
+                    startIndex = i
+                }
+
+                if (entryDate > endDate) {
+                    break
+                }
+                if ((i-startIndex)%interval != 0) {
+                    continue
+                }
+
                 labels.push(entryDate)
 
                 let openBugsInEntry = 0
@@ -142,6 +214,16 @@ export default {
             a.href = chart.toBase64Image();
             a.download = (this.projectName + "_" + chart.options.plugins.title.text.replace(" for " + this.projectName, "")).replaceAll(" ", "_") +'.png';
             a.click()
+        },
+        updateCharts() {
+            this.charts["dailyBCMMTrend"].data = this.generateGraphData(this.startDate, this.endDate, 1, ["Blocker", "Critical", "Major", "Minor"])
+            this.charts["weeklyBCMMTrend"].data = this.generateGraphData(this.startDate, this.endDate, 7, ["Blocker", "Critical", "Major", "Minor"])
+            this.charts["dailyBCMTrend"].data = this.generateGraphData(this.startDate, this.endDate, 1, ["Blocker", "Critical", "Major"])
+            this.charts["weeklyBCMTrend"].data = this.generateGraphData(this.startDate, this.endDate, 7, ["Blocker", "Critical", "Major"])
+
+            for (const [, value] of Object.entries(this.charts)) {
+                value.update()
+            }
         }
     }
 }
