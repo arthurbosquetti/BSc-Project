@@ -11,6 +11,49 @@
         </b-button>
         <b-collapse id="collapse-2" visible>
             <b-card v-show="validData" >
+                <b-container fluid>
+                <b-row style="max-width: 1200px" align-v="end">
+                    <b-col>
+                        <label label-for="start-date-picker">Select a start date</label>
+                        <b-form-datepicker
+                        button-variant="secondary"
+                        dark
+                        nav-button-variant="light"
+                        close-button
+                        close-button-variant="light"
+                        reset-button
+                        reset-button-variant="warning"
+                        :reset-value="minDate"
+                        :min="minDate"
+                        :max="endDate"
+                        no-highlight-today
+                        v-model="startDate"
+                        id="start-date-picker"
+                        ></b-form-datepicker>
+                    </b-col>
+                    <b-col>
+                        <label label-for="end-date-picker">Select an end date</label>
+                        <b-form-datepicker
+                        button-variant="secondary"
+                        dark
+                        nav-button-variant="light"
+                        close-button
+                        close-button-variant="light"
+                        reset-button
+                        reset-button-variant="warning"
+                        :reset-value="maxDate"
+                        :min="startDate"
+                        :max="maxDate"
+                        no-highlight-today
+                        v-model="endDate"
+                        id="end-date-picker"
+                        ></b-form-datepicker>
+                    </b-col>
+                        <b-button variant="outline-primary" style="max-height: 50px;" @click="updateCharts">
+                            <b-icon icon="arrow-clockwise"></b-icon> Update graphs 
+                        </b-button>
+                </b-row>
+            </b-container>
                 <canvas ref="FFTComplete" style="max-width: 1200px; max-height: 600px;"/>
                 <b-button variant="outline-primary" @click="downloadFigure">
                     <b-icon icon="download"></b-icon> Download Figure
@@ -47,15 +90,24 @@ export default {
                 "info": "#17a2b8",
                 "warning": "#ffc107",
                 "danger": "#dc3545" 
-            }
+            },
+            startDate: '',
+            endDate: '',
+            minDate: '',
+            maxDate: '',
         }
     },
     mounted() {
-        this.projectName = this.$route.params.projectName
         if (this.testDataEntries.length == 0 || this.fftDeadline == null || this.fftDeadline =='') {
             return
         }
+        
         this.validData = true
+        this.minDate = this.testDataEntries[0].dataEntryId.entryDate
+        this.startDate = this.minDate
+        this.maxDate = this.fftDeadline
+        this.endDate = this.maxDate
+        this.projectName = this.$route.params.projectName
         this.chartData = this.generateGraphData()
         this.renderChart()
     },
@@ -138,6 +190,11 @@ export default {
             a.href = this.chart.toBase64Image();
             a.download = (this.projectName + "_" + this.chart.options.plugins.title.text.replace(" for " + this.projectName, "")).replaceAll(" ", "_") +'.png';
             a.click()
+        },
+        updateCharts() {
+            this.chart.options.scales.x.min = this.startDate
+            this.chart.options.scales.x.max = this.endDate
+            this.chart.update()
         }
     }
 }
