@@ -25,7 +25,7 @@ public class TestDataEntry extends DataEntry {
 	@Column
 	private int target95;
 	@Column
-	private int leftToTarget;
+	private int leftToTarget95;
 
 	public TestDataEntry() {
 	}
@@ -46,9 +46,9 @@ public class TestDataEntry extends DataEntry {
 		this.testsNotCompleted = lineChartResult.getInt("notCompleted");
 		this.testsNoRun = totalTests - testsPassed - testsFailed - testsBlocked - testsNotCompleted;
 		this.target95 = (int) (0.95 * totalTests);
-		int leftToTarget = target95 - testsPassed;
-		if (leftToTarget > 0)
-			this.leftToTarget = leftToTarget;
+		int leftToTarget95 = target95 - testsPassed;
+		if (leftToTarget95 > 0)
+			this.leftToTarget95 = leftToTarget95;
 
 	}
 
@@ -116,12 +116,12 @@ public class TestDataEntry extends DataEntry {
 		this.target95 = target95;
 	}
 
-	public int getLeftToTarget() {
-		return leftToTarget;
+	public int getLeftToTarget95() {
+		return leftToTarget95;
 	}
 
-	public void setLeftToTarget(int leftToTarget) {
-		this.leftToTarget = leftToTarget;
+	public void setLeftToTarget95(int leftToTarget95) {
+		this.leftToTarget95 = leftToTarget95;
 	}
 
 }

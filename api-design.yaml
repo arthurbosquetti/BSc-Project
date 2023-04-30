@@ -234,7 +234,7 @@ definitions:
         type: "integer"
       target95:
         type: "integer"
-      leftToTarget:
+      leftToTarget95:
         type: "integer"
   BugDataEntry:
     type: "object"

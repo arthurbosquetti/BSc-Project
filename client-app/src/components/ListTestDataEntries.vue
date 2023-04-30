@@ -28,7 +28,7 @@ export default {
                 'testsNotCompleted',
                 'passRate',
                 { key: 'target95', label: "95% Goal"},
-                { key: 'leftToTarget', label: "Left to 95% Goal"},
+                { key: 'leftToTarget95', label: "Left to 95% Goal"},
                 'totalTests'
         ]
         }
@@ -47,7 +47,7 @@ export default {
                     'testsNotCompleted': testDataEntry['testsNotCompleted'],
                     'passRate': parseFloat(testDataEntry['testsPassed']/testDataEntry['totalTests'] * 100).toFixed(2) + "%",
                     'target95': testDataEntry['target95'],
-                    'leftToTarget': testDataEntry['leftToTarget'],
+                    'leftToTarget95': testDataEntry['leftToTarget95'],
                     'totalTests': testDataEntry['totalTests']
                 })
             }
