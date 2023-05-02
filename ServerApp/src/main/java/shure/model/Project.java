@@ -30,6 +30,8 @@ public class Project {
 	@Column
 	private String fftDeadline;
 	@Column
+	private String releaseName;	
+	@Column
 	private ProjectStatus status = ProjectStatus.UNDEFINED;
 
 	@ElementCollection
@@ -76,6 +78,14 @@ public class Project {
 		}
 	}
 
+	public String getReleaseName() {
+		return releaseName;
+	}
+	
+	public void setReleaseName(String releaseName) {
+		this.releaseName = releaseName;
+	}
+	
 	public void setStatus(ProjectStatus status) {
 		this.status = status;
 	}

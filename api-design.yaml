@@ -191,6 +191,8 @@ definitions:
         type: "string"
       fftDeadline:
         type: "string"
+      releaseName:
+        type: "string"
       status:
         type: "string"
         enum:
@@ -241,8 +243,6 @@ definitions:
     properties:
       dataEntryId:
         $ref: "#/definitions/DataEntryId"
-      swVersion:
-        type: "string"
       openBlockerBugs:
         type: "integer"
       openCriticalBugs:

@@ -69,8 +69,7 @@ public class ProjectDataUpdator {
 	private void updateBugDataEntries(Project project, JSONObject nittanyData) {
 		JSONArray allBugs = nittanyData.getJSONArray("all_bugs");
 		if (!allBugs.isEmpty()) {
-			String swVersion = nittanyData.getString("release_name");
-			BugDataEntry newBugDataEntry = new BugDataEntry(project.getName(), swVersion, allBugs, project.getComponentsList());
+			BugDataEntry newBugDataEntry = new BugDataEntry(project.getName(), allBugs, project.getComponentsList());
 			if (project.addDataEntry(newBugDataEntry)) {
 				repositoryBugDataEntries.save(newBugDataEntry);
 			}

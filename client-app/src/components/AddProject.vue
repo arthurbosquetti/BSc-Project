@@ -186,6 +186,7 @@ export default {
                 name: '',
                 nittanyUrl: '',
                 fftDeadline: '',
+                releaseName: '',
                 componentsList: ['all']
             },
             show: true,
@@ -217,6 +218,9 @@ export default {
             this.form.nittanyUrl = ''
             this.form.fftDeadline = ''
             this.form.componentsList = ['all']
+            this.projectTitle = ''
+            this.deviceName = ''
+            this.releaseName = ''
             // Trick to reset/clear native browser form validation state
             this.show = false
             this.$nextTick(() => {
@@ -232,6 +236,7 @@ export default {
             this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
         },
         releaseName: function() {
+            this.form.releaseName = this.releaseName
             this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
         }
       }

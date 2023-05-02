@@ -20,7 +20,6 @@ export default {
             items: [],            
             fields: [
                 { key: 'entryDate', label: 'Date'},
-                { key: 'swVersion', label: 'SW Version'},
                 'openBlockerBugs',
                 'openCriticalBugs',
                 'openMajorBugs',
@@ -41,7 +40,6 @@ export default {
                 let bugDataEntry = this.bugDataEntries[i]
                 items.push({
                     'entryDate': bugDataEntry['dataEntryId']['entryDate'],
-                    'swVersion': bugDataEntry['swVersion'],
                     'openBlockerBugs': bugDataEntry['openBlockerBugs'],
                     'openCriticalBugs': bugDataEntry['openCriticalBugs'],
                     'openMajorBugs': bugDataEntry['openMajorBugs'],
