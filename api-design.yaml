@@ -220,8 +220,6 @@ definitions:
     properties:
       dataEntryId:
         $ref: "#/definitions/DataEntryId"
-      productName:
-        type: "string"
       testsPassed:
         type: "integer"
       testsFailed:

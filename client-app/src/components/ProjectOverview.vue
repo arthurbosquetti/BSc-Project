@@ -7,7 +7,7 @@
         >
             <b-input-group size="md" class="mb-2">
                 <b-input-group-prepend is-text>
-                    <b-icon icon="bookmark-fill" :variant="variant"></b-icon>
+                    <b-icon icon="bookmark" :variant="variant"></b-icon>
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-project-name"

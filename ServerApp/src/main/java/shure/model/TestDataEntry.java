@@ -9,8 +9,6 @@ import org.json.JSONObject;
 public class TestDataEntry extends DataEntry {
 
 	@Column
-	private String productName;
-	@Column
 	private int testsPassed;
 	@Column
 	private int testsFailed;
@@ -38,7 +36,6 @@ public class TestDataEntry extends DataEntry {
 		String entryDate = lineChartResult.getJSONObject("snapshotDateOnly").getString("date");
 		setDataEntryId(new DataEntryId(entryDate, projectName));
 
-		this.productName = "TBD";
 		this.totalTests = lineChartResult.getInt("total");
 		this.testsPassed = lineChartResult.getInt("passed");
 		this.testsFailed = lineChartResult.getInt("failed");
@@ -50,14 +47,6 @@ public class TestDataEntry extends DataEntry {
 		if (leftToTarget95 > 0)
 			this.leftToTarget95 = leftToTarget95;
 
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
 	}
 
 	public int getTestsPassed() {
