@@ -1,26 +1,95 @@
 <template>
     <div class="marginated">
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-container fluid>
+                <b-row>
+                    <b-col>
+                        <b-form-group
+                            id="input-group-project-title"
+                            label="Shure Project Title"
+                            label-for="input-project-title"
+                            description="Project title, e.g. Hermes II. Cannot be changed later."
+                        >
+                            <b-input-group size="md" class="mb-2">
+                                <b-input-group-prepend is-text>
+                                    <b-icon icon="type" variant="dark"></b-icon>
+                                </b-input-group-prepend>
+                                <b-form-input
+                                id="input-project-title"
+                                v-model="projectTitle"
+                                type="text"
+                                placeholder="Enter project title"
+                                required
+                                :disabled="submitted"
+                                ></b-form-input>
+                            </b-input-group>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group
+                            id="input-group-device-name"
+                            label="Device Name"
+                            label-for="input-device-name"
+                            description="Device name, e.g. MXA920-S. Cannot be changed later."
+                        >
+                            <b-input-group size="md" class="mb-2">
+                                <b-input-group-prepend is-text>
+                                    <b-icon icon="mic" variant="dark"></b-icon>
+                                </b-input-group-prepend>
+                                <b-form-input
+                                id="input-device-name"
+                                v-model="deviceName"
+                                type="text"
+                                placeholder="Enter device name"
+                                required
+                                :disabled="submitted"
+                                ></b-form-input>
+                            </b-input-group>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group
+                        id="input-group-release-name"
+                        label="Release Name"
+                        label-for="input-release-name"
+                        description="Release name, e.g. 5.0.X. Cannot be changed later."
+                        >
+                            <b-input-group size="md" class="mb-2">
+                                <b-input-group-prepend is-text>
+                                    <b-icon icon="cursor" variant="dark"></b-icon>
+                                </b-input-group-prepend>
+                                <b-form-input
+                                id="input-release-name"
+                                v-model="releaseName"
+                                type="text"
+                                placeholder="Enter release name"
+                                required
+                                :disabled="submitted"
+                                ></b-form-input>
+                            </b-input-group>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+            </b-container>
+            
             <b-form-group
-                id="input-group-project-name"
-                label="Project Name"
-                label-for="input-project-name"
-                description="A unique and descriptive project name, e.g. MXA902 5.0.X FFT. Cannot be changed later."
+            id="input-group-name"
+            label="Project Name"
+            label-for="input-name"
+            description="The identifier for this project in this application. Cannot be changed later."
             >
                 <b-input-group size="md" class="mb-2">
                     <b-input-group-prepend is-text>
                         <b-icon icon="bookmark" variant="dark"></b-icon>
                     </b-input-group-prepend>
                     <b-form-input
-                    id="input-project-name"
+                    id="input-name"
                     v-model="form.name"
                     type="text"
-                    placeholder="Enter project name"
-                    required
-                    :disabled="submitted"
+                    placeholder="Enter the fields above"
+                    disabled
                     ></b-form-input>
                 </b-input-group>
-                
             </b-form-group>
 
             <b-form-group
@@ -121,7 +190,10 @@ export default {
             },
             show: true,
             submitted: false,
-            minDate: new Date()
+            minDate: new Date(),
+            projectTitle: '',
+            deviceName: '',
+            releaseName: ''
         }
     },
     methods: {
@@ -150,6 +222,17 @@ export default {
             this.$nextTick(() => {
                 this.show = true
             })
+        }
+      },
+      watch: {
+        projectTitle: function() {
+            this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
+        },
+        deviceName: function() {
+            this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
+        },
+        releaseName: function() {
+            this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
         }
       }
 }
