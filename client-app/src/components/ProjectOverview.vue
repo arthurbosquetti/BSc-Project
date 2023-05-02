@@ -7,7 +7,7 @@
         >
             <b-input-group size="md" class="mb-2">
                 <b-input-group-prepend is-text>
-                    <b-icon icon="bookmark" :variant="variant"></b-icon>
+                    <b-icon icon="bookmark-fill" :variant="variant"></b-icon>
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-project-name"
@@ -35,7 +35,9 @@
                 ></b-form-input>
             </b-input-group>    
         </b-form-group>
+        <label label-for="fftGraph">100% FFT Completion Graph</label>
         <GraphFFTComplete
+        id="fftGraph"
         :testDataEntries="project['testDataEntries']"
         :fftDeadline="project['fftDeadline']" v-if="variant" :variant="variant"/>
     </div>
@@ -60,6 +62,7 @@ export default {
                 'BEHIND': 'warning',
                 'CRITICAL': 'danger',
                 'INCOMPLETE': 'danger',
+                'ON_HOLD': 'secondary',
                 'UNDEFINED': 'secondary'
             },
             variant: '',

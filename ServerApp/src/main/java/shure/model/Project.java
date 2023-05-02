@@ -95,6 +95,10 @@ public class Project {
 	}
 
 	public void updateStatus() {
+		if (status == ProjectStatus.ON_HOLD) {
+			return;
+		}
+		
 		if (fftDeadline == null || testDataEntries.isEmpty()) {
 			status = ProjectStatus.UNDEFINED;
 			return;

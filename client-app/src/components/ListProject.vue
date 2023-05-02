@@ -105,6 +105,7 @@
                     <b-badge pill variant="warning" v-else-if="row.value == 'BEHIND'">Behind</b-badge>
                     <b-badge pill variant="danger" v-else-if="row.value == 'CRITICAL'">Critical</b-badge>
                     <b-badge pill variant="danger" v-else-if="row.value == 'INCOMPLETE'">Incomplete</b-badge>
+                    <b-badge pill variant="dark" v-else-if="row.value == 'ON_HOLD'">Paused</b-badge>
                     <b-badge pill variant="secondary" v-else-if="row.value == 'UNDEFINED'">Undefined</b-badge>
                 </h5>
             </template>

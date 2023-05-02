@@ -48,7 +48,8 @@
                 :name="project.name"
                 :nittanUrl="project.nittanyUrl"
                 :fftDeadline="project.fftDeadline"
-                :componentsList="project.componentsList"/>
+                :componentsList="project.componentsList"
+                :status="project.status"/>
             </b-tab>
 
         </b-tabs>

@@ -43,8 +43,18 @@
                     ></b-form-tags>
                 </b-input-group>
             </b-form-group>
-        
-            <b-card header-tag="header" bg-variant="light">
+                   
+            <b-button v-b-toggle="'pause-project'" class="mt-2" :variant="isActive ? 'success' : 'warning'" block>Toggle Tracking<b-icon icon="stop-circle" class="ml-2"></b-icon></b-button>
+                <b-collapse id="pause-project">
+                    <b-card bg-variant="light">
+                        <b-card-text>You may choose to pause/resume tracking {{ name }}. The project will not be updated until it is activated again, and <b> no data will be available for the period during which the project was on hold.</b></b-card-text>
+                        <b-form>
+                            <b-form-checkbox v-model="isActive" name="pause-button" switch size="lg"></b-form-checkbox>
+                        </b-form>
+                    </b-card>
+                </b-collapse>
+            
+            <b-card header-tag="header" bg-variant="light" class="mt-2">
                 <template #header>
                     <p class="mb-0" style="font-weight: bold">Project Object (JSON)</p>
                 </template>
@@ -54,8 +64,8 @@
             <b-button type="submit" variant="primary" class="mr-2 mt-2">Submit<b-icon icon="check2" class="ml-2"></b-icon></b-button>
         </b-form>
 
-        <b-button v-b-toggle="'collapse-2'" class="mt-2" variant="danger" block>Danger Zone<b-icon icon="exclamation-triangle-fill" class="ml-2"></b-icon></b-button>
-        <b-collapse id="collapse-2">
+        <b-button v-b-toggle="'delete-project'" class="mt-2" variant="danger" block>Danger Zone<b-icon icon="exclamation-triangle-fill" class="ml-2"></b-icon></b-button>
+        <b-collapse id="delete-project">
             <b-card>
                 <b-card-text style="font-weight: bold;">Are you sure you want to delete all data for {{ name }}? This action cannot be undone!</b-card-text>
                 <b-form>
@@ -93,7 +103,8 @@ export default {
         name: String,
         nittanyUrl: String,
         fftDeadline: String,
-        componentsList: Array
+        componentsList: Array,
+        status: String
     },
     data() {
         return {
@@ -103,7 +114,8 @@ export default {
                 fftDeadline: '',
                 componentsList: [],
             },
-            deleteString: ''
+            deleteString: '',
+            isActive: false
         }
     },
     methods: {
@@ -114,7 +126,13 @@ export default {
             let submissionForm = Object.assign({}, this.form)
             delete submissionForm.nittanyUrl
 
-
+            if (!this.isActive) {
+                submissionForm['status'] = 'ON_HOLD'
+            } else if (this.isActive && this.status == 'ON_HOLD') {
+                submissionForm['status'] = 'UNDEFINED'
+            } else if (this.isActive) {
+                submissionForm['status'] = this.status
+            }
             this.$axios.patch(this.$backend.getUrlPatchProject(), submissionForm)
             .then(() => {
                 this.$emit('patch-project')
@@ -152,7 +170,7 @@ export default {
         this.form.nittanyUrl = this.nittanyUrl
         this.form.fftDeadline = this.fftDeadline
         this.form.componentsList = this.componentsList
-
+        this.isActive = this.status == 'ON_HOLD' ? false : true
     }
 
 }

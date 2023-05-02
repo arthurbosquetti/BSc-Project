@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import shure.model.Project;
+import shure.model.ProjectStatus;
 import shure.repositories.ProjectsRepository;
 
 @Controller
@@ -50,6 +50,9 @@ public class ProjectControllers {
 		
 		project.get().setComponentsList(updatedProject.getComponentsList());
 		project.get().setFftDeadline(updatedProject.getFftDeadline());
+		if (updatedProject.getStatus() == ProjectStatus.ON_HOLD || updatedProject.getStatus() == ProjectStatus.UNDEFINED) {
+			project.get().setStatus(updatedProject.getStatus());
+		}
 		project.get().updateStatus();
 		return ResponseEntity.ok(repository.save(project.get()));
 	}

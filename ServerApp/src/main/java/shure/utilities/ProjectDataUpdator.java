@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import shure.model.BugDataEntry;
 import shure.model.Project;
+import shure.model.ProjectStatus;
 import shure.model.TestDataEntry;
 import shure.repositories.BugDataEntriesRepository;
 import shure.repositories.ProjectsRepository;
@@ -41,6 +42,10 @@ public class ProjectDataUpdator {
 	private void updateProjects() throws MalformedURLException, IOException {
 		System.out.println("Running project data updates:");
 		for (Project project : repositoryProjects.findAll()) {
+			if (project.getStatus() == ProjectStatus.ON_HOLD) {
+				System.out.println(project.getName() + " is on hold! Skipping update...");
+				continue;
+			}
 			System.out.println("Fetching data for " + project.getName() + "...");
 			NittanyUrlReader reader = new NittanyUrlReader(project.getNittanyUrl());
 			if (reader.readUrl()) {

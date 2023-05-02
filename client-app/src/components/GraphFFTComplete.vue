@@ -1,16 +1,6 @@
 <template>
     <div>
-        <b-button
-        v-b-toggle="'collapse-2'"
-        class="mt-2" 
-        :variant="variant"
-        block
-        style="text-align: left"
-        @click="toggleCollapse">
-            <b>FFT Complete Graph</b><b-icon :icon="collapseOn ? 'eye-slash' : 'eye'" class="ml-2" variant="light"></b-icon>
-        </b-button>
-        <b-collapse id="collapse-2" visible>
-            <b-card v-show="validData" >
+        <b-card v-show="validData">
                 <b-container fluid>
                 <b-row style="max-width: 1200px" align-v="end">
                     <b-col>
@@ -60,10 +50,8 @@
                 </b-button>
             </b-card>
             <b-card v-show="!validData">
-                <p>There are no records to show. Please come back later.</p>
+                <b-card-text>There are no records to show. Please come back later.</b-card-text>
             </b-card>
-        </b-collapse>
-        
     </div>
 
 </template>
@@ -89,7 +77,8 @@ export default {
                 "success": "#28a745",
                 "info": "#17a2b8",
                 "warning": "#ffc107",
-                "danger": "#dc3545" 
+                "danger": "#dc3545" ,
+                "secondary": "#6c757d"
             },
             startDate: '',
             endDate: '',

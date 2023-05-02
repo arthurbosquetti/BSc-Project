@@ -197,6 +197,7 @@ definitions:
         type: "string"
         enum:
           - UNDEFINED
+          - ON_HOLD
           - INCOMPLETE
           - CRITICAL
           - BEHIND
