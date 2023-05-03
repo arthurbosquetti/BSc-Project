@@ -93,8 +93,8 @@ export default {
 
         this.dailyTrendData = this.generateGraphData(this.minDate, this.maxDate, 1)
         this.weeklyTrendData = this.generateGraphData(this.minDate, this.maxDate, 7)
-        this.renderChart("dailyTrend", this.dailyTrendData, "SV FFT Daily Trend for " + this.projectName)
-        this.renderChart("weeklyTrend", this.weeklyTrendData, "SV FFT Weekly Trend for " + this.projectName)
+        this.renderChart("dailyTrend", this.dailyTrendData, "Test Daily Trend for " + this.projectName)
+        this.renderChart("weeklyTrend", this.weeklyTrendData, "Test Weekly Trend for " + this.projectName)
     },
     methods: {
         generateGraphData(startDate, endDate, interval) {

@@ -29,7 +29,7 @@
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-nittany-url"
-                v-model="projectInfo['nittanyUrl']"
+                v-model="{...project}['nittanyUrl']"
                 type="url"
                 disabled
                 ></b-form-input>
@@ -38,7 +38,7 @@
         <label label-for="fftGraph">100% FFT Completion Graph</label>
         <GraphFFTComplete
         id="fftGraph"
-        :testDataEntries="project['testDataEntries']"
+        :fftDataEntries="project['fftDataEntries']"
         :fftDeadline="project['fftDeadline']" v-if="variant" :variant="variant"/>
     </div>
 </template>
@@ -54,7 +54,6 @@ export default {
     },
     data() {
         return {
-            projectInfo: {},
             variants: {
                 'COMPLETED': 'success',
                 'AHEAD': 'success',
@@ -69,7 +68,6 @@ export default {
         }
     },
     mounted() {
-        this.projectInfo = this.project
         this.variant = this.variants[this.project['fftStatus']]
     }
 }

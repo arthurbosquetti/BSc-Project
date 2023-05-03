@@ -11,7 +11,7 @@
 
             <b-tab>
                 <template #title>
-                    SV FFT Trends <b-icon icon="graph-up" variant="primary" class="ml-2"></b-icon>
+                    Test Trends <b-icon icon="graph-up" variant="primary" class="ml-2"></b-icon>
                 </template>
                 <GraphsTestDataEntries v-if="loaded" :testDataEntries="project.testDataEntries"/>
             </b-tab>
@@ -25,7 +25,7 @@
 
             <b-tab>
                 <template #title>
-                    SV FFT Data <b-icon icon="clipboard-data" variant="primary" class="ml-2"></b-icon>
+                    Test Data <b-icon icon="clipboard-data" variant="primary" class="ml-2"></b-icon>
                 </template>
                 <ListTestDataEntries v-if="loaded" :testDataEntries="project.testDataEntries"/>
             </b-tab>

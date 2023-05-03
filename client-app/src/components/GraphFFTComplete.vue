@@ -62,7 +62,7 @@ import { Chart } from 'chart.js'
 export default {
     name: 'GraphFFTComplete',
     props: {
-        testDataEntries: Array,
+        fftDataEntries: Array,
         fftDeadline: String,
         variant: String
     },
@@ -87,12 +87,12 @@ export default {
         }
     },
     mounted() {
-        if (this.testDataEntries.length == 0 || this.fftDeadline == null || this.fftDeadline =='') {
+        if (this.fftDataEntries.length == 0 || this.fftDeadline == null || this.fftDeadline =='') {
             return
         }
         
         this.validData = true
-        this.minDate = this.testDataEntries[0].dataEntryId.entryDate
+        this.minDate = this.fftDataEntries[0].dataEntryId.entryDate
         this.startDate = this.minDate
         this.maxDate = this.fftDeadline
         this.endDate = this.maxDate
@@ -106,23 +106,20 @@ export default {
         },
         generateGraphData() {
             let labels = []
-            let actualLeft = []
 
-            let startDate = new Date(this.testDataEntries[0]["dataEntryId"]["entryDate"])
+            let startDate = new Date(this.fftDataEntries[0]["dataEntryId"]["entryDate"])
             let endDate = new Date(this.fftDeadline)
             let projectDuration = (endDate - startDate)/(24*60*60*1000) + 1
-            let totalTests = 0
-            let idealRate = 0
+            let leftAtStart = this.fftDataEntries[0]['testsLeft']
+            let idealRate = leftAtStart/projectDuration
+            let actualLeft = []
             let idealLeft = []
 
             for (let i = 0; i < projectDuration; i++) {
-                if (i < this.testDataEntries.length) {
-                    let testDataEntry = this.testDataEntries[i]
-                    totalTests = testDataEntry["totalTests"]
-                    idealRate = totalTests/projectDuration
-                    actualLeft.push(testDataEntry["testsPassed"])
+                if (i < this.fftDataEntries.length) {
+                    actualLeft.push(this.fftDataEntries[i]['testsLeft'])
                 }
-                idealLeft.push(Math.ceil((i+1)*idealRate))
+                idealLeft.push(Math.floor(leftAtStart - (i+1)*idealRate))
                 labels.push(startDate.toISOString().substring(0,10))
                 startDate.setDate(startDate.getDate() + 1)
             }
@@ -130,13 +127,13 @@ export default {
             let datasets = []
             datasets.push(
                 {
-                    "label": "Actual Passed",
+                    "label": "Actual Left",
                     "data": actualLeft,
                     "backgroundColor": this.variantToRBG[this.variant],
                     "borderColor": this.variantToRBG[this.variant]
                 },
                 {
-                    "label": "Expected Passed",
+                    "label": "Expected Left",
                     "data": idealLeft,
                     "backgroundColor": "rgba(159, 207, 63, 1)",
                     "borderColor": "rgba(159, 207, 63, 1)"

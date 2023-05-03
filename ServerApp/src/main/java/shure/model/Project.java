@@ -104,19 +104,14 @@ public class Project {
 			return;
 		}
 		
-		if (fftDeadline == null || testDataEntries.isEmpty()) {
+		if (fftDeadline == null || fftDataEntries.isEmpty()) {
 			fftStatus = ProjectStatus.UNDEFINED;
 			return;
 		}
-
-		TestDataEntry latestEntry = testDataEntries.get(testDataEntries.size() - 1);
-		int totalTests = latestEntry.getTotalTests();
-		if (totalTests == 0) {
-			return;
-		}
-
-		int testsPassed = latestEntry.getTestsPassed();
-		if (testsPassed == totalTests) {
+		
+		FftDataEntry latestEntry = fftDataEntries.get(fftDataEntries.size() - 1);
+		int testsLeft = latestEntry.getTestsLeft();
+		if (testsLeft == 0) {
 			fftStatus = ProjectStatus.COMPLETED;
 			return;
 		}
@@ -128,19 +123,20 @@ public class Project {
 			return;
 		}
 		
-		LocalDate startDate = LocalDate.parse(testDataEntries.get(0).getDataEntryId().getEntryDate());
+		LocalDate startDate = LocalDate.parse(fftDataEntries.get(0).getDataEntryId().getEntryDate());
+		int testsLeftAtStart = fftDataEntries.get(0).getTestsLeft();
 		float projectDuration = ChronoUnit.DAYS.between(startDate, endDate) + 1;
-		float idealRate = totalTests / projectDuration;
+		float idealRate = testsLeftAtStart / projectDuration;
 
-		double expectedTestsPassed = Math.ceil(idealRate*testDataEntries.size());
+		double expectedTestsLeft = Math.floor(testsLeftAtStart - idealRate*fftDataEntries.size());
 
-		if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*1.50) {
+		if (testsLeft > expectedTestsLeft*1.5) {
 			fftStatus = ProjectStatus.CRITICAL;
-		} else if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*1.05) {
+		} else if (testsLeft > expectedTestsLeft*1.05) {
 			fftStatus = ProjectStatus.BEHIND;
-		} else if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*0.90) {
+		} else if (testsLeft > expectedTestsLeft*0.90) {
 			fftStatus = ProjectStatus.ON_TRACK;
-		} else {
+		}  else {
 			fftStatus = ProjectStatus.AHEAD;
 		}
 	}
