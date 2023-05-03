@@ -30,7 +30,7 @@ public class Project {
 	@Column
 	private String fftDeadline;
 	@Column
-	private String releaseName;	
+	private String releaseName;
 	@Column
 	private ProjectStatus fftStatus = ProjectStatus.UNDEFINED;
 	@Column
@@ -79,18 +79,18 @@ public class Project {
 		if (!(fftDeadline == null) && fftDeadline.isBlank()) {
 			this.fftDeadline = null;
 		} else {
-			this.fftDeadline = fftDeadline;			
+			this.fftDeadline = fftDeadline;
 		}
 	}
 
 	public String getReleaseName() {
 		return releaseName;
 	}
-	
+
 	public void setReleaseName(String releaseName) {
 		this.releaseName = releaseName;
 	}
-	
+
 	public void setFftStatus(ProjectStatus fftStatus) {
 		this.fftStatus = fftStatus;
 	}
@@ -103,12 +103,12 @@ public class Project {
 		if (fftStatus == ProjectStatus.ON_HOLD) {
 			return;
 		}
-		
+
 		if (fftDeadline == null || fftDataEntries.isEmpty()) {
 			fftStatus = ProjectStatus.UNDEFINED;
 			return;
 		}
-		
+
 		FftDataEntry latestEntry = fftDataEntries.get(fftDataEntries.size() - 1);
 		int testsLeft = latestEntry.getTestsLeft();
 		if (testsLeft == 0) {
@@ -122,21 +122,21 @@ public class Project {
 			fftStatus = ProjectStatus.INCOMPLETE;
 			return;
 		}
-		
+
 		LocalDate startDate = LocalDate.parse(fftDataEntries.get(0).getDataEntryId().getEntryDate());
 		int testsLeftAtStart = fftDataEntries.get(0).getTestsLeft();
 		float projectDuration = ChronoUnit.DAYS.between(startDate, endDate) + 1;
 		float idealRate = testsLeftAtStart / projectDuration;
 
-		double expectedTestsLeft = Math.floor(testsLeftAtStart - idealRate*fftDataEntries.size());
+		double expectedTestsLeft = Math.max(0, Math.floor(testsLeftAtStart - idealRate * fftDataEntries.size()));
 
-		if (testsLeft > expectedTestsLeft*1.5) {
+		if (testsLeft > expectedTestsLeft * 1.5) {
 			fftStatus = ProjectStatus.CRITICAL;
-		} else if (testsLeft > expectedTestsLeft*1.05) {
+		} else if (testsLeft > expectedTestsLeft * 1.05) {
 			fftStatus = ProjectStatus.BEHIND;
-		} else if (testsLeft > expectedTestsLeft*0.90) {
+		} else if (testsLeft > expectedTestsLeft * 0.90) {
 			fftStatus = ProjectStatus.ON_TRACK;
-		}  else {
+		} else {
 			fftStatus = ProjectStatus.AHEAD;
 		}
 	}
@@ -144,24 +144,24 @@ public class Project {
 	public boolean getSvApproved() {
 		return svApproved;
 	}
-	
+
 	public void setSvApproved(boolean svApproved) {
 		this.svApproved = svApproved;
 	}
-	
+
 	private void updateSvApproved() {
 		if (bugDataEntries.isEmpty()) {
 			svApproved = false;
 			return;
 		}
-		
+
 		BugDataEntry latestEntry = bugDataEntries.get(bugDataEntries.size() - 1);
-		svApproved =  latestEntry.getOpenBlockerBugs() == 0 && latestEntry.getFixedBlockerBugs() == 0 && 
-					  latestEntry.getOpenCriticalBugs() == 0 && latestEntry.getFixedCriticalBugs() == 0 &&
-					  (latestEntry.getOpenMajorBugs() + latestEntry.getFixedMajorBugs()) <= 10;
+		svApproved = latestEntry.getOpenBlockerBugs() == 0 && latestEntry.getFixedBlockerBugs() == 0
+				&& latestEntry.getOpenCriticalBugs() == 0 && latestEntry.getFixedCriticalBugs() == 0
+				&& (latestEntry.getOpenMajorBugs() + latestEntry.getFixedMajorBugs()) <= 10;
 
 	}
-	
+
 	public List<String> getComponentsList() {
 		return componentsList;
 	}
@@ -184,11 +184,11 @@ public class Project {
 	public List<FftDataEntry> getFftDataEntries() {
 		return fftDataEntries;
 	}
-	
+
 	public void setFftDataEntries(ArrayList<FftDataEntry> fftDataEntries) {
 		this.fftDataEntries = fftDataEntries;
 	}
-	
+
 	public List<BugDataEntry> getBugDataEntries() {
 		return bugDataEntries;
 	}
@@ -205,7 +205,7 @@ public class Project {
 		}
 		return false;
 	}
-	
+
 	public boolean addDataEntry(FftDataEntry fftDataEntry) {
 		if (!fftDataEntries.contains(fftDataEntry)) {
 			fftDataEntries.add(fftDataEntry);
@@ -241,7 +241,7 @@ public class Project {
 			}
 		});
 	}
-	
+
 	private void sortBugDataEntries() {
 		Collections.sort(bugDataEntries, new Comparator<BugDataEntry>() {
 			public int compare(BugDataEntry e1, BugDataEntry e2) {
@@ -253,7 +253,7 @@ public class Project {
 	public void removeDataEntry(TestDataEntry testDataEntry) {
 		testDataEntries.remove(testDataEntry);
 	}
-	
+
 	public void removeDataEntry(FftDataEntry fftDataEntry) {
 		fftDataEntries.remove(fftDataEntry);
 	}

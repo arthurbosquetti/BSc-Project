@@ -119,7 +119,7 @@ export default {
                 if (i < this.fftDataEntries.length) {
                     actualLeft.push(this.fftDataEntries[i]['testsLeft'])
                 }
-                idealLeft.push(Math.floor(leftAtStart - (i+1)*idealRate))
+                idealLeft.push(Math.max(0, Math.floor(leftAtStart - (i+1)*idealRate)))
                 labels.push(startDate.toISOString().substring(0,10))
                 startDate.setDate(startDate.getDate() + 1)
             }

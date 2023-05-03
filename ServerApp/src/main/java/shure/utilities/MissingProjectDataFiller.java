@@ -1,6 +1,7 @@
 package shure.utilities;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -10,6 +11,7 @@ import shure.model.BugDataEntry;
 import shure.model.DataEntryId;
 import shure.model.FftDataEntry;
 import shure.model.Project;
+import shure.model.ProjectStatus;
 import shure.model.TestDataEntry;
 import shure.repositories.BugDataEntriesRepository;
 import shure.repositories.FftDataEntriesRepository;
@@ -35,6 +37,9 @@ public class MissingProjectDataFiller {
 
 	private void fillMissingProjectData() {
 		for (Project project : repositoryProjects.findAll()) {
+			if (project.getFftStatus() == ProjectStatus.ON_HOLD) {
+				continue;
+			}
 			System.out.println("Filling out empty data for " + project.getName() + "...");
 			fillMissingTestDataEntries(project);
 			fillMissingFftDataEntries(project);
@@ -47,7 +52,7 @@ public class MissingProjectDataFiller {
 		if (project.getTestDataEntries().isEmpty()) {
 			return;
 		}
-		
+
 		String startDateString = project.getTestDataEntries().get(0).getDataEntryId().getEntryDate();
 		String endDateString = project.getTestDataEntries().get(project.getTestDataEntries().size() - 1)
 				.getDataEntryId().getEntryDate();
@@ -68,29 +73,32 @@ public class MissingProjectDataFiller {
 		}
 
 	}
-	
+
 	private void fillMissingFftDataEntries(Project project) {
-		if (project.getFftDataEntries().isEmpty()) {
+		if (project.getFftDataEntries().size() < 2) {
 			return;
 		}
-		
-		String startDateString = project.getFftDataEntries().get(0).getDataEntryId().getEntryDate();
-		String endDateString = project.getFftDataEntries().get(project.getFftDataEntries().size() - 1)
-				.getDataEntryId().getEntryDate();
 
-		LocalDate nextDate = LocalDate.parse(startDateString).plusDays(1);
-		LocalDate endDate = LocalDate.parse(endDateString);
+		for (int i = 1; i < project.getFftDataEntries().size(); i++) {
+			FftDataEntry previousEntry = project.getFftDataEntries().get(i - 1);
+			LocalDate previousDate = LocalDate.parse(previousEntry.getDataEntryId().getEntryDate());
 
-		while (nextDate.compareTo(endDate) < 0) {
-			FftDataEntry missingFftDataEntry = new FftDataEntry(
-					new DataEntryId(nextDate.toString(), project.getName()));
-			if (project.addDataEntry(missingFftDataEntry)) {
-				System.out.println(
-						"Added missing FFT data entry with ID " + missingFftDataEntry.getDataEntryId().toString());
-				repositoryFftDataEntries.save(missingFftDataEntry);
-				repositoryProjects.save(project);
+			FftDataEntry nextEntry = project.getFftDataEntries().get(i);
+			LocalDate nextDate = LocalDate.parse(nextEntry.getDataEntryId().getEntryDate());
+
+			if (ChronoUnit.DAYS.between(previousDate, nextDate) > 1) {
+				String missingEntryDate = previousDate.plusDays(1).toString();
+				FftDataEntry missingFftDataEntry = new FftDataEntry(
+						new DataEntryId(missingEntryDate, project.getName()));
+				missingFftDataEntry.setTestsLeft(previousEntry.getTestsLeft());
+				if (project.addDataEntry(missingFftDataEntry)) {
+					System.out.println(
+							"Added missing FFT data entry with ID " + missingFftDataEntry.getDataEntryId().toString());
+					repositoryFftDataEntries.save(missingFftDataEntry);
+					repositoryProjects.save(project);
+				}
 			}
-			nextDate = nextDate.plusDays(1);
+
 		}
 
 	}
@@ -99,7 +107,7 @@ public class MissingProjectDataFiller {
 		if (project.getBugDataEntries().isEmpty()) {
 			return;
 		}
-		
+
 		String startDateString = project.getBugDataEntries().get(0).getDataEntryId().getEntryDate();
 		String endDateString = project.getBugDataEntries().get(project.getBugDataEntries().size() - 1).getDataEntryId()
 				.getEntryDate();
