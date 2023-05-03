@@ -126,6 +126,60 @@ paths:
           description: "The project or entry cannot be found"
         "204":
           description: "The test data entry has been deleted"
+  /projects/{projectName}/fft-data:
+    get:
+      summary: "Gets the FFT data entries of a project"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project"
+        required: true
+      responses:
+        "404":
+          description: "The project cannot be found"
+        "200":
+          description: "The list of fft data entries"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/FftDataEntry"
+    post:
+      summary: "Adds a new FFT data entry to the list"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "fftDataEntry"
+        required: true
+        schema:
+          $ref: "#/definitions/FftDataEntry"
+      responses:
+        "404":
+          description: "The project cannot be found"
+        "200":
+          description: "Test data entry correctly added"
+  /projects/{projectName}/fft-data/{entryDate}:
+    delete:
+      summary: "Deletes an FFT data entry"
+      parameters:
+      - in: "path"
+        name: "projectName"
+        type: "string"
+        description: "The name of the project where the FFT data entry is"
+        required: true
+      - in: "path"
+        name: "entryDate"
+        type: "string"
+        description: "The date of entry of the FFT data entry"
+        required: true
+      responses:
+        "404":
+          description: "The project or entry cannot be found"
+        "204":
+          description: "The FFT data entry has been deleted"
   /projects/{projectName}/bug-data:
     get:
       summary: "Gets the bug data entries of a project"
@@ -214,10 +268,21 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/TestDataEntry"
+      fftData:
+        type: "array"
+        items:
+          $ref: "#/definitions/FftDataEntry"
       bugData:
         type: "array"
         items:
           $ref: "#/definitions/BugDataEntry"
+  FftDataEntry:
+    type: "object"
+    properties:
+      dataEntryId:
+        $ref: "#/definitions/DataEntryId"
+      testsLeft:
+        type: "integer"
   TestDataEntry:
     type: "object"
     properties:
