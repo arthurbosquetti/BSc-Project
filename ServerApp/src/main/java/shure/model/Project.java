@@ -32,7 +32,9 @@ public class Project {
 	@Column
 	private String releaseName;	
 	@Column
-	private ProjectStatus status = ProjectStatus.UNDEFINED;
+	private ProjectStatus fftStatus = ProjectStatus.UNDEFINED;
+	@Column
+	private boolean svApproved = false;
 
 	@ElementCollection
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -86,21 +88,21 @@ public class Project {
 		this.releaseName = releaseName;
 	}
 	
-	public void setStatus(ProjectStatus status) {
-		this.status = status;
+	public void setFftStatus(ProjectStatus fftStatus) {
+		this.fftStatus = fftStatus;
 	}
 
-	public ProjectStatus getStatus() {
-		return status;
+	public ProjectStatus getFftStatus() {
+		return fftStatus;
 	}
 
-	public void updateStatus() {
-		if (status == ProjectStatus.ON_HOLD) {
+	public void updateFftStatus() {
+		if (fftStatus == ProjectStatus.ON_HOLD) {
 			return;
 		}
 		
 		if (fftDeadline == null || testDataEntries.isEmpty()) {
-			status = ProjectStatus.UNDEFINED;
+			fftStatus = ProjectStatus.UNDEFINED;
 			return;
 		}
 
@@ -112,14 +114,14 @@ public class Project {
 
 		int testsPassed = latestEntry.getTestsPassed();
 		if (testsPassed == totalTests) {
-			status = ProjectStatus.COMPLETED;
+			fftStatus = ProjectStatus.COMPLETED;
 			return;
 		}
 
 		LocalDate currentDate = LocalDate.parse(latestEntry.getDataEntryId().getEntryDate());
 		LocalDate endDate = LocalDate.parse(fftDeadline);
 		if (!currentDate.isBefore(endDate)) {
-			status = ProjectStatus.INCOMPLETE;
+			fftStatus = ProjectStatus.INCOMPLETE;
 			return;
 		}
 		
@@ -130,16 +132,38 @@ public class Project {
 		double expectedTestsPassed = Math.ceil(idealRate*testDataEntries.size());
 
 		if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*1.50) {
-			status = ProjectStatus.CRITICAL;
+			fftStatus = ProjectStatus.CRITICAL;
 		} else if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*1.05) {
-			status = ProjectStatus.BEHIND;
+			fftStatus = ProjectStatus.BEHIND;
 		} else if ((totalTests - testsPassed) >= (totalTests - expectedTestsPassed)*0.90) {
-			status = ProjectStatus.ON_TRACK;
+			fftStatus = ProjectStatus.ON_TRACK;
 		} else {
-			status = ProjectStatus.AHEAD;
+			fftStatus = ProjectStatus.AHEAD;
 		}
 	}
 
+	public boolean getSvApproved() {
+		return svApproved;
+	}
+	
+	public void setSvApproved(boolean svApproved) {
+		this.svApproved = svApproved;
+	}
+	
+	
+	private void updateSvApproved() {
+		if (bugDataEntries.isEmpty()) {
+			svApproved = false;
+			return;
+		}
+		
+		BugDataEntry latestEntry = bugDataEntries.get(bugDataEntries.size() - 1);
+		svApproved =  latestEntry.getOpenBlockerBugs() == 0 && latestEntry.getFixedBlockerBugs() == 0 && 
+					  latestEntry.getOpenCriticalBugs() == 0 && latestEntry.getFixedCriticalBugs() == 0 &&
+					  (latestEntry.getOpenMajorBugs() + latestEntry.getFixedMajorBugs()) <= 10;
+
+	}
+	
 	public List<String> getComponentsList() {
 		return componentsList;
 	}
@@ -171,7 +195,7 @@ public class Project {
 		if (!testDataEntries.contains(testDataEntry)) {
 			testDataEntries.add(testDataEntry);
 			sortTestDataEntries();
-			updateStatus();
+			updateFftStatus();
 			return true;
 		}
 		return false;
@@ -181,6 +205,7 @@ public class Project {
 		if (!bugDataEntries.contains(bugDataEntry)) {
 			bugDataEntries.add(bugDataEntry);
 			sortBugDataEntries();
+			updateSvApproved();
 			return true;
 		}
 		return false;

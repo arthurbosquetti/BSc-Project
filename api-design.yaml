@@ -193,7 +193,7 @@ definitions:
         type: "string"
       releaseName:
         type: "string"
-      status:
+      fftStatus:
         type: "string"
         enum:
           - UNDEFINED
@@ -204,6 +204,8 @@ definitions:
           - ON_TRACK
           - AHEAD
           - COMPLETED
+      svApproved:
+        type: "boolean"
       componentsList:
         type: "array"
         items: 

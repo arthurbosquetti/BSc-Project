@@ -42,7 +42,7 @@ public class ProjectDataUpdator {
 	private void updateProjects() throws MalformedURLException, IOException {
 		System.out.println("Running project data updates:");
 		for (Project project : repositoryProjects.findAll()) {
-			if (project.getStatus() == ProjectStatus.ON_HOLD) {
+			if (project.getFftStatus() == ProjectStatus.ON_HOLD) {
 				System.out.println(project.getName() + " is on hold! Skipping update...");
 				continue;
 			}

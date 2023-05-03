@@ -104,7 +104,7 @@ export default {
         nittanyUrl: String,
         fftDeadline: String,
         componentsList: Array,
-        status: String
+        fftStatus: String
     },
     data() {
         return {
@@ -127,11 +127,11 @@ export default {
             delete submissionForm.nittanyUrl
 
             if (!this.isActive) {
-                submissionForm['status'] = 'ON_HOLD'
-            } else if (this.isActive && this.status == 'ON_HOLD') {
-                submissionForm['status'] = 'UNDEFINED'
+                submissionForm['fftStatus'] = 'ON_HOLD'
+            } else if (this.isActive && this.fftStatus == 'ON_HOLD') {
+                submissionForm['fftStatus'] = 'UNDEFINED'
             } else if (this.isActive) {
-                submissionForm['status'] = this.status
+                submissionForm['fftStatus'] = this.fftStatus
             }
             this.$axios.patch(this.$backend.getUrlPatchProject(), submissionForm)
             .then(() => {
@@ -170,7 +170,7 @@ export default {
         this.form.nittanyUrl = this.nittanyUrl
         this.form.fftDeadline = this.fftDeadline
         this.form.componentsList = this.componentsList
-        this.isActive = this.status == 'ON_HOLD' ? false : true
+        this.isActive = this.fftStatus == 'ON_HOLD' ? false : true
     }
 
 }

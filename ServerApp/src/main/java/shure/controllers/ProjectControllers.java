@@ -50,10 +50,10 @@ public class ProjectControllers {
 		
 		project.get().setComponentsList(updatedProject.getComponentsList());
 		project.get().setFftDeadline(updatedProject.getFftDeadline());
-		if (updatedProject.getStatus() == ProjectStatus.ON_HOLD || updatedProject.getStatus() == ProjectStatus.UNDEFINED) {
-			project.get().setStatus(updatedProject.getStatus());
+		if (updatedProject.getFftStatus() == ProjectStatus.ON_HOLD || updatedProject.getFftStatus() == ProjectStatus.UNDEFINED) {
+			project.get().setFftStatus(updatedProject.getFftStatus());
 		}
-		project.get().updateStatus();
+		project.get().updateFftStatus();
 		return ResponseEntity.ok(repository.save(project.get()));
 	}
 

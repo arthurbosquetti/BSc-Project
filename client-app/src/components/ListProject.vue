@@ -31,7 +31,8 @@
                     >
                         <b-form-checkbox value="name">Project Name</b-form-checkbox>
                         <b-form-checkbox value="fftDeadline">FFT Deadline</b-form-checkbox>
-                        <b-form-checkbox value="status">Status</b-form-checkbox>
+                        <b-form-checkbox value="fftStatus">FFT Status</b-form-checkbox>
+                        <b-form-checkbox value="svApproved">SV Approved</b-form-checkbox>
                     </b-form-checkbox-group>
                     </b-form-group>
                 </b-col>
@@ -97,9 +98,14 @@
             selectable
             @row-selected="onRowSelected"
             >
-            <template #cell(status)="row">
+            <template #cell(fftStatus)="row">
                 <h5 class="mb-0">
                     <b-badge pill :variant="variants[row.value]">{{ row.value }}</b-badge>
+                </h5>
+            </template>
+            <template #cell(svApproved)="row">
+                <h5 class="mb-0">
+                    <b-badge pill :variant="row.value ? 'success' : 'danger'">{{ row.value }}</b-badge>
                 </h5>
             </template>
             </b-table>
@@ -121,7 +127,8 @@ export default {
             fields: [
                 { key: 'name', label: 'Project Name', sortable: true},
                 { key: 'fftDeadline', label: 'FFT Deadline', sortable: true},
-                { key: 'status', sortable: true},
+                { key: 'fftStatus', label: 'FFT Status', sortable: true},
+                { key: 'svApproved', label: 'SV Approved', sortable: true},
                 { key: 'daysRecording', label: 'Days Recording', sortable: true},
                 { key: 'entryCount', label: 'Number of Entries', sortable: true}
             ],
@@ -175,7 +182,8 @@ export default {
                 items.push({
                     'name': project['name'],
                     'fftDeadline': project['fftDeadline'],
-                    'status': project['status'],
+                    'fftStatus': project['fftStatus'],
+                    'svApproved': project['svApproved'],
                     'daysRecording': project['testDataEntries'].length > project['bugDataEntries'].length ? project['testDataEntries'].length : project['bugDataEntries'].length,
                     'entryCount': project['testDataEntries'].length + project['bugDataEntries'].length
                 })

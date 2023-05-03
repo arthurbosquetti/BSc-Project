@@ -70,7 +70,7 @@ export default {
     },
     mounted() {
         this.projectInfo = this.project
-        this.variant = this.variants[this.project['status']]
+        this.variant = this.variants[this.project['fftStatus']]
     }
 }
 </script>
