@@ -132,7 +132,7 @@ export default {
                 { key: 'daysRecording', label: 'Days Recording', sortable: true},
                 { key: 'entryCount', label: 'Number of Entries', sortable: true}
             ],
-            totalRows: 1,
+            totalRows: 0,
             currentPage: 1,
             perPage: 10,
             pageOptions: [10, 25, 50, 100],
