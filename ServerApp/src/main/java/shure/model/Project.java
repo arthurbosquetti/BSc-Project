@@ -44,6 +44,9 @@ public class Project {
 	private List<TestDataEntry> testDataEntries;
 	@OneToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<FftDataEntry> fftDataEntries;
+	@OneToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<BugDataEntry> bugDataEntries;
 
 	public String getName() {
@@ -150,7 +153,6 @@ public class Project {
 		this.svApproved = svApproved;
 	}
 	
-	
 	private void updateSvApproved() {
 		if (bugDataEntries.isEmpty()) {
 			svApproved = false;
@@ -183,6 +185,14 @@ public class Project {
 		this.testDataEntries = testDataEntries;
 	}
 
+	public List<FftDataEntry> getFftDataEntries() {
+		return fftDataEntries;
+	}
+	
+	public void setFftDataEntries(ArrayList<FftDataEntry> fftDataEntries) {
+		this.fftDataEntries = fftDataEntries;
+	}
+	
 	public List<BugDataEntry> getBugDataEntries() {
 		return bugDataEntries;
 	}
@@ -195,6 +205,15 @@ public class Project {
 		if (!testDataEntries.contains(testDataEntry)) {
 			testDataEntries.add(testDataEntry);
 			sortTestDataEntries();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addDataEntry(FftDataEntry fftDataEntry) {
+		if (!fftDataEntries.contains(fftDataEntry)) {
+			fftDataEntries.add(fftDataEntry);
+			sortFftDataEntries();
 			updateFftStatus();
 			return true;
 		}
@@ -219,6 +238,14 @@ public class Project {
 		});
 	}
 
+	private void sortFftDataEntries() {
+		Collections.sort(fftDataEntries, new Comparator<FftDataEntry>() {
+			public int compare(FftDataEntry e1, FftDataEntry e2) {
+				return e1.getDataEntryId().getEntryDate().compareTo(e2.getDataEntryId().getEntryDate());
+			}
+		});
+	}
+	
 	private void sortBugDataEntries() {
 		Collections.sort(bugDataEntries, new Comparator<BugDataEntry>() {
 			public int compare(BugDataEntry e1, BugDataEntry e2) {
@@ -229,6 +256,10 @@ public class Project {
 
 	public void removeDataEntry(TestDataEntry testDataEntry) {
 		testDataEntries.remove(testDataEntry);
+	}
+	
+	public void removeDataEntry(FftDataEntry fftDataEntry) {
+		fftDataEntries.remove(fftDataEntry);
 	}
 
 	public void removeDataEntry(BugDataEntry bugDataEntry) {

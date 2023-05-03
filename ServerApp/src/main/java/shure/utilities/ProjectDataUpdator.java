@@ -11,10 +11,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import shure.model.BugDataEntry;
+import shure.model.FftDataEntry;
 import shure.model.Project;
 import shure.model.ProjectStatus;
 import shure.model.TestDataEntry;
 import shure.repositories.BugDataEntriesRepository;
+import shure.repositories.FftDataEntriesRepository;
 import shure.repositories.ProjectsRepository;
 import shure.repositories.TestDataEntriesRepository;
 
@@ -24,6 +26,8 @@ public class ProjectDataUpdator {
 	private ProjectsRepository repositoryProjects;
 	@Autowired
 	private TestDataEntriesRepository repositoryTestDataEntries;
+	@Autowired
+	private FftDataEntriesRepository repositoryFftDataEntries;
 	@Autowired
 	private BugDataEntriesRepository repositoryBugDataEntries;
 	@Autowired
@@ -50,6 +54,7 @@ public class ProjectDataUpdator {
 			NittanyUrlReader reader = new NittanyUrlReader(project.getNittanyUrl());
 			if (reader.readUrl()) {
 				updateTestDataEntries(project, reader.getJson());
+				updateFftDataEntries(project, reader.getJson());
 				updateBugDataEntries(project, reader.getJson());
 				repositoryProjects.save(project);
 			}
@@ -65,6 +70,18 @@ public class ProjectDataUpdator {
 			TestDataEntry newTestDataEntry = new TestDataEntry(project.getName(), lineChartResult);
 			if (project.addDataEntry(newTestDataEntry)) {
 				repositoryTestDataEntries.save(newTestDataEntry);
+			}
+
+		}
+
+	}
+	
+	private void updateFftDataEntries(Project project, JSONObject nittanyData) {
+		JSONArray testCaseResults = nittanyData.getJSONArray("tc_results");
+		if (!testCaseResults.isEmpty()) {
+			FftDataEntry newFftDataEntry = new FftDataEntry(project.getName(), testCaseResults, project.getReleaseName());
+			if (project.addDataEntry(newFftDataEntry)) {
+				repositoryFftDataEntries.save(newFftDataEntry);
 			}
 
 		}

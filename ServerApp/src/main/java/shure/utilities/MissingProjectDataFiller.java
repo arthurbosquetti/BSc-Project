@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 
 import shure.model.BugDataEntry;
 import shure.model.DataEntryId;
+import shure.model.FftDataEntry;
 import shure.model.Project;
 import shure.model.TestDataEntry;
 import shure.repositories.BugDataEntriesRepository;
+import shure.repositories.FftDataEntriesRepository;
 import shure.repositories.ProjectsRepository;
 import shure.repositories.TestDataEntriesRepository;
 
@@ -21,6 +23,8 @@ public class MissingProjectDataFiller {
 	private ProjectsRepository repositoryProjects;
 	@Autowired
 	private TestDataEntriesRepository repositoryTestDataEntries;
+	@Autowired
+	private FftDataEntriesRepository repositoryFftDataEntries;
 	@Autowired
 	private BugDataEntriesRepository repositoryBugDataEntries;
 
@@ -33,6 +37,7 @@ public class MissingProjectDataFiller {
 		for (Project project : repositoryProjects.findAll()) {
 			System.out.println("Filling out empty data for " + project.getName() + "...");
 			fillMissingTestDataEntries(project);
+			fillMissingFftDataEntries(project);
 			fillMissingBugDataEntries(project);
 		}
 
@@ -57,6 +62,32 @@ public class MissingProjectDataFiller {
 				System.out.println(
 						"Added missing test data entry with ID " + missingTestDataEntry.getDataEntryId().toString());
 				repositoryTestDataEntries.save(missingTestDataEntry);
+				repositoryProjects.save(project);
+			}
+			nextDate = nextDate.plusDays(1);
+		}
+
+	}
+	
+	private void fillMissingFftDataEntries(Project project) {
+		if (project.getFftDataEntries().isEmpty()) {
+			return;
+		}
+		
+		String startDateString = project.getFftDataEntries().get(0).getDataEntryId().getEntryDate();
+		String endDateString = project.getFftDataEntries().get(project.getFftDataEntries().size() - 1)
+				.getDataEntryId().getEntryDate();
+
+		LocalDate nextDate = LocalDate.parse(startDateString).plusDays(1);
+		LocalDate endDate = LocalDate.parse(endDateString);
+
+		while (nextDate.compareTo(endDate) < 0) {
+			FftDataEntry missingFftDataEntry = new FftDataEntry(
+					new DataEntryId(nextDate.toString(), project.getName()));
+			if (project.addDataEntry(missingFftDataEntry)) {
+				System.out.println(
+						"Added missing FFT data entry with ID " + missingFftDataEntry.getDataEntryId().toString());
+				repositoryFftDataEntries.save(missingFftDataEntry);
 				repositoryProjects.save(project);
 			}
 			nextDate = nextDate.plusDays(1);

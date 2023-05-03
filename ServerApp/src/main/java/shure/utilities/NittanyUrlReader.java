@@ -24,6 +24,7 @@ public class NittanyUrlReader {
 		try {
 			JSONObject json = new JSONObject(urlOutput);
 			json.getJSONArray("line_chart_results");
+			json.getJSONArray("tc_results");
 			json.getJSONArray("all_bugs");
 			this.json = json;
 			System.out.println("URL reading successful!");
