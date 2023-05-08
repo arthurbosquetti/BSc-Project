@@ -39,4 +39,8 @@ export default class Backend {
     getUrlDeleteBugDataEntry(projectName, entryDate) {
         return this.url + "/projects/" + projectName + "/bug-data/" + entryDate
     }
+
+    getUrlVerifyCredentials() {
+        return this.url + "/verifyCredentials/"
+    }
 }

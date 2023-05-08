@@ -1,5 +1,6 @@
 <template>
     <div class="marginated">
+        <ManagerVerification v-if="true"/>
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-container fluid>
                 <b-row>
@@ -178,69 +179,71 @@
 </template>
 
 <script>
+import ManagerVerification from './ManagerVerification.vue'
+
 export default {
-    name: 'AddProject',
+    name: "AddProject",
     data() {
         return {
             form: {
-                name: '',
-                nittanyUrl: '',
-                fftDeadline: '',
-                releaseName: '',
-                componentsList: ['all']
+                name: "",
+                nittanyUrl: "",
+                fftDeadline: "",
+                releaseName: "",
+                componentsList: ["all"]
             },
             show: true,
             submitted: false,
             minDate: new Date(),
-            projectTitle: '',
-            deviceName: '',
-            releaseName: ''
-        }
+            projectTitle: "",
+            deviceName: "",
+            releaseName: ""
+        };
     },
     methods: {
         onSubmit(event) {
-            event.preventDefault()
-            this.submitted = true
-
+            event.preventDefault();
+            this.submitted = true;
             this.$axios.post(this.$backend.getUrlPostProject(), this.form)
-            .then(() => {
-                this.$emit('new-project')
+                .then(() => {
+                this.$emit("new-project");
             })
-            .catch(error => {
+                .catch(error => {
                 if (error.response) {
                     this.submitted = false;
                     window.alert(error.response.data);
-                } 
-              })
+                }
+            });
         },
         onReset(event) {
-            event.preventDefault()
-            this.form.name = ''
-            this.form.nittanyUrl = ''
-            this.form.fftDeadline = ''
-            this.form.componentsList = ['all']
-            this.projectTitle = ''
-            this.deviceName = ''
-            this.releaseName = ''
+            event.preventDefault();
+            this.form.name = "";
+            this.form.nittanyUrl = "";
+            this.form.fftDeadline = "";
+            this.form.componentsList = ["all"];
+            this.projectTitle = "";
+            this.deviceName = "";
+            this.releaseName = "";
             // Trick to reset/clear native browser form validation state
-            this.show = false
+            this.show = false;
             this.$nextTick(() => {
-                this.show = true
-            })
+                this.show = true;
+            });
         }
-      },
-      watch: {
-        projectTitle: function() {
-            this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
+    },
+    watch: {
+        projectTitle: function () {
+            this.form.name = (this.projectTitle + " " + this.deviceName + " " + this.releaseName).trim();
         },
-        deviceName: function() {
-            this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
+        deviceName: function () {
+            this.form.name = (this.projectTitle + " " + this.deviceName + " " + this.releaseName).trim();
         },
-        releaseName: function() {
-            this.form.releaseName = this.releaseName.trim()
-            this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
+        releaseName: function () {
+            this.form.releaseName = this.releaseName.trim();
+            this.form.name = (this.projectTitle + " " + this.deviceName + " " + this.releaseName).trim();
         }
-      }
+    },
+    components: { ManagerVerification }
 }
 </script>
 

@@ -234,7 +234,21 @@ paths:
           description: "The project or entry cannot be found"
         "204":
           description: "The data entry has been deleted"
-
+  /verifyCredentials:
+    post:
+      summary: "Posts credentials to be verified"
+      parameters:
+      - in: "body"
+        name: "hashedCredentials"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Credentials accepted"
+        "400":
+          description: "Credentials not accepted"
+          
 definitions:
   Project:
     type: "object"
