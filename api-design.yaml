@@ -247,17 +247,18 @@ definitions:
         type: "string"
       releaseName:
         type: "string"
+      isActive:
+        type: "boolean"
       fftStatus:
         type: "string"
         enum:
           - UNDEFINED
-          - ON_HOLD
           - INCOMPLETE
           - CRITICAL
           - BEHIND
           - ON_TRACK
           - AHEAD
-          - COMPLETED
+          - COMPLETE
       svApproved:
         type: "boolean"
       componentsList:

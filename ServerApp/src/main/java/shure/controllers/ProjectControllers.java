@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import shure.model.Project;
-import shure.model.ProjectStatus;
 import shure.repositories.ProjectsRepository;
 
 @Controller
@@ -30,7 +29,7 @@ public class ProjectControllers {
 	public ResponseEntity<List<Project>> getAll() {
 		return ResponseEntity.ok(repository.findAll());
 	}
-	
+
 	@PostMapping("/api/v1/projects")
 	public ResponseEntity<Object> create(@RequestBody Project project) {
 		if (repository.existsById(project.getName())) {
@@ -40,19 +39,18 @@ public class ProjectControllers {
 		}
 		return ResponseEntity.ok(repository.save(project));
 	}
-	
+
 	@PatchMapping("api/v1/projects/")
 	public ResponseEntity<Object> update(@RequestBody Project updatedProject) {
 		Optional<Project> project = repository.findById(updatedProject.getName());
 		if (project.isEmpty()) {
-			return ResponseEntity.badRequest().body("Could not find a project with name '" + updatedProject.getName() + "'!");
+			return ResponseEntity.badRequest()
+					.body("Could not find a project with name '" + updatedProject.getName() + "'!");
 		}
-		
+
 		project.get().setComponentsList(updatedProject.getComponentsList());
 		project.get().setFftDeadline(updatedProject.getFftDeadline());
-		if (updatedProject.getFftStatus() == ProjectStatus.ON_HOLD || updatedProject.getFftStatus() == ProjectStatus.UNDEFINED) {
-			project.get().setFftStatus(updatedProject.getFftStatus());
-		}
+		project.get().setIsActive(updatedProject.getIsActive());
 		project.get().updateFftStatus();
 		return ResponseEntity.ok(repository.save(project.get()));
 	}
@@ -65,7 +63,7 @@ public class ProjectControllers {
 		}
 		return ResponseEntity.ok(project.get());
 	}
-	
+
 	@DeleteMapping("/api/v1/projects/{name}")
 	public ResponseEntity<?> delete(@PathVariable String name) {
 		try {

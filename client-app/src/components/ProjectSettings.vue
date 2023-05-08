@@ -44,12 +44,12 @@
                 </b-input-group>
             </b-form-group>
                    
-            <b-button v-b-toggle="'pause-project'" class="mt-2" :variant="isActive ? 'success' : 'warning'" block>Toggle Tracking<b-icon icon="stop-circle" class="ml-2"></b-icon></b-button>
+            <b-button v-b-toggle="'pause-project'" class="mt-2" :variant="form.isActive ? 'success' : 'warning'" block>Toggle Tracking<b-icon icon="stop-circle" class="ml-2"></b-icon></b-button>
                 <b-collapse id="pause-project">
                     <b-card bg-variant="light">
                         <b-card-text>You may choose to pause/resume tracking {{ name }}. The project will not be updated until it is activated again, and <b> no data will be available for the period during which the project was on hold.</b></b-card-text>
                         <b-form>
-                            <b-form-checkbox v-model="isActive" name="pause-button" switch size="lg"></b-form-checkbox>
+                            <b-form-checkbox v-model="form.isActive" name="pause-button" switch size="lg"></b-form-checkbox>
                         </b-form>
                     </b-card>
                 </b-collapse>
@@ -103,6 +103,7 @@ export default {
         name: String,
         nittanyUrl: String,
         fftDeadline: String,
+        isActive: Boolean,
         componentsList: Array,
         fftStatus: String
     },
@@ -112,10 +113,10 @@ export default {
                 name: '',
                 nittanyUrl: '',
                 fftDeadline: '',
+                isActive: true,
                 componentsList: [],
             },
             deleteString: '',
-            isActive: false
         }
     },
     methods: {
@@ -126,13 +127,6 @@ export default {
             let submissionForm = Object.assign({}, this.form)
             delete submissionForm.nittanyUrl
 
-            if (!this.isActive) {
-                submissionForm['fftStatus'] = 'ON_HOLD'
-            } else if (this.isActive && this.fftStatus == 'ON_HOLD') {
-                submissionForm['fftStatus'] = 'UNDEFINED'
-            } else if (this.isActive) {
-                submissionForm['fftStatus'] = this.fftStatus
-            }
             this.$axios.patch(this.$backend.getUrlPatchProject(), submissionForm)
             .then(() => {
                 this.$emit('patch-project')
@@ -169,8 +163,8 @@ export default {
         this.form.name = this.name
         this.form.nittanyUrl = this.nittanyUrl
         this.form.fftDeadline = this.fftDeadline
+        this.form.isActive = this.isActive
         this.form.componentsList = this.componentsList
-        this.isActive = this.fftStatus == 'ON_HOLD' ? false : true
     }
 
 }

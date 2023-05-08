@@ -201,6 +201,7 @@ export default {
         onSubmit(event) {
             event.preventDefault()
             this.submitted = true
+
             this.$axios.post(this.$backend.getUrlPostProject(), this.form)
             .then(() => {
                 this.$emit('new-project')
@@ -236,7 +237,7 @@ export default {
             this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
         },
         releaseName: function() {
-            this.form.releaseName = this.releaseName
+            this.form.releaseName = this.releaseName.trim()
             this.form.name = (this.projectTitle + ' ' + this.deviceName + ' ' + this.releaseName).trim()
         }
       }

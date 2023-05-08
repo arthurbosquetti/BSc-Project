@@ -4,7 +4,7 @@
             <b-row>
 
                 <!-- Filter -->
-                <b-col cols="4">
+                <b-col cols="3">
                     <b-input-group size="md" class="mb-2">
                         <b-input-group-prepend is-text>
                             <b-icon icon="search" variant="dark"></b-icon>
@@ -13,14 +13,14 @@
                         id="filter-input"
                         v-model="filter"
                         type="search"
-                        placeholder="Type to Search"
+                        placeholder="Click to Search"
                         ></b-form-input>
                     </b-input-group>
                     
                 </b-col>
 
                 <!-- Filter on -->
-                <b-col class="text-center" cols="4">
+                <b-col class="text-center" cols="6">
                     <b-form-group
                     class="mb-0"
                     description="Leave all unchecked to filter on all data"
@@ -31,6 +31,7 @@
                     >
                         <b-form-checkbox value="name">Project Name</b-form-checkbox>
                         <b-form-checkbox value="fftDeadline">FFT Deadline</b-form-checkbox>
+                        <b-form-checkbox value="isActive">Is Active</b-form-checkbox>
                         <b-form-checkbox value="fftStatus">FFT Status</b-form-checkbox>
                         <b-form-checkbox value="svApproved">SV Approved</b-form-checkbox>
                     </b-form-checkbox-group>
@@ -38,27 +39,17 @@
                 </b-col>
                                 
                 <!-- Items per page -->
-                <b-col>
-                    <b-form-group
-                    label="Per Page"
-                    label-for="per-page-select"
-                    label-cols-sm="6"
-                    label-cols-md="4"
-                    label-align-sm="right"
-                    label-size="md"
-                    class="mb-0 nowrap"
-                    >
-                        <b-form-select
+                <b-col cols="1">
+                    <b-form-select
                             id="per-page-select"
                             v-model="perPage"
                             :options="pageOptions"
                             size="md"
-                        ></b-form-select>
-                    </b-form-group>
+                    ></b-form-select>
                 </b-col>
 
                 <!-- Pagination -->
-                <b-col>
+                <b-col cols="2">
                     <b-pagination
                     v-model="currentPage"
                     :total-rows="totalRows"
@@ -98,6 +89,11 @@
             selectable
             @row-selected="onRowSelected"
             >
+            <template #cell(isActive)="row">
+                <h5 class="mb-0">
+                    <b-badge pill :variant="row.value ? 'success' : 'warning'">{{ row.value }}</b-badge>
+                </h5>
+            </template>
             <template #cell(fftStatus)="row">
                 <h5 class="mb-0">
                     <b-badge pill :variant="variants[row.value]">{{ row.value }}</b-badge>
@@ -127,6 +123,7 @@ export default {
             fields: [
                 { key: 'name', label: 'Project Name', sortable: true},
                 { key: 'fftDeadline', label: 'FFT Deadline', sortable: true},
+                { key: 'isActive', sortable: true},
                 { key: 'fftStatus', label: 'FFT Status', sortable: true},
                 { key: 'svApproved', label: 'SV Approved', sortable: true},
                 { key: 'daysRecording', label: 'Days Recording', sortable: true},
@@ -142,13 +139,12 @@ export default {
             filter: null,
             filterOn: [],
             variants: {
-                'COMPLETED': 'success',
+                'COMPLETE': 'success',
                 'AHEAD': 'success',
                 'ON_TRACK': 'info',
                 'BEHIND': 'warning',
                 'CRITICAL': 'danger',
                 'INCOMPLETE': 'danger',
-                'ON_HOLD': 'dark',
                 'UNDEFINED': 'secondary'
             }
         }
@@ -182,10 +178,11 @@ export default {
                 items.push({
                     'name': project['name'],
                     'fftDeadline': project['fftDeadline'],
+                    'isActive': project['isActive'],
                     'fftStatus': project['fftStatus'],
                     'svApproved': project['svApproved'],
-                    'daysRecording': project['testDataEntries'].length > project['bugDataEntries'].length ? project['testDataEntries'].length : project['bugDataEntries'].length,
-                    'entryCount': project['testDataEntries'].length + project['bugDataEntries'].length
+                    'daysRecording': Math.max(project['testDataEntries'].length, project['fftDataEntries'].length, project['bugDataEntries'].length),
+                    'entryCount': project['testDataEntries'].length + project['bugDataEntries'].length + project['fftDataEntries'].length
                 })
             }
 

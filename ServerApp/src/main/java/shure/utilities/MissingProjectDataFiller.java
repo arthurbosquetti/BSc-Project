@@ -11,7 +11,6 @@ import shure.model.BugDataEntry;
 import shure.model.DataEntryId;
 import shure.model.FftDataEntry;
 import shure.model.Project;
-import shure.model.ProjectStatus;
 import shure.model.TestDataEntry;
 import shure.repositories.BugDataEntriesRepository;
 import shure.repositories.FftDataEntriesRepository;
@@ -37,7 +36,7 @@ public class MissingProjectDataFiller {
 
 	private void fillMissingProjectData() {
 		for (Project project : repositoryProjects.findAll()) {
-			if (project.getFftStatus() == ProjectStatus.ON_HOLD) {
+			if (!project.getIsActive()) {
 				continue;
 			}
 			System.out.println("Filling out empty data for " + project.getName() + "...");

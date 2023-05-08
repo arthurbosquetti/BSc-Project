@@ -7,7 +7,7 @@
         >
             <b-input-group size="md" class="mb-2">
                 <b-input-group-prepend is-text>
-                    <b-icon icon="bookmark-fill" :variant="variant"></b-icon>
+                    <b-icon icon="bookmark" variant="primary"></b-icon>
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-project-name"
@@ -25,7 +25,7 @@
         >
             <b-input-group class="mb-2">
                 <b-input-group-prepend is-text>
-                    <b-icon icon="link45deg" :variant="variant"></b-icon>
+                    <b-icon icon="link45deg" variant="primary"></b-icon>
                 </b-input-group-prepend>
                 <b-form-input
                 id="input-nittany-url"
@@ -55,13 +55,12 @@ export default {
     data() {
         return {
             variants: {
-                'COMPLETED': 'success',
+                'COMPLETE': 'success',
                 'AHEAD': 'success',
                 'ON_TRACK': 'info',
                 'BEHIND': 'warning',
                 'CRITICAL': 'danger',
                 'INCOMPLETE': 'danger',
-                'ON_HOLD': 'secondary',
                 'UNDEFINED': 'secondary'
             },
             variant: '',

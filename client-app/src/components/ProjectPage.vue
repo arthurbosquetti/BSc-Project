@@ -48,6 +48,7 @@
                 :name="project.name"
                 :nittanUrl="project.nittanyUrl"
                 :fftDeadline="project.fftDeadline"
+                :isActive="project.isActive"
                 :componentsList="project.componentsList"
                 :fftStatus="project.fftStatus"/>
             </b-tab>
@@ -77,6 +78,7 @@ export default {
                 nittanyUrl: '',
                 fftDeadline: '',
                 fftStatus: '',
+                isActive: true,
                 componentsList: null,
                 testDataEntries: null,
                 bugDataEntries: null

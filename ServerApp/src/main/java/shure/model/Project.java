@@ -32,7 +32,9 @@ public class Project {
 	@Column
 	private String releaseName;
 	@Column
-	private ProjectStatus fftStatus = ProjectStatus.UNDEFINED;
+	private boolean isActive = true;
+	@Column
+	private FftStatus fftStatus = FftStatus.UNDEFINED;
 	@Column
 	private boolean svApproved = false;
 
@@ -91,35 +93,43 @@ public class Project {
 		this.releaseName = releaseName;
 	}
 
-	public void setFftStatus(ProjectStatus fftStatus) {
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public void setFftStatus(FftStatus fftStatus) {
 		this.fftStatus = fftStatus;
 	}
 
-	public ProjectStatus getFftStatus() {
+	public FftStatus getFftStatus() {
 		return fftStatus;
 	}
 
 	public void updateFftStatus() {
-		if (fftStatus == ProjectStatus.ON_HOLD) {
+		if (!isActive) {
 			return;
 		}
 
 		if (fftDeadline == null || fftDataEntries.isEmpty()) {
-			fftStatus = ProjectStatus.UNDEFINED;
+			fftStatus = FftStatus.UNDEFINED;
 			return;
 		}
 
 		FftDataEntry latestEntry = fftDataEntries.get(fftDataEntries.size() - 1);
 		int testsLeft = latestEntry.getTestsLeft();
 		if (testsLeft == 0) {
-			fftStatus = ProjectStatus.COMPLETED;
+			fftStatus = FftStatus.COMPLETE;
 			return;
 		}
 
 		LocalDate currentDate = LocalDate.parse(latestEntry.getDataEntryId().getEntryDate());
 		LocalDate endDate = LocalDate.parse(fftDeadline);
 		if (!currentDate.isBefore(endDate)) {
-			fftStatus = ProjectStatus.INCOMPLETE;
+			fftStatus = FftStatus.INCOMPLETE;
 			return;
 		}
 
@@ -131,13 +141,13 @@ public class Project {
 		double expectedTestsLeft = Math.max(0, Math.floor(testsLeftAtStart - idealRate * fftDataEntries.size()));
 
 		if (testsLeft > expectedTestsLeft * 1.5) {
-			fftStatus = ProjectStatus.CRITICAL;
+			fftStatus = FftStatus.CRITICAL;
 		} else if (testsLeft > expectedTestsLeft * 1.05) {
-			fftStatus = ProjectStatus.BEHIND;
+			fftStatus = FftStatus.BEHIND;
 		} else if (testsLeft > expectedTestsLeft * 0.90) {
-			fftStatus = ProjectStatus.ON_TRACK;
+			fftStatus = FftStatus.ON_TRACK;
 		} else {
-			fftStatus = ProjectStatus.AHEAD;
+			fftStatus = FftStatus.AHEAD;
 		}
 	}
 

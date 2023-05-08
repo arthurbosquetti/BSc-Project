@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import shure.model.BugDataEntry;
 import shure.model.FftDataEntry;
 import shure.model.Project;
-import shure.model.ProjectStatus;
 import shure.model.TestDataEntry;
 import shure.repositories.BugDataEntriesRepository;
 import shure.repositories.FftDataEntriesRepository;
@@ -33,7 +32,7 @@ public class ProjectDataUpdator {
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 	private boolean eventPublished;
-	
+
 	@Scheduled(fixedDelay = 1000 * 60 * 60 * 2, initialDelay = 1000 * 60)
 	public void onSchedule() throws MalformedURLException, IOException {
 		updateProjects();
@@ -42,11 +41,11 @@ public class ProjectDataUpdator {
 			eventPublished = true;
 		}
 	}
-	
+
 	private void updateProjects() throws MalformedURLException, IOException {
 		System.out.println("Running project data updates:");
 		for (Project project : repositoryProjects.findAll()) {
-			if (project.getFftStatus() == ProjectStatus.ON_HOLD) {
+			if (!project.getIsActive()) {
 				System.out.println(project.getName() + " is on hold! Skipping update...");
 				continue;
 			}
@@ -60,7 +59,7 @@ public class ProjectDataUpdator {
 			}
 
 		}
-	
+
 	}
 
 	private void updateTestDataEntries(Project project, JSONObject nittanyData) {
@@ -75,11 +74,12 @@ public class ProjectDataUpdator {
 		}
 
 	}
-	
+
 	private void updateFftDataEntries(Project project, JSONObject nittanyData) {
 		JSONArray testCaseResults = nittanyData.getJSONArray("tc_results");
 		if (!testCaseResults.isEmpty()) {
-			FftDataEntry newFftDataEntry = new FftDataEntry(project.getName(), testCaseResults, project.getReleaseName());
+			FftDataEntry newFftDataEntry = new FftDataEntry(project.getName(), testCaseResults,
+					project.getReleaseName());
 			if (project.addDataEntry(newFftDataEntry)) {
 				repositoryFftDataEntries.save(newFftDataEntry);
 			}
