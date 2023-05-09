@@ -206,7 +206,9 @@ export default {
             this.submitted = true;
             this.$axios.post(this.$backend.getUrlPostProject(), this.form)
                 .then(() => {
-                this.$emit("new-project");
+                this.submitted = false
+                this.resetFields()
+                window.alert("Success!");
             })
                 .catch(error => {
                 if (error.response) {
@@ -217,6 +219,20 @@ export default {
         },
         onReset(event) {
             event.preventDefault();
+            this.form.name = "";
+            this.form.nittanyUrl = "";
+            this.form.fftDeadline = "";
+            this.form.componentsList = ["all"];
+            this.projectTitle = "";
+            this.deviceName = "";
+            this.releaseName = "";
+            // Trick to reset/clear native browser form validation state
+            this.show = false;
+            this.$nextTick(() => {
+                this.show = true;
+            });
+        },
+        resetFields() {
             this.form.name = "";
             this.form.nittanyUrl = "";
             this.form.fftDeadline = "";

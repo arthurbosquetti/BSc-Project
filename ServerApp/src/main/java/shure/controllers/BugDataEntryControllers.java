@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import shure.model.Project;
 import shure.model.BugDataEntry;
 import shure.model.DataEntryId;
+import shure.model.Project;
 import shure.repositories.BugDataEntriesRepository;
 import shure.repositories.ProjectsRepository;
 

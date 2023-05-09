@@ -1,5 +1,7 @@
 package shure.model;
 
+import java.util.Objects;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
 
@@ -32,7 +34,9 @@ public abstract class DataEntry {
 		return false;
 	}
 
-//	@Override
-//	// Hashcode function
+	@Override
+	public int hashCode() {
+		return Objects.hash(dataEntryId);
+	}
 
 }

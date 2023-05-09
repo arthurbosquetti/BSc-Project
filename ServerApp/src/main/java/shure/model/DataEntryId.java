@@ -1,6 +1,7 @@
 package shure.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -48,7 +49,10 @@ public class DataEntryId implements Serializable {
 		return false;
 	}
 
-	// @Override hash function
+	@Override
+	public int hashCode() {
+		return Objects.hash(entryDate, projectName);
+	}
 
 	@Override
 	public String toString() {

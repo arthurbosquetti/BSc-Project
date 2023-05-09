@@ -6,7 +6,9 @@ import java.net.MalformedURLException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +35,8 @@ public class ProjectDataUpdator {
 	private ApplicationEventPublisher eventPublisher;
 	private boolean eventPublished;
 
-	@Scheduled(fixedDelay = 1000 * 60 * 60 * 2, initialDelay = 1000 * 60)
+	@Scheduled(cron = "0 30 0 * * *")
+	@EventListener(ApplicationReadyEvent.class)
 	public void onSchedule() throws MalformedURLException, IOException {
 		updateProjects();
 		if (!eventPublished) {
@@ -46,7 +49,6 @@ public class ProjectDataUpdator {
 		System.out.println("Running project data updates:");
 		for (Project project : repositoryProjects.findAll()) {
 			if (!project.getIsActive()) {
-				System.out.println(project.getName() + " is on hold! Skipping update...");
 				continue;
 			}
 			System.out.println("Fetching data for " + project.getName() + "...");

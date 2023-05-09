@@ -1,13 +1,6 @@
 <template>
   <div>
-    <!-- <img src="./assets/shure_logo.png" style="max-width:400px;max-height:100px;">
-    <h1 class="display-3">A management tool for planning and tracking project status</h1> -->
-    
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <!-- <b-navbar-brand href=https://shure.sharepoint.com/sites/frequency>
-          <img src="./assets/logo.png" class="d-inline-block align-top" alt="Shure" style="max-width:30px;max-height:30px;">
-          Shure
-      </b-navbar-brand> -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,22 +23,16 @@
     </nav>
     <p></p>
 
-    <router-view @new-project="refreshProjects"/>
+    <router-view/>
 
   </div>
 </template>
 
 
 <script>
-import router from './router'
 
 export default {
-  name: 'App',  
-  methods: {
-    refreshProjects() {
-      router.push({ name: 'ListProject' }).catch(() => {})
-    }
-  }
+  name: 'App'
 }
 </script>
 

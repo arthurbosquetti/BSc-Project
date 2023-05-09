@@ -10,5 +10,6 @@ import shure.model.Project;
 @Repository
 public interface ProjectsRepository extends CrudRepository<Project, String> {
 
+	@Override
 	List<Project> findAll();
 }

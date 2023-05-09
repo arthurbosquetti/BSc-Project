@@ -62,7 +62,7 @@ public class TestDataEntryControllers {
 		if (testDataEntry.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		project.get().removeDataEntry((TestDataEntry) testDataEntry.get());
+		project.get().removeDataEntry(testDataEntry.get());
 		repository.deleteById(new DataEntryId(entryDate, projectName));
 		repositoryProjects.save(project.get());
 		return ResponseEntity.noContent().build();

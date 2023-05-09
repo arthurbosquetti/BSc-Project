@@ -17,7 +17,6 @@ export default {
     data() {
         return {
             projectName: '',
-            // testDataEntries: [],
             items: [],
             fields: [
                 { key: 'entryDate', label: 'Date'},

@@ -49,21 +49,22 @@ public class BugDataEntry extends DataEntry {
 				+ String.format("%02d", localDate.getDayOfMonth());
 
 		setDataEntryId(new DataEntryId(entryDate, projectName));
-		
+
 		for (int i = 0; i < allBugs.length(); i++) {
 			JSONObject entryJsonObject = allBugs.getJSONObject(i);
-			
+
 			JSONArray entryComponentsList = entryJsonObject.getJSONArray("componentsList");
 			boolean entryHasRelevantComponent = false;
 			for (int j = 0; j < entryComponentsList.length(); j++) {
-				if (projectComponentsList.contains(entryComponentsList.getString(j).toLowerCase()) ||
-						projectComponentsList.contains("all")) {
+				if (projectComponentsList.contains(entryComponentsList.getString(j).toLowerCase())
+						|| projectComponentsList.contains("all")) {
 					entryHasRelevantComponent = true;
 					break;
 				}
 			}
-			if (!entryHasRelevantComponent) continue;
-			
+			if (!entryHasRelevantComponent)
+				continue;
+
 			String severity = entryJsonObject.getString("severity");
 			String status = entryJsonObject.getString("status");
 

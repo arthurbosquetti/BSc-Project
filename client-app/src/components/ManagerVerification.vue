@@ -67,11 +67,9 @@ export default {
       async handleVerification(bvModalEvent) {
         // Prevent modal from closing
         bvModalEvent.preventDefault()
-        // Trigger submit handler
         await this.handleSubmit()
       },
       async handleSubmit() {
-        // Exit when the form isn't valid
         if (!this.checkFormValidity()) {
           return
         }

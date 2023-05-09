@@ -19,7 +19,6 @@ public class NittanyUrlReader {
 	}
 
 	public boolean readUrl() throws IOException {
-		System.out.println("Reading URL...");
 		String urlOutput = IOUtils.toString(url, Charset.forName("UTF-8"));
 		try {
 			JSONObject json = new JSONObject(urlOutput);
@@ -27,10 +26,8 @@ public class NittanyUrlReader {
 			json.getJSONArray("tc_results");
 			json.getJSONArray("all_bugs");
 			this.json = json;
-			System.out.println("URL reading successful!");
 			return true;
 		} catch (JSONException e) {
-			System.out.println("URL reading failed!");
 			return false;
 		}
 	}

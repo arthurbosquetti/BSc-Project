@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -40,7 +41,7 @@ public class Project {
 
 	@ElementCollection
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<String> componentsList = new ArrayList<String>();
+	private List<String> componentsList = new ArrayList<>();
 	@OneToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<TestDataEntry> testDataEntries;
@@ -217,6 +218,9 @@ public class Project {
 	}
 
 	public boolean addDataEntry(FftDataEntry fftDataEntry) {
+		if (fftDataEntries.isEmpty() && fftDataEntry.getTestsLeft() == 0) {
+			return false;
+		}
 		if (!fftDataEntries.contains(fftDataEntry)) {
 			fftDataEntries.add(fftDataEntry);
 			sortFftDataEntries();
@@ -238,6 +242,7 @@ public class Project {
 
 	private void sortTestDataEntries() {
 		Collections.sort(testDataEntries, new Comparator<TestDataEntry>() {
+			@Override
 			public int compare(TestDataEntry e1, TestDataEntry e2) {
 				return e1.getDataEntryId().getEntryDate().compareTo(e2.getDataEntryId().getEntryDate());
 			}
@@ -246,6 +251,7 @@ public class Project {
 
 	private void sortFftDataEntries() {
 		Collections.sort(fftDataEntries, new Comparator<FftDataEntry>() {
+			@Override
 			public int compare(FftDataEntry e1, FftDataEntry e2) {
 				return e1.getDataEntryId().getEntryDate().compareTo(e2.getDataEntryId().getEntryDate());
 			}
@@ -254,6 +260,7 @@ public class Project {
 
 	private void sortBugDataEntries() {
 		Collections.sort(bugDataEntries, new Comparator<BugDataEntry>() {
+			@Override
 			public int compare(BugDataEntry e1, BugDataEntry e2) {
 				return e1.getDataEntryId().getEntryDate().compareTo(e2.getDataEntryId().getEntryDate());
 			}
@@ -280,6 +287,9 @@ public class Project {
 		return false;
 	}
 
-	// @Override Hash function
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
 
 }
