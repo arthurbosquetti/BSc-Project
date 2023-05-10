@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>shure</groupId>
   <artifactId>ServerApp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   
   <properties>
     <maven.compiler.target>17</maven.compiler.target>
@@ -70,7 +70,13 @@
 	
   </dependencies>
 
-  
-  
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
   
 </project>

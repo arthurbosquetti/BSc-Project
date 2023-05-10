@@ -1,7 +1,11 @@
 export default class Backend {
 
     constructor() {
+        // Development
         this.url = "http://localhost:8080/api/v1"
+        
+        // // Deployment
+        // this.url = "http://pm-tracker.lx-ch25.shure.com:80/api/v1"
     }
 
     getUrlProjectList() {
