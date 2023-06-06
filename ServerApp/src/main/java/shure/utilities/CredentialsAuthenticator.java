@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CredentialsAuthenticator {
 	// JDBC driver name and database URL
 	final String JDBC_DRIVER = "org.h2.Driver";

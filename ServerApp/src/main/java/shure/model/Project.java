@@ -44,14 +44,17 @@ public class Project {
 	private List<String> componentsList = new ArrayList<>();
 	@OneToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<TestDataEntry> testDataEntries;
+	private List<TestDataEntry> testDataEntries = new ArrayList<>();
 	@OneToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<FftDataEntry> fftDataEntries;
+	private List<FftDataEntry> fftDataEntries = new ArrayList<>();
 	@OneToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<BugDataEntry> bugDataEntries;
+	private List<BugDataEntry> bugDataEntries = new ArrayList<>();
 
+	public Project() {
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -65,6 +68,9 @@ public class Project {
 	}
 
 	public void setNittanyUrl(String nittanyUrl) {
+		if (nittanyUrl == null) {
+			return;
+		}
 		try {
 			NittanyUrlReader reader = new NittanyUrlReader(nittanyUrl);
 			if (reader.readUrl()) {

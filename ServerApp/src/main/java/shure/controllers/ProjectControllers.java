@@ -40,7 +40,7 @@ public class ProjectControllers {
 		return ResponseEntity.ok(repository.save(project));
 	}
 
-	@PatchMapping("api/v1/projects/")
+	@PatchMapping("api/v1/projects")
 	public ResponseEntity<Object> update(@RequestBody Project updatedProject) {
 		Optional<Project> project = repository.findById(updatedProject.getName());
 		if (project.isEmpty()) {

@@ -1,0 +1,14 @@
+{
+    "all_bugs"            : [{"key1": "value", "key2": "value"}, {"key1": "value", "key2": "value"}],
+    "applied_filters"     : {"key1": "value", "key2": "value"},
+    "executive_summary"   : "string",
+    "kpi_graphs"          : [],
+    "kpi_summary_groups"  : [],
+    "line_chart_results"  : [{"key1": "value", "key2": "value"}, {"key1": "value", "key2": "value"}],
+    "module_results"      : [{"key1": "value", "key2": "value"}, {"key1": "value", "key2": "value"}],
+    "release_name"        : "string",
+    "request_failures"    : {"key1": "value", "key2": "value"},
+    "target_cycle"        : "string",
+    "tc_results"          : [{"key1": "value", "key2": "value"}, {"key1": "value", "key2": "value"}],
+    "test_execution_data" : [{"key1": "value", "key2": "value"}, {"key1": "value", "key2": "value"}]
+}

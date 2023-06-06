@@ -2,6 +2,7 @@ package shure.utilities;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.function.IntPredicate;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -100,6 +101,10 @@ public class ProjectDataUpdator {
 
 		}
 
+	}
+
+	public boolean getEventPublished() {
+		return eventPublished;
 	}
 
 }
